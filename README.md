@@ -15,7 +15,7 @@ Windows VM.
 Built by [CookieBytes](https://cookiebytes.pt) — software development & home automations.
 
 - Swift 6, SwiftUI, macOS 14+
-- English and Portuguese (follows the system language)
+- English, Portuguese, French and Spanish (follows the system language)
 - No drivers: the cutter is a USB printer-class device, so Recorte sends HPGL through a raw
   CUPS queue (a serial-port transport is also included for other HPGL cutters)
 - Projects are saved as `.recorte` files (older `.cookiecut` projects still open)

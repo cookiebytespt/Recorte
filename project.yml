@@ -39,7 +39,7 @@ targets:
         LSMinimumSystemVersion: "14.0"
         LSApplicationCategoryType: public.app-category.graphics-design
         NSHumanReadableCopyright: "© CookieBytes, Lda"
-        CFBundleLocalizations: [en, pt]
+        CFBundleLocalizations: [en, pt, fr, es]
         CFBundleDocumentTypes:
           - CFBundleTypeName: Recorte project
             CFBundleTypeRole: Editor
