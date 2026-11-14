@@ -1,0 +1,109 @@
+name: Release build
+
+# Builds Recorte.app and attaches a zip to the GitHub release.
+# "published" fires for both regular releases and pre-releases.
+on:
+  release:
+    types: [published]
+  workflow_dispatch: # manual test run: builds and keeps the zip as a workflow artifact only
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build & package
+    runs-on: macos-15
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Resolve version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+            TAG="${{ github.event.release.tag_name }}"
+          else
+            TAG="0.0.0-dev.${GITHUB_SHA::7}"
+          fi
+          VERSION="${TAG#v}"
+          echo "tag=$TAG"                         >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION"                 >> "$GITHUB_OUTPUT"
+          echo "build=${{ github.run_number }}"   >> "$GITHUB_OUTPUT"
+          echo "zip=Recorte-$VERSION.zip"         >> "$GITHUB_OUTPUT"
+          echo "Building Recorte $VERSION (build ${{ github.run_number }})"
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Test CutterCore
+        working-directory: CutterCore
+        run: swift test
+
+      - name: Build app (Release, universal)
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project Recorte.xcodeproj \
+            -scheme Recorte \
+            -configuration Release \
+            -derivedDataPath build/DerivedData \
+            -destination 'generic/platform=macOS' \
+            ARCHS="arm64 x86_64" \
+            ONLY_ACTIVE_ARCH=NO \
+            MARKETING_VERSION="${{ steps.version.outputs.version }}" \
+            CURRENT_PROJECT_VERSION="${{ steps.version.outputs.build }}" \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            build | tee xcodebuild.log | grep -E "error:|warning:|BUILD " || true
+          test -d build/DerivedData/Build/Products/Release/Recorte.app
+
+      - name: Stamp version & ad-hoc sign
+        run: |
+          APP=build/DerivedData/Build/Products/Release/Recorte.app
+          # Info.plist has fixed values, so stamp the release version into the bundle
+          plutil -replace CFBundleShortVersionString -string "${{ steps.version.outputs.version }}" "$APP/Contents/Info.plist"
+          plutil -replace CFBundleVersion            -string "${{ steps.version.outputs.build }}"   "$APP/Contents/Info.plist"
+          # Ad-hoc signature so the app launches on Apple Silicon (not notarized)
+          codesign --force --deep --options runtime \
+            --entitlements App/Recorte/Recorte.entitlements \
+            --sign - "$APP"
+          codesign --verify --deep --strict --verbose=2 "$APP"
+          lipo -info "$APP/Contents/MacOS/Recorte"
+
+      - name: Create zip
+        run: |
+          mkdir -p dist
+          ditto -c -k --sequesterRsrc --keepParent \
+            build/DerivedData/Build/Products/Release/Recorte.app \
+            "dist/${{ steps.version.outputs.zip }}"
+          cd dist && shasum -a 256 "${{ steps.version.outputs.zip }}" > "${{ steps.version.outputs.zip }}.sha256"
+          cat "${{ steps.version.outputs.zip }}.sha256"
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Recorte-${{ steps.version.outputs.version }}
+          path: dist/*
+
+      - name: Attach to release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${{ steps.version.outputs.tag }}" dist/* --clobber
