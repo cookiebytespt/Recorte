@@ -14,3 +14,7 @@ Package.resolved
 Recorte.app/
 CookieCut.app/
 _to_delete/
+
+# Build logs (written by build.command)
+build.log
+xcodebuild.log
