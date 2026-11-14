@@ -1,0 +1,303 @@
+import AppKit
+import CutterCore
+import SwiftUI
+
+/// Right-hand panel: properties of the selection (or the canvas) plus the layers list.
+struct SidebarView: View {
+    @Bindable var editor: EditorState
+
+    var body: some View {
+        VSplitView {
+            Form {
+                if let object = editor.singleSelection {
+                    ObjectSection(editor: editor, object: object)
+                } else if editor.selection.count > 1 {
+                    Section {
+                        Text("\(editor.selection.count) objects selected")
+                        HStack {
+                            Button("Duplicate") { editor.duplicateSelection() }
+                            Button("Delete", role: .destructive) { editor.deleteSelection() }
+                        }
+                    }
+                } else {
+                    CanvasSection(editor: editor)
+                }
+            }
+            .formStyle(.grouped)
+            .scrollContentBackground(.hidden)
+            .frame(minHeight: 200)
+
+            LayersList(editor: editor)
+                .frame(minHeight: 120)
+        }
+    }
+}
+
+private struct CanvasSection: View {
+    @Bindable var editor: EditorState
+    private var mm: FloatingPointFormatStyle<Double> { .number.precision(.fractionLength(0...1)) }
+
+    private static let pagePresets: [(String, Size)] = [
+        ("A4", Size(210, 297)), ("A4 landscape", Size(297, 210)), ("A3", Size(297, 420)), ("A3 landscape", Size(420, 297)),
+        ("SRA3", Size(320, 450)), ("SRA3 landscape", Size(450, 320)), ("Letter", Size(215.9, 279.4)), ("Tabloid", Size(279.4, 431.8)),
+    ]
+
+    var body: some View {
+        Section("Canvas") {
+            TextField("Width (mm)", value: Binding(
+                get: { editor.design.canvasSize.width },
+                set: { v in editor.change { $0.canvasSize.width = max(v, 10) } }), format: mm)
+            TextField("Height (mm)", value: Binding(
+                get: { editor.design.canvasSize.height },
+                set: { v in editor.change { $0.canvasSize.height = max(v, 10) } }), format: mm)
+            Menu("Page size") {
+                ForEach(Self.pagePresets, id: \.0) { preset in
+                    Button(preset.0) { editor.change { $0.canvasSize = preset.1 } }
+                }
+                Divider()
+                Button("Match cutter width") {
+                    let w = Preferences.machineProfile().cutWidthMM
+                    editor.change { $0.canvasSize.width = w }
+                }
+            }
+            LabeledContent("Objects", value: "\(editor.design.objects.count)")
+        }
+
+        Section {
+            Toggle("Print & Cut", isOn: Binding(
+                get: { editor.design.printAndCut.isEnabled },
+                set: { v in editor.change {
+                    $0.printAndCut.isEnabled = v
+                    if v { $0.printAndCut.layout.markSizeParameter = Preferences.machineProfile().registrationMarkSize }
+                } }))
+            if editor.design.printAndCut.isEnabled {
+                let layout = editor.design.printAndCut.layout
+                LabeledContent("Marks", value: String(format: "Ø %.1f mm", layout.markDiameterMM))
+                Stepper(value: Binding(
+                    get: { layout.markSizeParameter },
+                    set: { v in editor.change { $0.printAndCut.layout.markSizeParameter = v } }), in: 5...100, step: 5) {
+                    LabeledContent("Mark size (cutter setting)", value: "\(layout.markSizeParameter)")
+                }
+                TextField("Side inset (mm)", value: Binding(
+                    get: { layout.sideInsetMM },
+                    set: { v in editor.change { $0.printAndCut.layout.sideInsetMM = max(v, layout.markDiameterMM / 2) } }), format: mm)
+                TextField("Top inset (mm)", value: Binding(
+                    get: { layout.topInsetMM },
+                    set: { v in editor.change { $0.printAndCut.layout.topInsetMM = max(v, layout.markDiameterMM / 2) } }), format: mm)
+                TextField("Bottom inset (mm)", value: Binding(
+                    get: { layout.bottomInsetMM },
+                    set: { v in editor.change { $0.printAndCut.layout.bottomInsetMM = max(v, layout.markDiameterMM / 2) } }), format: mm)
+                Button("Place artwork…") { editor.showImagePlacer = true }
+                Text("The canvas is the printed sheet. Placed images are printed; shapes, text and imported lines are cut after the cutter reads the four marks. Keep everything inside the dashed area.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+        } header: {
+            Text("Print & Cut")
+        }
+        Section {
+            Text("Pick a tool in the toolbar and drag on the canvas. Double-check sizes here before cutting.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+        }
+    }
+}
+
+private struct ObjectSection: View {
+    @Bindable var editor: EditorState
+    let object: DesignObject
+
+    private var mm: FloatingPointFormatStyle<Double> { .number.precision(.fractionLength(0...2)) }
+
+    private func frameBinding(_ get: @escaping (Rect) -> Double, _ set: @escaping (inout Rect, Double) -> Void) -> Binding<Double> {
+        let id = object.id
+        return Binding(get: { get(object.frame) }, set: { v in editor.update(id) { set(&$0.frame, v) } })
+    }
+
+    var body: some View {
+        Section(object.name) {
+            TextField("Name", text: Binding(get: { object.name }, set: { v in editor.update(object.id) { $0.name = v } }))
+            HStack {
+                TextField("X", value: frameBinding({ $0.minX }, { r, v in r = Rect(origin: Point(v, r.minY), size: r.size) }), format: mm)
+                TextField("Y", value: frameBinding({ $0.minY }, { r, v in r = Rect(origin: Point(r.minX, v), size: r.size) }), format: mm)
+            }
+            HStack {
+                TextField("W", value: frameBinding({ $0.width }, { r, v in r = Rect(origin: r.origin, size: Size(max(v, 0.1), r.height)) }), format: mm)
+                TextField("H", value: frameBinding({ $0.height }, { r, v in r = Rect(origin: r.origin, size: Size(r.width, max(v, 0.1))) }), format: mm)
+            }
+            TextField("Rotation (°)", value: Binding(get: { object.rotation }, set: { v in editor.update(object.id) { $0.rotation = v } }), format: .number.precision(.fractionLength(0...1)))
+            Toggle("Visible", isOn: Binding(get: { object.isVisible }, set: { v in editor.update(object.id) { $0.isVisible = v } }))
+            Toggle("Locked", isOn: Binding(get: { object.isLocked }, set: { v in editor.update(object.id) { $0.isLocked = v } }))
+        }
+
+        kindSection
+
+        Section {
+            HStack {
+                Button("Duplicate") { editor.duplicateSelection() }
+                Button("Delete", role: .destructive) { editor.deleteSelection() }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var kindSection: some View {
+        switch object.kind {
+        case .rectangle(let radius):
+            Section("Rectangle") {
+                TextField("Corner radius (mm)", value: Binding(get: { radius }, set: { v in editor.update(object.id) { $0.kind = .rectangle(cornerRadius: max(v, 0)) } }), format: mm)
+            }
+        case .polygon(let sides):
+            Section("Polygon") {
+                Stepper(value: Binding(get: { sides }, set: { v in editor.update(object.id) { $0.kind = .polygon(sides: v) } }), in: 3...24) {
+                    LabeledContent("Sides", value: "\(sides)")
+                }
+            }
+        case .star(let points, let ratio):
+            Section("Star") {
+                Stepper(value: Binding(get: { points }, set: { v in editor.update(object.id) { $0.kind = .star(points: v, innerRatio: ratio) } }), in: 3...24) {
+                    LabeledContent("Points", value: "\(points)")
+                }
+                Slider(value: Binding(get: { ratio }, set: { v in editor.update(object.id) { $0.kind = .star(points: points, innerRatio: v) } }), in: 0.1...0.9) {
+                    Text("Inner radius")
+                }
+            }
+        case .line(let reversed):
+            Section("Line") {
+                Toggle("Other diagonal", isOn: Binding(get: { reversed }, set: { v in editor.update(object.id) { $0.kind = .line(reversed: v) } }))
+            }
+        case .freehand(let points, let closed):
+            Section("Drawing") {
+                Toggle("Closed shape", isOn: Binding(get: { closed }, set: { v in editor.update(object.id) { $0.kind = .freehand(points: points, closed: v) } }))
+            }
+        case .text(let spec):
+            TextSection(editor: editor, object: object, spec: spec)
+        case .artwork(let art):
+            Section("Artwork") {
+                LabeledContent("Source", value: art.sourceName)
+                LabeledContent("Shapes", value: "\(art.paths.count)")
+            }
+        case .image(let spec):
+            Section("Printed image") {
+                LabeledContent("Source", value: spec.sourceName)
+                LabeledContent("Format", value: spec.format.uppercased())
+                Button("Fit to sheet") {
+                    let design = editor.design
+                    let area = design.printAndCut.isEnabled ? design.printAndCut.layout.safeArea(for: design.canvasSize)
+                        : Rect(origin: .zero, size: design.canvasSize)
+                    let f = object.frame
+                    let k = min(area.width / f.width, area.height / f.height)
+                    let size = Size(f.width * k, f.height * k)
+                    editor.update(object.id) {
+                        $0.frame = Rect(origin: Point(area.center.x - size.width / 2, area.center.y - size.height / 2), size: size)
+                    }
+                }
+                Text("Printed on the Print & Cut sheet, never cut. Draw or import the cut lines on top of it.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+        case .ellipse:
+            EmptyView()
+        }
+    }
+}
+
+private struct TextSection: View {
+    @Bindable var editor: EditorState
+    let object: DesignObject
+    let spec: TextSpec
+
+    private static let families: [String] = NSFontManager.shared.availableFontFamilies.sorted()
+
+    private func set(_ change: (inout TextSpec) -> Void, refit: Bool = true) {
+        var s = spec
+        change(&s)
+        let id = object.id
+        editor.update(id) { obj in
+            obj.kind = .text(s)
+            if refit {
+                let size = DesignObject.naturalTextSize(s)
+                obj.frame = Rect(origin: obj.frame.origin, size: size)
+            }
+        }
+    }
+
+    var body: some View {
+        Section("Text") {
+            TextEditor(text: Binding(get: { spec.text }, set: { v in set { $0.text = v } }))
+                .font(.body)
+                .frame(minHeight: 60)
+            Picker("Font", selection: Binding(get: { spec.fontName }, set: { v in set { $0.fontName = v } })) {
+                if !Self.families.contains(spec.fontName) { Text(spec.fontName).tag(spec.fontName) }
+                ForEach(Self.families, id: \.self) { Text($0).tag($0) }
+            }
+            TextField("Size (pt)", value: Binding(get: { spec.fontSize }, set: { v in set { $0.fontSize = max(v, 1) } }), format: .number.precision(.fractionLength(0...1)))
+            Button("Fit frame to text") { set({ _ in }, refit: true) }
+            Text("Text is converted to outlines when cutting.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+        }
+    }
+}
+
+private struct LayersList: View {
+    @Bindable var editor: EditorState
+
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Text("Layers").font(.headline)
+                Spacer()
+                Button { editor.bringToFront() } label: { Image(systemName: "square.3.layers.3d.top.filled") }
+                    .help("Bring to front")
+                Button { editor.sendToBack() } label: { Image(systemName: "square.3.layers.3d.bottom.filled") }
+                    .help("Send to back")
+            }
+            .buttonStyle(.borderless)
+            .disabled(editor.selection.isEmpty)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            List(selection: $editor.selection) {
+                ForEach(editor.design.objects.reversed()) { object in
+                    HStack(spacing: 8) {
+                        Button {
+                            editor.update(object.id) { $0.isVisible.toggle() }
+                        } label: {
+                            Image(systemName: object.isVisible ? "eye" : "eye.slash").foregroundStyle(object.isVisible ? .primary : .secondary)
+                        }
+                        Image(systemName: symbol(for: object.kind)).foregroundStyle(.secondary).frame(width: 16)
+                        Text(object.name).lineLimit(1)
+                        Spacer()
+                        Button {
+                            editor.update(object.id) { $0.isLocked.toggle() }
+                        } label: {
+                            Image(systemName: object.isLocked ? "lock.fill" : "lock.open").foregroundStyle(object.isLocked ? .primary : .tertiary)
+                        }
+                    }
+                    .buttonStyle(.borderless)
+                    .tag(object.id)
+                }
+            }
+            .listStyle(.inset)
+            .overlay {
+                if editor.design.objects.isEmpty {
+                    Text("Nothing on the canvas yet").foregroundStyle(.secondary)
+                }
+            }
+        }
+    }
+
+    private func symbol(for kind: ShapeKind) -> String {
+        switch kind {
+        case .rectangle: "rectangle"
+        case .ellipse: "circle"
+        case .line: "line.diagonal"
+        case .polygon: "hexagon"
+        case .star: "star"
+        case .freehand: "scribble"
+        case .text: "textformat"
+        case .artwork: "doc.richtext"
+        case .image: "photo"
+        }
+    }
+}

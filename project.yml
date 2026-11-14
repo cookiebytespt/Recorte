@@ -1,0 +1,103 @@
+name: Recorte
+options:
+  bundleIdPrefix: pt.cookiebytes
+  deploymentTarget:
+    macOS: "14.0"
+  xcodeVersion: "16.0"
+  createIntermediateGroups: true
+  developmentLanguage: en
+packages:
+  CutterCore:
+    path: CutterCore
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    ENABLE_HARDENED_RUNTIME: true
+    CODE_SIGN_STYLE: Automatic
+    SWIFT_EMIT_LOC_STRINGS: true
+targets:
+  Recorte:
+    type: application
+    platform: macOS
+    sources:
+      - path: App/Recorte
+    dependencies:
+      - package: CutterCore
+    entitlements:
+      path: App/Recorte/Recorte.entitlements
+      properties:
+        com.apple.security.app-sandbox: false
+        com.apple.security.files.user-selected.read-only: true
+    info:
+      path: App/Recorte/Info.plist
+      properties:
+        CFBundleName: Recorte
+        CFBundleDisplayName: Recorte
+        LSMinimumSystemVersion: "14.0"
+        LSApplicationCategoryType: public.app-category.graphics-design
+        NSHumanReadableCopyright: "© CookieBytes, Lda"
+        CFBundleLocalizations: [en, pt]
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: Recorte project
+            CFBundleTypeRole: Editor
+            LSHandlerRank: Owner
+            LSItemContentTypes: [pt.cookiebytes.recorte]
+          - CFBundleTypeName: CookieCut project (older)
+            CFBundleTypeRole: Editor
+            LSHandlerRank: Owner
+            LSItemContentTypes: [pt.cookiebytes.cookiecut]
+          - CFBundleTypeName: SVG image
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes: [public.svg-image]
+          - CFBundleTypeName: PDF document
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes: [com.adobe.pdf]
+          - CFBundleTypeName: Adobe Illustrator document
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes: [com.adobe.illustrator]
+          - CFBundleTypeName: DXF drawing
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes: [pt.cookiebytes.dxf]
+        UTExportedTypeDeclarations:
+          - UTTypeIdentifier: pt.cookiebytes.recorte
+            UTTypeDescription: Recorte project
+            UTTypeConformsTo: [public.data, public.content, public.json]
+            UTTypeTagSpecification:
+              public.filename-extension: [recorte]
+        UTImportedTypeDeclarations:
+          - UTTypeIdentifier: pt.cookiebytes.cookiecut
+            UTTypeDescription: CookieCut project (older)
+            UTTypeConformsTo: [public.data, public.content, public.json]
+            UTTypeTagSpecification:
+              public.filename-extension: [cookiecut]
+          - UTTypeIdentifier: com.adobe.illustrator
+            UTTypeDescription: Adobe Illustrator document
+            UTTypeConformsTo: [public.data, public.content]
+            UTTypeTagSpecification:
+              public.filename-extension: [ai]
+          - UTTypeIdentifier: pt.cookiebytes.dxf
+            UTTypeDescription: DXF drawing
+            UTTypeConformsTo: [public.data, public.content]
+            UTTypeTagSpecification:
+              public.filename-extension: [dxf]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: pt.cookiebytes.recorte
+        GENERATE_INFOPLIST_FILE: false
+        INFOPLIST_FILE: App/Recorte/Info.plist
+schemes:
+  Recorte:
+    build:
+      targets:
+        Recorte: all
+    run:
+      config: Debug
+    test:
+      config: Debug

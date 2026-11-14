@@ -1,0 +1,61 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Files of type “%@” are not supported. Use SVG, PDF, AI or DXF." : {
+      "localizations" : {
+        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Ficheiros do tipo “%@” não são suportados. Use SVG, PDF, AI ou DXF." } }
+      }
+    },
+    "The file could not be read." : {
+      "localizations" : {
+        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Não foi possível ler o ficheiro." } }
+      }
+    },
+    "The file is password protected. Remove the password and try again." : {
+      "localizations" : {
+        "pt" : { "stringUnit" : { "state" : "translated", "value" : "O ficheiro está protegido por palavra-passe. Remova a palavra-passe e tente novamente." } }
+      }
+    },
+    "This Illustrator file was saved without “Create PDF Compatible File”. In Illustrator, choose File ▸ Save As, and enable that option." : {
+      "localizations" : {
+        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Este ficheiro do Illustrator foi guardado sem a opção “Criar ficheiro compatível com PDF”. No Illustrator, escolha Ficheiro ▸ Guardar como e ative essa opção." } }
+      }
+    },
+    "No cut lines were found in the file. Make sure the design contains vector paths and that text is converted to outlines." : {
+      "localizations" : {
+        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Não foram encontradas linhas de corte no ficheiro. Confirme que o desenho tem traçados vetoriais e que o texto foi convertido em contornos." } }
+      }
+    },
+    "The file could not be understood (%@)." : {
+      "localizations" : {
+        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Não foi possível interpretar o ficheiro (%@)." } }
+      }
+    },
+    "Could not open the cutter at %@ (%@). Check the USB cable and that no other app is using it." : {
+      "localizations" : {
+        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Não foi possível abrir a máquina em %@ (%@). Verifique o cabo USB e que nenhuma outra aplicação a está a usar." } }
+      }
+    },
+    "The connection to the cutter could not be configured." : {
+      "localizations" : {
+        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Não foi possível configurar a ligação à máquina." } }
+      }
+    },
+    "Sending to the cutter failed (%@)." : {
+      "localizations" : {
+        "pt" : { "stringUnit" : { "state" : "translated", "value" : "O envio para a máquina falhou (%@)." } }
+      }
+    },
+    "The printer queue rejected the job: %@" : {
+      "localizations" : {
+        "pt" : { "stringUnit" : { "state" : "translated", "value" : "A fila de impressão rejeitou o trabalho: %@" } }
+      }
+    },
+    "No cutter selected. Choose one in Settings." : {
+      "localizations" : {
+        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Nenhuma máquina selecionada. Escolha uma nas Definições." } }
+      }
+    }
+  },
+  "version" : "1.0"
+}

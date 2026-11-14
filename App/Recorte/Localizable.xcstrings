@@ -1,0 +1,1778 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@ × %@ mm" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ × %2$@ mm"
+          }
+        }
+      }
+    },
+    "%lld" : {
+
+    },
+    "%lld %%" : {
+
+    },
+    "%lld objects selected" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld objetos selecionados"
+          }
+        }
+      }
+    },
+    "Add a PDF, Illustrator, PNG or JPEG file to be printed (Print & Cut)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar um PDF, Illustrator, PNG ou JPEG para imprimir (Imprimir e Cortar)"
+          }
+        }
+      }
+    },
+    "Add an SVG, PDF, Illustrator or DXF file as cut lines" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar um ficheiro SVG, PDF, Illustrator ou DXF como linhas de corte"
+          }
+        }
+      }
+    },
+    "Add an SVG, PDF, Illustrator or DXF file to the canvas" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar um ficheiro SVG, PDF, Illustrator ou DXF à tela"
+          }
+        }
+      }
+    },
+    "Artwork" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desenho importado"
+          }
+        }
+      }
+    },
+    "Blade offset (mm)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offset da lâmina (mm)"
+          }
+        }
+      }
+    },
+    "Bottom inset (mm)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Margem inferior (mm)"
+          }
+        }
+      }
+    },
+    "Bring to Front" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trazer para a frente"
+          }
+        }
+      }
+    },
+    "Bring to front" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trazer para a frente"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelar"
+          }
+        }
+      }
+    },
+    "Canvas" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tela"
+          }
+        }
+      }
+    },
+    "Changes apply to files opened from now on." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As alterações aplicam-se aos ficheiros abertos a partir de agora."
+          }
+        }
+      }
+    },
+    "Closed shape" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forma fechada"
+          }
+        }
+      }
+    },
+    "Coarse" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grosseira"
+          }
+        }
+      }
+    },
+    "Connected as" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligada como"
+          }
+        }
+      }
+    },
+    "Connection" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligação"
+          }
+        }
+      }
+    },
+    "Corner radius (mm)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raio dos cantos (mm)"
+          }
+        }
+      }
+    },
+    "Could not import" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível importar"
+          }
+        }
+      }
+    },
+    "Could not send" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível enviar"
+          }
+        }
+      }
+    },
+    "Creates a raw print queue for the cutter. No driver is needed." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cria uma fila de impressão em bruto para a máquina. Não é preciso nenhum driver."
+          }
+        }
+      }
+    },
+    "Curve smoothness" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suavidade das curvas"
+          }
+        }
+      }
+    },
+    "Curves" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Curvas"
+          }
+        }
+      }
+    },
+    "Cut" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cortar"
+          }
+        }
+      }
+    },
+    "Cut inner shapes first" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cortar primeiro as formas interiores"
+          }
+        }
+      }
+    },
+    "Cut length" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comprimento de corte"
+          }
+        }
+      }
+    },
+    "Cut lines must stay inside the marks" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As linhas de corte têm de ficar dentro das marcas"
+          }
+        }
+      }
+    },
+    "Cuts a small square and circle to check blade depth and pressure" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corta um pequeno quadrado e um círculo para verificar a profundidade da lâmina e a pressão"
+          }
+        }
+      }
+    },
+    "Cutter" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Máquina"
+          }
+        }
+      }
+    },
+    "Cutting" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corte"
+          }
+        }
+      }
+    },
+    "Cutting width (mm)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Largura de corte (mm)"
+          }
+        }
+      }
+    },
+    "Cutting…" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A cortar…"
+          }
+        }
+      }
+    },
+    "Cut…" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cortar…"
+          }
+        }
+      }
+    },
+    "Default blade offset (mm)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offset da lâmina por omissão (mm)"
+          }
+        }
+      }
+    },
+    "Default overcut (mm)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sobrecorte por omissão (mm)"
+          }
+        }
+      }
+    },
+    "Delete" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar"
+          }
+        }
+      }
+    },
+    "Done" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Concluído"
+          }
+        }
+      }
+    },
+    "Drawing" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desenho"
+          }
+        }
+      }
+    },
+    "Duplicate" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplicar"
+          }
+        }
+      }
+    },
+    "Ellipse" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elipse"
+          }
+        }
+      }
+    },
+    "Ellipse (E)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elipse (E)"
+          }
+        }
+      }
+    },
+    "Estimated time" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tempo estimado"
+          }
+        }
+      }
+    },
+    "Files" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ficheiros"
+          }
+        }
+      }
+    },
+    "Fine" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fina"
+          }
+        }
+      }
+    },
+    "Fit" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustar"
+          }
+        }
+      }
+    },
+    "Fit frame to text" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustar caixa ao texto"
+          }
+        }
+      }
+    },
+    "Fit to sheet" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustar à folha"
+          }
+        }
+      }
+    },
+    "Flow control" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controlo de fluxo"
+          }
+        }
+      }
+    },
+    "Font" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tipo de letra"
+          }
+        }
+      }
+    },
+    "Format" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formato"
+          }
+        }
+      }
+    },
+    "Found on USB" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encontrada no USB"
+          }
+        }
+      }
+    },
+    "Freehand (P)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mão livre (P)"
+          }
+        }
+      }
+    },
+    "From the left (mm)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desde a esquerda (mm)"
+          }
+        }
+      }
+    },
+    "From the start (mm)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desde o início (mm)"
+          }
+        }
+      }
+    },
+    "H" : {
+
+    },
+    "Hardware (RTS/CTS)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hardware (RTS/CTS)"
+          }
+        }
+      }
+    },
+    "Height (mm)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Altura (mm)"
+          }
+        }
+      }
+    },
+    "Illustrator (72 per inch)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Illustrator (72 por polegada)"
+          }
+        }
+      }
+    },
+    "Illustrator and most design apps export at 72. If an SVG comes in too large or too small, try the other option." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Illustrator e a maioria das aplicações de design exportam a 72. Se um SVG abrir demasiado grande ou pequeno, experimente a outra opção."
+          }
+        }
+      }
+    },
+    "Images were skipped. Only vector lines can be cut." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As imagens foram ignoradas. Só é possível cortar linhas vetoriais."
+          }
+        }
+      }
+    },
+    "Import Artwork…" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importar desenho…"
+          }
+        }
+      }
+    },
+    "Import…" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importar…"
+          }
+        }
+      }
+    },
+    "Inner radius" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raio interior"
+          }
+        }
+      }
+    },
+    "Keep the machine clear while it moves." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantenha a máquina livre enquanto se move."
+          }
+        }
+      }
+    },
+    "Layers" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camadas"
+          }
+        }
+      }
+    },
+    "Line" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Linha"
+          }
+        }
+      }
+    },
+    "Line (L)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Linha (L)"
+          }
+        }
+      }
+    },
+    "Locked" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloqueado"
+          }
+        }
+      }
+    },
+    "Machine" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Máquina"
+          }
+        }
+      }
+    },
+    "Mark size (cutter setting)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamanho da marca (definição da máquina)"
+          }
+        }
+      }
+    },
+    "Marks" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marcas"
+          }
+        }
+      }
+    },
+    "Match cutter width" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar a largura da máquina"
+          }
+        }
+      }
+    },
+    "Material" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Material"
+          }
+        }
+      }
+    },
+    "Mirror (heat-transfer vinyl)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espelhar (vinil têxtil / termocolante)"
+          }
+        }
+      }
+    },
+    "Model" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelo"
+          }
+        }
+      }
+    },
+    "Name" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome"
+          }
+        }
+      }
+    },
+    "No cutter found" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhuma máquina encontrada"
+          }
+        }
+      }
+    },
+    "None" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhuma"
+          }
+        }
+      }
+    },
+    "Normal" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Normal"
+          }
+        }
+      }
+    },
+    "Nothing on the canvas yet" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ainda não há nada na tela"
+          }
+        }
+      }
+    },
+    "OK" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "Object" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Objeto"
+          }
+        }
+      }
+    },
+    "Objects" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Objetos"
+          }
+        }
+      }
+    },
+    "Only the first artboard was imported (%lld more ignored)." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só a primeira prancheta foi importada (%lld ignoradas)."
+          }
+        }
+      }
+    },
+    "Original size" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamanho original"
+          }
+        }
+      }
+    },
+    "Other diagonal" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Outra diagonal"
+          }
+        }
+      }
+    },
+    "Overcut (mm)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sobrecorte (mm)"
+          }
+        }
+      }
+    },
+    "PDF with the artwork and the four registration marks. Print it, load the sheet, then press Cut." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PDF com a arte e as quatro marcas de registo. Imprima, coloque a folha na máquina e carregue em Cortar."
+          }
+        }
+      }
+    },
+    "Page size" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamanho da página"
+          }
+        }
+      }
+    },
+    "Pan (H)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover vista (H)"
+          }
+        }
+      }
+    },
+    "Pick a tool in the toolbar and drag on the canvas. Double-check sizes here before cutting." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha uma ferramenta na barra e arraste na tela. Confirme aqui os tamanhos antes de cortar."
+          }
+        }
+      }
+    },
+    "Place Artwork…" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colocar arte…"
+          }
+        }
+      }
+    },
+    "Place artwork…" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colocar arte…"
+          }
+        }
+      }
+    },
+    "Points" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pontas"
+          }
+        }
+      }
+    },
+    "Polygon" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Polígono"
+          }
+        }
+      }
+    },
+    "Polygon (G)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Polígono (G)"
+          }
+        }
+      }
+    },
+    "Port" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Porta"
+          }
+        }
+      }
+    },
+    "Position" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posição"
+          }
+        }
+      }
+    },
+    "Pressure" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pressão"
+          }
+        }
+      }
+    },
+    "Print & Cut" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprimir e Cortar"
+          }
+        }
+      }
+    },
+    "Print sheet…" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprimir folha…"
+          }
+        }
+      }
+    },
+    "Printed image" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imagem impressa"
+          }
+        }
+      }
+    },
+    "Printed on the Print & Cut sheet, never cut. Draw or import the cut lines on top of it." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impressa na folha de Imprimir e Cortar, nunca cortada. Desenhe ou importe as linhas de corte por cima."
+          }
+        }
+      }
+    },
+    "Printer queue" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fila de impressão"
+          }
+        }
+      }
+    },
+    "Prints the artwork with the four registration marks at 100 %. Load the sheet, put the needle on the arrow dot, then press Cut." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprime a arte com as quatro marcas de registo a 100 %. Coloque a folha na máquina, alinhe a lâmina no ponto da seta e carregue em Cortar."
+          }
+        }
+      }
+    },
+    "Queue" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fila"
+          }
+        }
+      }
+    },
+    "Rectangle" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retângulo"
+          }
+        }
+      }
+    },
+    "Rectangle (R)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retângulo (R)"
+          }
+        }
+      }
+    },
+    "Refresh" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atualizar"
+          }
+        }
+      }
+    },
+    "Rotate 90°" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rodar 90°"
+          }
+        }
+      }
+    },
+    "Rotation (°)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rotação (°)"
+          }
+        }
+      }
+    },
+    "SVG files" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ficheiros SVG"
+          }
+        }
+      }
+    },
+    "Save HPGL…" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar HPGL…"
+          }
+        }
+      }
+    },
+    "Save as PDF…" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar como PDF…"
+          }
+        }
+      }
+    },
+    "Save print sheet…" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar folha para impressão…"
+          }
+        }
+      }
+    },
+    "Save the cut file (.plt) instead of sending it to the cutter" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar o ficheiro de corte (.plt) em vez de o enviar para a máquina"
+          }
+        }
+      }
+    },
+    "Scale (%)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escala (%)"
+          }
+        }
+      }
+    },
+    "Select (V)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecionar (V)"
+          }
+        }
+      }
+    },
+    "Select All Objects" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecionar todos os objetos"
+          }
+        }
+      }
+    },
+    "Send speed and pressure to the cutter" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar velocidade e pressão para a máquina"
+          }
+        }
+      }
+    },
+    "Send the design to the cutter" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar o desenho para a máquina de corte"
+          }
+        }
+      }
+    },
+    "Send to Back" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar para trás"
+          }
+        }
+      }
+    },
+    "Send to back" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar para trás"
+          }
+        }
+      }
+    },
+    "Sent to the cutter" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviado para a máquina"
+          }
+        }
+      }
+    },
+    "Set up the cutter" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurar a máquina"
+          }
+        }
+      }
+    },
+    "Settings…" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Definições…"
+          }
+        }
+      }
+    },
+    "Shapes" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formas"
+          }
+        }
+      }
+    },
+    "Shortest knife path" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Percurso mais curto da lâmina"
+          }
+        }
+      }
+    },
+    "Show knife travel" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar percurso da lâmina"
+          }
+        }
+      }
+    },
+    "Side inset (mm)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Margem lateral (mm)"
+          }
+        }
+      }
+    },
+    "Sides" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lados"
+          }
+        }
+      }
+    },
+    "Size" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamanho"
+          }
+        }
+      }
+    },
+    "Size (pt)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamanho (pt)"
+          }
+        }
+      }
+    },
+    "Size of SVG files without units" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamanho de ficheiros SVG sem unidades"
+          }
+        }
+      }
+    },
+    "Software (XON/XOFF)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Software (XON/XOFF)"
+          }
+        }
+      }
+    },
+    "Some elements were skipped: %@." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alguns elementos foram ignorados: %@."
+          }
+        }
+      }
+    },
+    "Source" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Origem"
+          }
+        }
+      }
+    },
+    "Speed" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velocidade"
+          }
+        }
+      }
+    },
+    "Speed (baud)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velocidade (baud)"
+          }
+        }
+      }
+    },
+    "Speed and pressure" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velocidade e pressão"
+          }
+        }
+      }
+    },
+    "Star" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estrela"
+          }
+        }
+      }
+    },
+    "Star (S)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estrela (S)"
+          }
+        }
+      }
+    },
+    "Steps per mm" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passos por mm"
+          }
+        }
+      }
+    },
+    "Stop" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parar"
+          }
+        }
+      }
+    },
+    "Summary" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resumo"
+          }
+        }
+      }
+    },
+    "Test cut" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corte de teste"
+          }
+        }
+      }
+    },
+    "Text" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texto"
+          }
+        }
+      }
+    },
+    "Text (T)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texto (T)"
+          }
+        }
+      }
+    },
+    "Text is converted to outlines when cutting." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O texto é convertido em contornos ao cortar."
+          }
+        }
+      }
+    },
+    "Text was skipped. In Illustrator, select it and choose Type ▸ Create Outlines before saving." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O texto foi ignorado. No Illustrator, selecione-o e escolha Texto ▸ Criar contornos antes de guardar."
+          }
+        }
+      }
+    },
+    "The canvas is the printed sheet. Placed images are printed; shapes, text and imported lines are cut after the cutter reads the four marks. Keep everything inside the dashed area." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A tela é a folha impressa. As imagens colocadas são impressas; formas, texto e linhas importadas são cortadas depois de a máquina ler as quatro marcas. Mantenha tudo dentro da área tracejada."
+          }
+        }
+      }
+    },
+    "The cutter reads the four marks first; the cut lines stay exactly where they are on the printed sheet. Size and position come from the canvas." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A máquina lê primeiro as quatro marcas; as linhas de corte ficam exatamente onde estão na folha impressa. O tamanho e a posição vêm da tela."
+          }
+        }
+      }
+    },
+    "The file could not be opened as an image." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível abrir o ficheiro como imagem."
+          }
+        }
+      }
+    },
+    "The machine will finish on its own." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A máquina termina sozinha."
+          }
+        }
+      }
+    },
+    "The same sheet as a PDF, to print elsewhere." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A mesma folha em PDF, para imprimir noutro sítio."
+          }
+        }
+      }
+    },
+    "Too wide for the cutter" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Demasiado largo para a máquina"
+          }
+        }
+      }
+    },
+    "Tool" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ferramenta"
+          }
+        }
+      }
+    },
+    "Top inset (mm)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Margem superior (mm)"
+          }
+        }
+      }
+    },
+    "Turn this off to use the values set on the machine's panel." : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desative para usar os valores definidos no painel da máquina."
+          }
+        }
+      }
+    },
+    "USB / serial port" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "USB / porta série"
+          }
+        }
+      }
+    },
+    "Untitled" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sem título"
+          }
+        }
+      }
+    },
+    "Visible" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visível"
+          }
+        }
+      }
+    },
+    "W" : {
+
+    },
+    "Web standard (96 per inch)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Padrão web (96 por polegada)"
+          }
+        }
+      }
+    },
+    "Width (mm)" : {
+      "localizations" : {
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Largura (mm)"
+          }
+        }
+      }
+    },
+    "X" : {
+
+    },
+    "Y" : {
+
+    },
+    "material.cardstock" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cardstock"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cartolina"
+          }
+        }
+      }
+    },
+    "material.custom" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Custom"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personalizado"
+          }
+        }
+      }
+    },
+    "material.flock" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flock"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flock"
+          }
+        }
+      }
+    },
+    "material.heatTransfer" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heat-transfer vinyl"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vinil têxtil (termocolante)"
+          }
+        }
+      }
+    },
+    "material.reflective" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reflective vinyl"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vinil refletor"
+          }
+        }
+      }
+    },
+    "material.thickVinyl" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thick vinyl"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vinil espesso"
+          }
+        }
+      }
+    },
+    "material.vinyl" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standard vinyl"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vinil normal"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
