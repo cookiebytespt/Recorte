@@ -3,57 +3,244 @@
   "strings" : {
     "Files of type “%@” are not supported. Use SVG, PDF, AI or DXF." : {
       "localizations" : {
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Ficheiros do tipo “%@” não são suportados. Use SVG, PDF, AI ou DXF." } }
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los archivos de tipo «%@» no son compatibles. Use SVG, PDF, AI o DXF."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les fichiers de type « %@ » ne sont pas pris en charge. Utilisez SVG, PDF, AI ou DXF."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ficheiros do tipo “%@” não são suportados. Use SVG, PDF, AI ou DXF."
+          }
+        }
       }
     },
     "The file could not be read." : {
       "localizations" : {
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Não foi possível ler o ficheiro." } }
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha podido leer el archivo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de lire le fichier."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível ler o ficheiro."
+          }
+        }
       }
     },
     "The file is password protected. Remove the password and try again." : {
       "localizations" : {
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "O ficheiro está protegido por palavra-passe. Remova a palavra-passe e tente novamente." } }
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El archivo está protegido con contraseña. Quite la contraseña e inténtelo de nuevo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le fichier est protégé par un mot de passe. Supprimez le mot de passe et réessayez."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O ficheiro está protegido por palavra-passe. Remova a palavra-passe e tente novamente."
+          }
+        }
       }
     },
     "This Illustrator file was saved without “Create PDF Compatible File”. In Illustrator, choose File ▸ Save As, and enable that option." : {
       "localizations" : {
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Este ficheiro do Illustrator foi guardado sem a opção “Criar ficheiro compatível com PDF”. No Illustrator, escolha Ficheiro ▸ Guardar como e ative essa opção." } }
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este archivo de Illustrator se guardó sin la opción «Crear archivo compatible con PDF». En Illustrator, elija Archivo ▸ Guardar como y active esa opción."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce fichier Illustrator a été enregistré sans l’option « Créer un fichier compatible PDF ». Dans Illustrator, choisissez Fichier ▸ Enregistrer sous et activez cette option."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este ficheiro do Illustrator foi guardado sem a opção “Criar ficheiro compatível com PDF”. No Illustrator, escolha Ficheiro ▸ Guardar como e ative essa opção."
+          }
+        }
       }
     },
     "No cut lines were found in the file. Make sure the design contains vector paths and that text is converted to outlines." : {
       "localizations" : {
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Não foram encontradas linhas de corte no ficheiro. Confirme que o desenho tem traçados vetoriais e que o texto foi convertido em contornos." } }
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se han encontrado líneas de corte en el archivo. Compruebe que el diseño tiene trazados vectoriales y que el texto está convertido en contornos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune ligne de découpe n’a été trouvée dans le fichier. Vérifiez que le dessin contient des tracés vectoriels et que le texte est vectorisé."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foram encontradas linhas de corte no ficheiro. Confirme que o desenho tem traçados vetoriais e que o texto foi convertido em contornos."
+          }
+        }
       }
     },
     "The file could not be understood (%@)." : {
       "localizations" : {
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Não foi possível interpretar o ficheiro (%@)." } }
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha podido interpretar el archivo (%@)."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le fichier n’a pas pu être interprété (%@)."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível interpretar o ficheiro (%@)."
+          }
+        }
       }
     },
     "Could not open the cutter at %@ (%@). Check the USB cable and that no other app is using it." : {
       "localizations" : {
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Não foi possível abrir a máquina em %@ (%@). Verifique o cabo USB e que nenhuma outra aplicação a está a usar." } }
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha podido abrir la máquina en %1$@ (%2$@). Compruebe el cable USB y que ninguna otra aplicación la esté usando."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible d’ouvrir la machine sur %1$@ (%2$@). Vérifiez le câble USB et qu’aucune autre application ne l’utilise."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível abrir a máquina em %@ (%@). Verifique o cabo USB e que nenhuma outra aplicação a está a usar."
+          }
+        }
       }
     },
     "The connection to the cutter could not be configured." : {
       "localizations" : {
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Não foi possível configurar a ligação à máquina." } }
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha podido configurar la conexión con la máquina."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La connexion à la machine n’a pas pu être configurée."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível configurar a ligação à máquina."
+          }
+        }
       }
     },
     "Sending to the cutter failed (%@)." : {
       "localizations" : {
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "O envio para a máquina falhou (%@)." } }
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El envío a la máquina ha fallado (%@)."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’envoi à la machine a échoué (%@)."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O envio para a máquina falhou (%@)."
+          }
+        }
       }
     },
     "The printer queue rejected the job: %@" : {
       "localizations" : {
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "A fila de impressão rejeitou o trabalho: %@" } }
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La cola de impresión ha rechazado el trabajo: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La file d’impression a refusé la tâche : %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A fila de impressão rejeitou o trabalho: %@"
+          }
+        }
       }
     },
     "No cutter selected. Choose one in Settings." : {
       "localizations" : {
-        "pt" : { "stringUnit" : { "state" : "translated", "value" : "Nenhuma máquina selecionada. Escolha uma nas Definições." } }
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay ninguna máquina seleccionada. Elija una en Ajustes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune machine sélectionnée. Choisissez-en une dans les Réglages."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhuma máquina selecionada. Escolha uma nas Definições."
+          }
+        }
       }
     }
   },

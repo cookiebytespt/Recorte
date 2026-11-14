@@ -91,6 +91,8 @@
 	<array>
 		<string>en</string>
 		<string>pt</string>
+		<string>fr</string>
+		<string>es</string>
 	</array>
 	<key>CFBundleName</key>
 	<string>Recorte</string>
