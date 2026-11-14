@@ -92,6 +92,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: pt.cookiebytes.recorte
         GENERATE_INFOPLIST_FILE: false
         INFOPLIST_FILE: App/Recorte/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
 schemes:
   Recorte:
     build:

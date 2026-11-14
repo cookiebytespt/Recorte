@@ -1,3 +1,8 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/brand/recorte-banner-dark.svg">
+  <img src="docs/brand/recorte-banner-light.svg" width="100%" alt="Recorte — cutting studio for macOS">
+</picture>
+
 # Recorte
 
 **A native macOS app for vinyl cutters, made for designers. For now it supports the Liyu GF-1261.**
@@ -129,6 +134,24 @@ docs/debugging/          USB captures, extraction script and protocol write-up
 Issues and pull requests are welcome. USB captures from other Liyu models, or from jobs that
 use different settings, help most: the [debugging write-up](docs/debugging/README.md) shows
 how to make one and what is still unknown.
+
+## Logo
+
+The icon is a vinyl sticker with its corner lifting, and the R is cut (weeded) out of it so the
+coral tile shows through. The source is [`docs/brand/recorte-icon.svg`](docs/brand/recorte-icon.svg)
+(1024 × 1024 on the macOS icon grid). The app icon PNGs in
+`App/Recorte/Resources/Assets.xcassets/AppIcon.appiconset` are rendered from it.
+
+The README banner (`docs/brand/recorte-banner-light.svg` and `-dark.svg`) pairs the icon with
+the wordmark in Bricolage Grotesque SemiBold and the slogan "cutting studio for macOS". The
+text is converted to outlines so it renders without the font; `docs/brand/make-banner.py`
+regenerates both files.
+
+| Colour | Hex |
+| --- | --- |
+| Coral (tile) | `#E8553D` |
+| Vinyl | `#FFFFFF` |
+| Backing (peeled corner) | `#EADFD6` |
 
 ---
 
