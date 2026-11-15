@@ -30,12 +30,18 @@ import Testing
 
     @Test func hpglOutput() {
         let square = Polyline(points: [Point(0, 0), Point(10, 0), Point(10, 10), Point(0, 10)], isClosed: true)
-        let hpgl = HPGLGenerator().generate([square], options: HPGLOptions(stepsPerMM: 40, speed: 20, force: 80))
-        #expect(hpgl.hasPrefix("IN;\nSP1;\nVS20;\nFS80;\n"))
-        // (x across, y feed) → plotter (feed, across)
-        #expect(hpgl.contains("PU0,0;"))
-        #expect(hpgl.contains("PD0,400,400,400,400,0,0,0;"))
-        #expect(hpgl.hasSuffix("PU0,0;\nSP0;\n"))
+        let hpgl = HPGLGenerator().generate([square], options: HPGLOptions(stepsPerMM: 40, speed: 200, force: 80))
+        // SignMaster format: one line, speed in mm/s as VS, pressure in grams as HS.
+        #expect(hpgl.hasPrefix("IN;SP1;SP1;VS200;HS80;"))
+        // (x across, y feed) → plotter (feed, across), one point per PD like SignMaster
+        #expect(hpgl.contains("PU0,0;PD0,400;PD400,400;PD400,0;PD0,0;"))
+        // Advance After Plot: feed past the job (10 mm = 400 steps), then page-feed.
+        #expect(hpgl.hasSuffix("PU400,0;PG;\r\n"))
+        #expect(hpgl.filter(\.isNewline).count == 1)   // one line, CRLF at the end
+
+        let noAdvance = HPGLGenerator().generate([square], options: HPGLOptions(advanceAfterCut: false))
+        #expect(noAdvance.hasPrefix("IN;SP1;PU"))
+        #expect(noAdvance.hasSuffix("PU0,0;SP0;\r\n"))
     }
 
     @Test func plannerMirrorsAndScales() {
@@ -116,7 +122,7 @@ import Testing
         // Document x (across) → plotter Y, document y (feed) → plotter X.
         let line = Polyline(points: [Point(0, 0), Point(30, 0)])
         let hpgl = HPGLGenerator().generate([line], options: HPGLOptions(originOffset: Point(5, 5)))
-        #expect(hpgl.contains("PU200,200;\nPD200,1400;"))
+        #expect(hpgl.contains("PU200,200;PD200,1400;"))
     }
 
     @Test func printSheetPDFRenders() {

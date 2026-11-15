@@ -157,13 +157,18 @@ struct CanvasView: View {
 
         // Registration marks and the safe area for Print & Cut sheets.
         if design.printAndCut.isEnabled {
-            let layout = design.printAndCut.layout
-            let d = layout.markDiameterMM * vp.scale
-            for m in layout.markCenters(for: design.canvasSize) {
+            let sheet = design.printSheet
+            let d = sheet.markDiameterMM * vp.scale
+            for m in sheet.markCenters {
                 let c = vp.toView(m)
-                ctx.fill(Path(ellipseIn: CGRect(x: c.x - d / 2, y: c.y - d / 2, width: d, height: d)), with: .color(.black))
+                let r = CGRect(x: c.x - d / 2, y: c.y - d / 2, width: d, height: d)
+                if sheet.layout.printsMarks {
+                    ctx.fill(Path(ellipseIn: r), with: .color(sheet.marksFitPage ? .black : .red))
+                } else {
+                    ctx.stroke(Path(ellipseIn: r), with: .color(.gray), style: StrokeStyle(lineWidth: 1, dash: [2, 2]))
+                }
             }
-            let safe = layout.safeArea(for: design.canvasSize)
+            let safe = sheet.safeArea
             let r = CGRect(p1: vp.toView(safe.origin), p2: vp.toView(Point(safe.maxX, safe.maxY)))
             ctx.stroke(Path(r), with: .color(.orange.opacity(0.7)), style: StrokeStyle(lineWidth: 1, dash: [6, 4]))
         }

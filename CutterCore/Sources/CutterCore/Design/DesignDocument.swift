@@ -68,9 +68,11 @@ public struct DesignObject: Codable, Hashable, Sendable, Identifiable {
     public var rotation: Double
     public var isVisible: Bool
     public var isLocked: Bool
+    /// Set on cut lines made by Create Cut Contour: the printed image they were traced from.
+    public var contourSourceID: UUID?
 
     public init(id: UUID = UUID(), name: String, kind: ShapeKind, frame: Rect, rotation: Double = 0,
-                isVisible: Bool = true, isLocked: Bool = false) {
+                isVisible: Bool = true, isLocked: Bool = false, contourSourceID: UUID? = nil) {
         self.id = id
         self.name = name
         self.kind = kind
@@ -78,9 +80,18 @@ public struct DesignObject: Codable, Hashable, Sendable, Identifiable {
         self.rotation = rotation
         self.isVisible = isVisible
         self.isLocked = isLocked
+        self.contourSourceID = contourSourceID
     }
 
     public var center: Point { frame.center }
+    public var isCutContour: Bool { contourSourceID != nil }
+
+    /// Bounding box of the rotated frame in document space (cheap; no outlining).
+    public var documentBounds: Rect {
+        let t = localToDocument
+        return [Point(0, 0), Point(frame.width, 0), Point(frame.width, frame.height), Point(0, frame.height)]
+            .reduce(Rect.null) { $0.including(t.apply($1)) }
+    }
 
     /// Transform from frame-local millimetres (origin at the frame's top-left) to document space.
     public var localToDocument: AffineTransform {
@@ -256,10 +267,21 @@ public struct DesignDocument: Codable, Hashable, Sendable {
         return DesignDocument(name: cut.name, canvasSize: canvas, objects: [object])
     }
 
-    /// Everything visible, flattened for cutting.
-    public func cutDocument(tolerance: Double = 0.1) -> CutDocument {
-        let paths = cutObjects.flatMap { $0.outlines(tolerance: tolerance) }
+    /// Everything visible, flattened for cutting. `only` limits it to those object ids (e.g. the selection).
+    public func cutDocument(tolerance: Double = 0.1, only ids: Set<UUID>? = nil) -> CutDocument {
+        let objects = ids.map { ids in cutObjects.filter { ids.contains($0.id) } } ?? cutObjects
+        let paths = objects.flatMap { $0.outlines(tolerance: tolerance) }
         return CutDocument(name: name, paths: paths, pageSize: canvasSize).cleaned()
+    }
+
+    /// Bounding box of everything visible (printed and cut), used to place marks around the artwork.
+    public var artworkBounds: Rect {
+        objects.filter(\.isVisible).reduce(Rect.null) { $0.union($1.documentBounds) }
+    }
+
+    /// The Print & Cut sheet for this canvas with the marks resolved.
+    public var printSheet: PrintSheet {
+        PrintSheet(page: canvasSize, layout: printAndCut.layout, artwork: artworkBounds, title: name)
     }
 
     public func object(_ id: UUID) -> DesignObject? { objects.first { $0.id == id } }
