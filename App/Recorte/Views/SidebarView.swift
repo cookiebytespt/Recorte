@@ -72,23 +72,42 @@ private struct CanvasSection: View {
                 } }))
             if editor.design.printAndCut.isEnabled {
                 let layout = editor.design.printAndCut.layout
-                LabeledContent("Marks", value: String(format: "Ø %.1f mm", layout.markDiameterMM))
+                let sheet = editor.design.printSheet
                 Stepper(value: Binding(
                     get: { layout.markSizeParameter },
                     set: { v in editor.change { $0.printAndCut.layout.markSizeParameter = v } }), in: 5...100, step: 5) {
-                    LabeledContent("Mark size (cutter setting)", value: "\(layout.markSizeParameter)")
+                    LabeledContent("Mark size", value: String(format: "%d · Ø %.0f mm", layout.markSizeParameter, layout.markDiameterMM))
                 }
-                TextField("Side inset (mm)", value: Binding(
-                    get: { layout.sideInsetMM },
-                    set: { v in editor.change { $0.printAndCut.layout.sideInsetMM = max(v, layout.markDiameterMM / 2) } }), format: mm)
-                TextField("Top inset (mm)", value: Binding(
-                    get: { layout.topInsetMM },
-                    set: { v in editor.change { $0.printAndCut.layout.topInsetMM = max(v, layout.markDiameterMM / 2) } }), format: mm)
-                TextField("Bottom inset (mm)", value: Binding(
-                    get: { layout.bottomInsetMM },
-                    set: { v in editor.change { $0.printAndCut.layout.bottomInsetMM = max(v, layout.markDiameterMM / 2) } }), format: mm)
+                Picker("Place the marks", selection: Binding(
+                    get: { layout.placement },
+                    set: { v in editor.change { $0.printAndCut.layout.placement = v } })) {
+                    Text("Around the artwork").tag(MarkPlacement.aroundArtwork)
+                    Text("At the page edges").tag(MarkPlacement.pageEdges)
+                }
+                if layout.placement == .aroundArtwork {
+                    TextField("Distance from the artwork (mm)", value: Binding(
+                        get: { layout.artworkDistanceMM },
+                        set: { v in editor.change { $0.printAndCut.layout.artworkDistanceMM = max(v, layout.markDiameterMM) } }), format: mm)
+                        .help("Called Mark Position in SignMaster")
+                } else {
+                    TextField("Side inset (mm)", value: Binding(
+                        get: { layout.sideInsetMM },
+                        set: { v in editor.change { $0.printAndCut.layout.sideInsetMM = max(v, layout.markDiameterMM / 2) } }), format: mm)
+                    TextField("Top inset (mm)", value: Binding(
+                        get: { layout.topInsetMM },
+                        set: { v in editor.change { $0.printAndCut.layout.topInsetMM = max(v, layout.markDiameterMM / 2) } }), format: mm)
+                    TextField("Bottom inset (mm)", value: Binding(
+                        get: { layout.bottomInsetMM },
+                        set: { v in editor.change { $0.printAndCut.layout.bottomInsetMM = max(v, layout.markDiameterMM / 2) } }), format: mm)
+                }
+                if !sheet.marksFitPage {
+                    Label("The marks don't fit on the page", systemImage: "exclamationmark.triangle.fill")
+                        .foregroundStyle(.red)
+                }
                 Button("Place artwork…") { editor.showImagePlacer = true }
-                Text("The canvas is the printed sheet. Placed images are printed; shapes, text and imported lines are cut after the cutter reads the four marks. Keep everything inside the dashed area.")
+                Button("Create Cut Contour…") { editor.showContourSheet = true }
+                    .disabled(!editor.hasPrintedImages)
+                Text("The canvas is the printed sheet. Placed images are printed; shapes, text and imported lines are cut after the machine reads the four marks. Keep everything inside the dashed area.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
@@ -181,10 +200,13 @@ private struct ObjectSection: View {
             Section("Printed image") {
                 LabeledContent("Source", value: spec.sourceName)
                 LabeledContent("Format", value: spec.format.uppercased())
+                Button("Create Cut Contour…") {
+                    editor.selection = [object.id]
+                    editor.showContourSheet = true
+                }
+                .help("Makes a cut line around this image (⇧⌘K)")
                 Button("Fit to sheet") {
-                    let design = editor.design
-                    let area = design.printAndCut.isEnabled ? design.printAndCut.layout.safeArea(for: design.canvasSize)
-                        : Rect(origin: .zero, size: design.canvasSize)
+                    let area = editor.printableArea
                     let f = object.frame
                     let k = min(area.width / f.width, area.height / f.height)
                     let size = Size(f.width * k, f.height * k)
@@ -192,7 +214,7 @@ private struct ObjectSection: View {
                         $0.frame = Rect(origin: Point(area.center.x - size.width / 2, area.center.y - size.height / 2), size: size)
                     }
                 }
-                Text("Printed on the Print & Cut sheet, never cut. Draw or import the cut lines on top of it.")
+                Text("Printed on the Print & Cut sheet, never cut. Create a cut contour, or draw or import the cut lines on top of it.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
@@ -265,7 +287,10 @@ private struct LayersList: View {
                         } label: {
                             Image(systemName: object.isVisible ? "eye" : "eye.slash").foregroundStyle(object.isVisible ? .primary : .secondary)
                         }
-                        Image(systemName: symbol(for: object.kind)).foregroundStyle(.secondary).frame(width: 16)
+                        Image(systemName: object.isCutContour ? "scissors" : symbol(for: object.kind))
+                            .foregroundStyle(object.isCutContour ? Color.accentColor : .secondary)
+                            .frame(width: 16)
+                            .help(object.isCutContour ? "Cut contour" : "")
                         Text(object.name).lineLimit(1)
                         Spacer()
                         Button {

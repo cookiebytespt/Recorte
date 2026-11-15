@@ -2,20 +2,58 @@ import CutterCore
 import Foundation
 import Observation
 
-/// Per-window state: the imported design plus the user's cut settings and the planned job.
+/// State of the Output sheet: mode, cut settings, printing choice and the planned job.
 @MainActor
 @Observable
 final class CutSession {
-    let document: CutDocument
+    enum Mode: String, CaseIterable, Identifiable {
+        case cutOnly, printAndCut
+        var id: String { rawValue }
+    }
+
+    enum PrintChoice: String, CaseIterable, Identifiable {
+        case print, pdf, image, skip
+        var id: String { rawValue }
+    }
+
+    enum PreviewLayers: String, CaseIterable, Identifiable {
+        case both, print, cut
+        var id: String { rawValue }
+    }
+
+    enum Scope: String, CaseIterable, Identifiable {
+        case canvas, selection
+        var id: String { rawValue }
+    }
+
     let machine: MachineProfile
-    /// Set when the design is a Print & Cut sheet.
-    let printSheet: (page: Size, layout: RegistrationMarkLayout)?
+    /// Objects selected in the editor when the sheet opened.
+    let selection: Set<UUID>
+    /// Pushes design changes made here (mode, marks) back to the editor as undoable edits.
+    @ObservationIgnored private let commit: (DesignDocument) -> Void
+
+    private(set) var design: DesignDocument
+    private(set) var document: CutDocument
     private(set) var job: CutJob
 
-    var isPrintAndCut: Bool { printSheet != nil }
+    var mode: Mode {
+        didSet {
+            guard mode != oldValue else { return }
+            updateDesign { $0.printAndCut.isEnabled = mode == .printAndCut }
+        }
+    }
+
+    var scope: Scope = .canvas {
+        didSet { if scope != oldValue { rebuild() } }
+    }
 
     var settings: JobSettings {
         didSet { replan() }
+    }
+
+    /// Plain cuts: copies along the vinyl. Print & Cut: number of sheets to cut.
+    var copies: Int = 1 {
+        didSet { if copies != oldValue { replan() } }
     }
 
     var materialID: String = MaterialPreset.standardVinyl.id {
@@ -26,39 +64,82 @@ final class CutSession {
         }
     }
 
-    convenience init(document: CutDocument) {
-        self.init(document: document, printSheet: nil)
+    var printChoice: PrintChoice = .print
+    var imageFormat: PrintSheetRenderer.ImageFormat = .png
+    var imageDPI: Int = 300
+    var previewLayers: PreviewLayers = .both
+    var showKnifeTravel = false
+
+    var isPrintAndCut: Bool { mode == .printAndCut }
+    var sheet: PrintSheet? { job.printSheet }
+    var hasSelection: Bool { !selection.isEmpty }
+    var isEmpty: Bool { document.isEmpty }
+
+    /// Print & Cut jobs with printed images but nothing to cut: offer Create Cut Contour.
+    var needsCutContour: Bool {
+        isPrintAndCut && !design.imageObjects.isEmpty && design.cutObjects.isEmpty
     }
 
-    convenience init(design: DesignDocument) {
-        let cut = design.cutDocument(tolerance: Preferences.importOptions().tolerance)
-        let sheet = design.printAndCut.isEnabled ? (design.canvasSize, design.printAndCut.layout) : nil
-        self.init(document: cut, printSheet: sheet)
-    }
-
-    init(document: CutDocument, printSheet: (page: Size, layout: RegistrationMarkLayout)?) {
+    init(design: DesignDocument, selection: Set<UUID> = [], commit: @escaping (DesignDocument) -> Void = { _ in }) {
         let machine = Preferences.machineProfile()
-        self.document = document
         self.machine = machine
-        self.printSheet = printSheet
+        self.selection = selection
+        self.commit = commit
+        self.design = design
+        self.mode = design.printAndCut.isEnabled ? .printAndCut : .cutOnly
         var s = JobSettings.defaults(for: machine)
         s.speed = MaterialPreset.standardVinyl.speed
         s.force = MaterialPreset.standardVinyl.force
         self.settings = s
-        self.job = Self.plan(document: document, printSheet: printSheet, settings: s, machine: machine)
+        let doc = design.cutDocument(tolerance: Preferences.importOptions().tolerance)
+        self.document = doc
+        self.job = Self.plan(document: doc, design: design, printAndCut: design.printAndCut.isEnabled,
+                             settings: s, copies: 1, machine: machine)
     }
 
-    private static func plan(document: CutDocument, printSheet: (page: Size, layout: RegistrationMarkLayout)?,
-                             settings: JobSettings, machine: MachineProfile) -> CutJob {
-        if let printSheet {
-            return JobPlanner.planPrintAndCut(document: document, page: printSheet.page, layout: printSheet.layout,
-                                              settings: settings, machine: machine)
-        }
-        return JobPlanner.plan(document: document, settings: settings, machine: machine)
+    /// Changes the project (marks, mode) and sends the change back to the editor.
+    func updateDesign(_ change: (inout DesignDocument) -> Void) {
+        var next = design
+        change(&next)
+        guard next != design else { return }
+        design = next
+        commit(next)
+        rebuild()
+    }
+
+    func updateLayout(_ change: (inout RegistrationMarkLayout) -> Void) {
+        updateDesign { change(&$0.printAndCut.layout) }
+    }
+
+    /// The editor changed underneath (undo, edits in the sidebar).
+    func designChanged(_ new: DesignDocument) {
+        guard new != design else { return }
+        design = new
+        let wanted: Mode = new.printAndCut.isEnabled ? .printAndCut : .cutOnly
+        if wanted != mode { mode = wanted }
+        rebuild()
+    }
+
+    private func rebuild() {
+        let ids = scope == .selection && !selection.isEmpty ? selection : nil
+        document = design.cutDocument(tolerance: Preferences.importOptions().tolerance, only: ids)
+        replan()
     }
 
     private func replan() {
-        job = Self.plan(document: document, printSheet: printSheet, settings: settings, machine: machine)
+        job = Self.plan(document: document, design: design, printAndCut: mode == .printAndCut,
+                        settings: settings, copies: copies, machine: machine)
+    }
+
+    private static func plan(document: CutDocument, design: DesignDocument, printAndCut: Bool,
+                             settings: JobSettings, copies: Int, machine: MachineProfile) -> CutJob {
+        var s = settings
+        if printAndCut {
+            s.copies = 1
+            return JobPlanner.planPrintAndCut(document: document, sheet: design.printSheet, settings: s, machine: machine)
+        }
+        s.copies = max(1, copies)
+        return JobPlanner.plan(document: document, settings: s, machine: machine)
     }
 
     // MARK: Size helpers (millimetres, keep aspect ratio)
@@ -85,7 +166,7 @@ final class CutSession {
 
     /// Rough estimate from cut length and speed.
     var estimatedDuration: Duration {
-        let speedMMPerSecond = Double(max(settings.speed, 1)) * 10
+        let speedMMPerSecond = Double(max(settings.speed, 1))
         let travel = job.toolpaths.totalLength * 1.3
         return .seconds(travel / speedMMPerSecond + 3)
     }
@@ -93,4 +174,12 @@ final class CutSession {
     func markCustomMaterial() {
         if materialID != MaterialPreset.custom.id { materialID = MaterialPreset.custom.id }
     }
+
+    // MARK: Problems that block the job
+
+    var marksOffPage: Bool { isPrintAndCut && !(sheet?.marksFitPage ?? true) }
+    var outsideMarks: Bool { isPrintAndCut && !job.fitsMachine && !marksOffPage }
+    var tooWide: Bool { !isPrintAndCut && !job.fitsMachine }
+    /// Problems with the job itself (machine problems are checked by the view).
+    var hasBlockingIssue: Bool { isEmpty || marksOffPage || outsideMarks || tooWide }
 }

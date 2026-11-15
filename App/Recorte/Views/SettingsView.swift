@@ -25,7 +25,7 @@ struct CutterSettingsView: View {
     @AppStorage(Preferences.cutWidthMM) private var cutWidthMM = MachineProfile.liyuGF1261.cutWidthMM
     @AppStorage(Preferences.bladeOffsetMM) private var bladeOffsetMM = MachineProfile.liyuGF1261.bladeOffsetMM
     @AppStorage(Preferences.overcutMM) private var overcutMM = MachineProfile.liyuGF1261.overcutMM
-    @AppStorage(Preferences.sendSpeedAndForce) private var sendSpeedAndForce = true
+    @AppStorage(Preferences.sendSpeedAndForce) private var sendSpeedAndForce = false
     @AppStorage(Preferences.markSize) private var markSize = MachineProfile.liyuGF1261.registrationMarkSize
 
     var body: some View {
@@ -78,7 +78,7 @@ struct CutterSettingsView: View {
                     LabeledContent("Mark size (cutter setting)", value: "\(markSize) = Ø \(String(format: "%.1f", Double(markSize) * 0.2)) mm")
                 }
                 Toggle("Send speed and pressure to the cutter", isOn: $sendSpeedAndForce)
-                Text("Turn this off to use the values set on the machine's panel.")
+                Text("Off (default): the machine uses the speed and pressure set on its panel. On: each job sends the values chosen in Output, like SignMaster with Cutting Speed and Cutting Force ticked.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }

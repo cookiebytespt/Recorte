@@ -31,14 +31,24 @@ struct MainView: View {
                     .help("Add an SVG, PDF, Illustrator or DXF file as cut lines")
                 Button { editor.showImagePlacer = true } label: { Label("Place artwork…", systemImage: "photo.badge.plus") }
                     .help("Add a PDF, Illustrator, PNG or JPEG file to be printed (Print & Cut)")
-                Button { editor.showCutSheet = true } label: { Label("Cut…", systemImage: "scissors") }
-                    .buttonStyle(.borderedProminent)
-                    .disabled(document.design.objects.isEmpty)
+                Button { editor.showCutSheet = true } label: {
+                    if document.design.printAndCut.isEnabled {
+                        Label("Print & Cut…", systemImage: "printer")
+                    } else {
+                        Label("Cut…", systemImage: "scissors")
+                    }
+                }
+                .buttonStyle(.borderedProminent)
+                .help("Output settings, printing and cutting (⌘P)")
+                .disabled(document.design.objects.isEmpty)
             }
         }
         .sheet(isPresented: $editor.showCutSheet) {
-            CutSheetView(design: document.design, images: editor.imageCache)
+            OutputSheetView(editor: editor)
                 .environment(cutter)
+        }
+        .sheet(isPresented: $editor.showContourSheet) {
+            ContourSheetView(editor: editor)
         }
         .fileImporter(isPresented: $editor.showImporter, allowedContentTypes: [.svg, .pdf, .illustrator, .dxf], allowsMultipleSelection: true) { result in
             if case .success(let urls) = result {
@@ -79,7 +89,7 @@ struct EditorCommands: Commands {
             Button("Place Artwork…") { editor?.showImagePlacer = true }
                 .keyboardShortcut("i", modifiers: [.command, .option])
                 .disabled(editor == nil)
-            Button("Cut…") { editor?.showCutSheet = true }
+            Button(editor?.design.printAndCut.isEnabled == true ? "Print & Cut…" : "Cut…") { editor?.showCutSheet = true }
                 .keyboardShortcut("p", modifiers: [.command])
                 .disabled(editor == nil || editor?.design.objects.isEmpty == true)
         }
@@ -96,6 +106,10 @@ struct EditorCommands: Commands {
             Divider()
             Button("Select All Objects") { editor?.selectAll() }
                 .keyboardShortcut("a", modifiers: [.command, .shift])
+            Divider()
+            Button("Create Cut Contour…") { editor?.showContourSheet = true }
+                .keyboardShortcut("k", modifiers: [.command, .shift])
+                .disabled(editor?.hasPrintedImages != true)
             Divider()
             ForEach(Tool.allCases) { tool in
                 Button { editor?.tool = tool } label: { Label(tool.title, systemImage: tool.symbol) }
@@ -154,14 +168,12 @@ private func printAndCutSample() -> DesignFileDocument {
         return true
     }
     let png = NSBitmapImageRep(data: image.tiffRepresentation!)!.representation(using: .png, properties: [:])!
-    let safe = design.printAndCut.layout.safeArea(for: design.canvasSize)
+    // Centred so the marks (20.5 mm left and right of the artwork) stay on the A4 page.
+    let art = Rect(minX: 40, minY: 70, maxX: 170, maxY: 160)
     design.objects = [
-        DesignObject(name: "Print file", kind: .image(ImageSpec(sourceName: "stickers.png", data: png, format: "png")),
-                     frame: Rect(minX: safe.minX + 10, minY: safe.minY + 20, maxX: safe.minX + 160, maxY: safe.minY + 120)),
-        DesignObject(name: "Contour", kind: .rectangle(cornerRadius: 8),
-                     frame: Rect(minX: safe.minX + 10, minY: safe.minY + 20, maxX: safe.minX + 160, maxY: safe.minY + 120)),
-        DesignObject(name: "Inner", kind: .ellipse,
-                     frame: Rect(minX: safe.minX + 40, minY: safe.minY + 35, maxX: safe.minX + 130, maxY: safe.minY + 105)),
+        DesignObject(name: "Print file", kind: .image(ImageSpec(sourceName: "stickers.png", data: png, format: "png")), frame: art),
+        DesignObject(name: "Contour", kind: .rectangle(cornerRadius: 8), frame: art),
+        DesignObject(name: "Inner", kind: .ellipse, frame: Rect(minX: 65, minY: 85, maxX: 145, maxY: 145)),
     ]
     return DesignFileDocument(design: design)
 }
@@ -173,9 +185,45 @@ private func printAndCutSample() -> DesignFileDocument {
         .frame(width: 1100, height: 760)
 }
 
+@MainActor
+private func sampleEditor(_ document: DesignFileDocument) -> EditorState {
+    let editor = EditorState()
+    editor.design = document.design
+    return editor
+}
+
 #Preview("Print & Cut dialog") {
-    CutSheetView(design: printAndCutSample().design)
+    OutputSheetView(editor: sampleEditor(printAndCutSample()))
         .environment(CutterController())
-        .frame(width: 980, height: 660)
+        .frame(width: 1040, height: 720)
+}
+
+#Preview("Cut only dialog") {
+    OutputSheetView(editor: sampleEditor(sampleDocument()))
+        .environment(CutterController())
+        .frame(width: 1040, height: 720)
+}
+
+#Preview("Cut only – blade settings") {
+    let session = CutSession(design: sampleDocument().design)
+    session.settings.sendSpeedAndForce = true
+    return OutputSettingsForm(session: session, showBlade: true)
+        .environment(CutterController())
+        .frame(width: 400, height: 900)
+}
+
+#Preview("Cut wizard – load sheet") {
+    CutWizardView(session: CutSession(design: printAndCutSample().design), onBack: {}, onPrintAnother: {}, onClose: {})
+        .environment(CutterController())
+}
+
+#Preview("Cut wizard – load vinyl") {
+    CutWizardView(session: CutSession(design: sampleDocument().design), onBack: {}, onPrintAnother: {}, onClose: {})
+        .environment(CutterController())
+}
+
+#Preview("Create Cut Contour") {
+    ContourSheetView(editor: sampleEditor(printAndCutSample()))
+        .frame(width: 1000, height: 680)
 }
 #endif
