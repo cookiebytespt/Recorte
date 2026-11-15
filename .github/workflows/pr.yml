@@ -1,0 +1,98 @@
+name: Pull request
+
+# Validates every pull request into main: CutterCore tests + a Release build of the app,
+# the same configuration the release workflow ships, so type-check / optimizer issues show up here.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: CutterCore tests
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: swift test
+        working-directory: CutterCore
+        run: swift test
+
+  build:
+    name: Build app (Release)
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: xcodebuild
+        run: |
+          set +e
+          xcodebuild \
+            -project Recorte.xcodeproj \
+            -scheme Recorte \
+            -configuration Release \
+            -derivedDataPath build/DerivedData \
+            -destination 'generic/platform=macOS' \
+            ARCHS="arm64 x86_64" \
+            ONLY_ACTIVE_ARCH=NO \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            build > xcodebuild.log 2>&1
+          STATUS=$?
+          set -e
+          # Turn compiler diagnostics into annotations on the PR's changed files
+          grep -E "^/.+:[0-9]+:[0-9]+: (error|warning):" xcodebuild.log | sort -u | while IFS= read -r line; do
+            file=$(echo "$line" | cut -d: -f1 | sed "s|^$GITHUB_WORKSPACE/||")
+            row=$(echo "$line" | cut -d: -f2); col=$(echo "$line" | cut -d: -f3)
+            kind=$(echo "$line" | cut -d: -f4 | tr -d ' ')
+            msg=$(echo "$line" | cut -d: -f5- | sed 's/^ //')
+            echo "::$kind file=$file,line=$row,col=$col::$msg"
+          done
+          grep -E "\*\* BUILD" xcodebuild.log || true
+          if [ $STATUS -ne 0 ]; then
+            tail -n 60 xcodebuild.log
+            exit $STATUS
+          fi
+
+      - name: Check app bundle
+        run: |
+          APP=build/DerivedData/Build/Products/Release/Recorte.app
+          EXE=$(/usr/libexec/PlistBuddy -c "Print :CFBundleExecutable" "$APP/Contents/Info.plist")
+          test -f "$APP/Contents/MacOS/$EXE"
+          lipo -info "$APP/Contents/MacOS/$EXE"
+
+      - name: Upload build log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcodebuild-log
+          path: xcodebuild.log
+          if-no-files-found: ignore
