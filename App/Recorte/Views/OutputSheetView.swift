@@ -577,62 +577,73 @@ struct OutputPreview: View {
         let design = session.design
         let layers = session.previewLayers
         let travel = session.showKnifeTravel
-        return GeometryReader { geo in
-            let page = sheet.page
-            let scale = min((geo.size.width - padding * 2) / page.width, (geo.size.height - padding * 2 - 50) / page.height)
-            let origin = CGPoint(x: (geo.size.width - page.width * scale) / 2, y: (geo.size.height - page.height * scale) / 2 - 8)
-            Canvas { ctx, _ in
-                func pt(_ p: Point) -> CGPoint { CGPoint(x: origin.x + p.x * scale, y: origin.y + p.y * scale) }
-                let paper = CGRect(x: origin.x, y: origin.y, width: page.width * scale, height: page.height * scale)
-                ctx.drawLayer { l in
-                    l.addFilter(.shadow(color: .black.opacity(0.2), radius: 4, y: 1))
-                    l.fill(Path(paper), with: .color(.white))
-                }
-
-                if layers != .cut {
-                    for object in design.imageObjects {
-                        guard let image = images[object.id] ?? Self.decode(object) else { continue }
-                        let c = pt(object.center)
-                        let w = object.frame.width * scale, h = object.frame.height * scale
-                        ctx.drawLayer { layer in
-                            layer.translateBy(x: c.x, y: c.y)
-                            layer.rotate(by: .degrees(object.rotation))
-                            layer.draw(Image(nsImage: image), in: CGRect(x: -w / 2, y: -h / 2, width: w, height: h))
-                        }
-                    }
-                    let safe = sheet.safeArea
-                    ctx.stroke(Path(CGRect(p1: pt(safe.origin), p2: pt(Point(safe.maxX, safe.maxY)))),
-                               with: .color(.orange.opacity(0.7)), style: StrokeStyle(lineWidth: 1, dash: [6, 4]))
-                    let d = sheet.markDiameterMM * scale
-                    for m in sheet.markCenters {
-                        let c = pt(m)
-                        let r = CGRect(x: c.x - d / 2, y: c.y - d / 2, width: d, height: d)
-                        if sheet.layout.printsMarks {
-                            ctx.fill(Path(ellipseIn: r), with: .color(.black))
-                        } else {
-                            ctx.stroke(Path(ellipseIn: r), with: .color(.gray), style: StrokeStyle(lineWidth: 1, dash: [2, 2]))
-                        }
-                    }
-                    // Origin mark ring: the blade goes on this one.
-                    let o = pt(sheet.originMark)
-                    ctx.stroke(Path(ellipseIn: CGRect(x: o.x - d * 1.1, y: o.y - d * 1.1, width: d * 2.2, height: d * 2.2)),
-                               with: .color(.accentColor), lineWidth: 1.5)
-                    if sheet.layout.printsJobName {
-                        let f = sheet.markFrame
-                        let y = sheet.layout.placement == .aroundArtwork ? f.minY - sheet.markDiameterMM - 2 : f.minY
-                        ctx.draw(Text(design.name).font(.system(size: max(7, 3 * scale))).foregroundStyle(.black),
-                                 at: pt(Point(f.maxX - sheet.markDiameterMM - 4, y)), anchor: .trailing)
-                    }
-                }
-
-                if layers != .print {
-                    var path = Path()
-                    for poly in job.cutPaths { path.addPolyline(poly, pt) }
-                    ctx.stroke(path, with: .color(job.fitsMachine ? .accentColor : .red), lineWidth: 1.5)
-                }
-                if travel { Self.drawTravel(job.toolpaths, start: sheet.originMark, in: ctx, pt) }
+        return GeometryReader { (geo: GeometryProxy) in
+            Canvas { (ctx: inout GraphicsContext, _: CGSize) in
+                drawSheet(sheet, job: job, design: design, layers: layers, travel: travel, size: geo.size, in: ctx)
             }
         }
+    }
+
+    // Kept out of the ViewBuilder closures above: as one big expression the Release compiler
+    // could not type-check it in reasonable time.
+    private func drawSheet(_ sheet: PrintSheet, job: CutJob, design: DesignDocument,
+                           layers: CutSession.PreviewLayers, travel: Bool, size: CGSize, in ctx: GraphicsContext) {
+        let page = sheet.page
+        let scaleX: CGFloat = (size.width - padding * 2) / CGFloat(page.width)
+        let scaleY: CGFloat = (size.height - padding * 2 - 50) / CGFloat(page.height)
+        let scale: CGFloat = min(scaleX, scaleY)
+        let originX: CGFloat = (size.width - CGFloat(page.width) * scale) / 2
+        let originY: CGFloat = (size.height - CGFloat(page.height) * scale) / 2 - 8
+        let origin = CGPoint(x: originX, y: originY)
+        func pt(_ p: Point) -> CGPoint { CGPoint(x: origin.x + CGFloat(p.x) * scale, y: origin.y + CGFloat(p.y) * scale) }
+        let paper = CGRect(x: origin.x, y: origin.y, width: CGFloat(page.width) * scale, height: CGFloat(page.height) * scale)
+        ctx.drawLayer { l in
+            l.addFilter(.shadow(color: .black.opacity(0.2), radius: 4, y: 1))
+            l.fill(Path(paper), with: .color(.white))
+        }
+
+        if layers != .cut {
+            for object in design.imageObjects {
+                guard let image = images[object.id] ?? Self.decode(object) else { continue }
+                let c = pt(object.center)
+                let w = object.frame.width * scale, h = object.frame.height * scale
+                ctx.drawLayer { layer in
+                    layer.translateBy(x: c.x, y: c.y)
+                    layer.rotate(by: .degrees(object.rotation))
+                    layer.draw(Image(nsImage: image), in: CGRect(x: -w / 2, y: -h / 2, width: w, height: h))
+                }
+            }
+            let safe = sheet.safeArea
+            ctx.stroke(Path(CGRect(p1: pt(safe.origin), p2: pt(Point(safe.maxX, safe.maxY)))),
+                       with: .color(.orange.opacity(0.7)), style: StrokeStyle(lineWidth: 1, dash: [6, 4]))
+            let d = sheet.markDiameterMM * scale
+            for m in sheet.markCenters {
+                let c = pt(m)
+                let r = CGRect(x: c.x - d / 2, y: c.y - d / 2, width: d, height: d)
+                if sheet.layout.printsMarks {
+                    ctx.fill(Path(ellipseIn: r), with: .color(.black))
+                } else {
+                    ctx.stroke(Path(ellipseIn: r), with: .color(.gray), style: StrokeStyle(lineWidth: 1, dash: [2, 2]))
+                }
+            }
+            // Origin mark ring: the blade goes on this one.
+            let o = pt(sheet.originMark)
+            ctx.stroke(Path(ellipseIn: CGRect(x: o.x - d * 1.1, y: o.y - d * 1.1, width: d * 2.2, height: d * 2.2)),
+                       with: .color(.accentColor), lineWidth: 1.5)
+            if sheet.layout.printsJobName {
+                let f = sheet.markFrame
+                let y = sheet.layout.placement == .aroundArtwork ? f.minY - sheet.markDiameterMM - 2 : f.minY
+                ctx.draw(Text(design.name).font(.system(size: max(7, 3 * scale))).foregroundStyle(.black),
+                         at: pt(Point(f.maxX - sheet.markDiameterMM - 4, y)), anchor: .trailing)
+            }
+        }
+
+        if layers != .print {
+            var path = Path()
+            for poly in job.cutPaths { path.addPolyline(poly, pt) }
+            ctx.stroke(path, with: .color(job.fitsMachine ? .accentColor : .red), lineWidth: 1.5)
+        }
+        if travel { Self.drawTravel(job.toolpaths, start: sheet.originMark, in: ctx, pt) }
     }
 
     // MARK: Cut only: the vinyl in the machine
@@ -645,50 +656,59 @@ struct OutputPreview: View {
         let settings = session.settings
         let mediaWidth = session.machine.cutWidthMM
         let travel = session.showKnifeTravel
-        return GeometryReader { geo in
-            let length = max(job.bounds.height + settings.marginY + 60, mediaWidth * 0.55)
-            let scale = min((geo.size.width - padding * 2) / mediaWidth, (geo.size.height - padding * 2 - 70) / length)
-            let left = (geo.size.width - mediaWidth * scale) / 2
-            let front = (geo.size.height + length * scale) / 2 - 20   // y of the vinyl's front edge
-            // Plotter position (across from the right, feed from the front) → view.
-            let toView: (Point) -> CGPoint = { p in
-                CGPoint(x: left + (mediaWidth - (settings.marginX + p.x)) * scale, y: front - (settings.marginY + p.y) * scale)
-            }
-            Canvas { ctx, size in
-                let vinyl = CGRect(x: left, y: front - length * scale, width: mediaWidth * scale, height: length * scale)
-                ctx.fill(Path(vinyl), with: .color(Color(red: 0.97, green: 0.96, blue: 0.93)))
-                ctx.stroke(Path(vinyl), with: .color(.gray.opacity(0.6)), lineWidth: 1)
-
-                var path = Path()
-                for poly in job.cutPaths { path.addPolyline(poly, toView) }
-                ctx.stroke(path, with: .color(job.fitsMachine ? .accentColor : .red), lineWidth: 1.5)
-                if travel { Self.drawTravel(job.toolpaths, start: .zero, in: ctx, toView) }
-
-                // Origin crosshair at the front right, by the blade.
-                let o = CGPoint(x: vinyl.maxX, y: front)
-                var cross = Path()
-                cross.move(to: CGPoint(x: o.x - 10, y: o.y)); cross.addLine(to: CGPoint(x: o.x + 10, y: o.y))
-                cross.move(to: CGPoint(x: o.x, y: o.y - 10)); cross.addLine(to: CGPoint(x: o.x, y: o.y + 10))
-                ctx.stroke(cross, with: .color(.accentColor), lineWidth: 1.5)
-                ctx.draw(Text("Origin").font(.caption2).foregroundStyle(Color.accentColor), at: CGPoint(x: o.x - 4, y: o.y + 14), anchor: .trailing)
-
-                // Width dimension and labels.
-                let dimY = front + 30
-                var dim = Path()
-                dim.move(to: CGPoint(x: vinyl.minX, y: dimY)); dim.addLine(to: CGPoint(x: vinyl.maxX, y: dimY))
-                dim.move(to: CGPoint(x: vinyl.minX, y: dimY - 5)); dim.addLine(to: CGPoint(x: vinyl.minX, y: dimY + 5))
-                dim.move(to: CGPoint(x: vinyl.maxX, y: dimY - 5)); dim.addLine(to: CGPoint(x: vinyl.maxX, y: dimY + 5))
-                ctx.stroke(dim, with: .color(.secondary), lineWidth: 1)
-                ctx.draw(Text(String(format: String(localized: "%.0f mm cutting width"), mediaWidth)).font(.caption2).foregroundStyle(.secondary),
-                         at: CGPoint(x: vinyl.midX, y: dimY - 8))
-                ctx.draw(Text("Front (you)").font(.caption2).foregroundStyle(.secondary), at: CGPoint(x: vinyl.midX, y: dimY + 12))
-                let info = String(format: String(localized: "%.0f mm from the right · %.0f mm from the start"), settings.marginX, settings.marginY)
-                ctx.draw(Text(info).font(.caption).foregroundStyle(.secondary), at: CGPoint(x: vinyl.maxX - 8, y: vinyl.minY + 14), anchor: .trailing)
-                ctx.draw(Text("Seen from above, standing at the front. The design comes out top edge first.").font(.caption2).foregroundStyle(.secondary),
-                         at: CGPoint(x: vinyl.maxX - 8, y: vinyl.minY + 30), anchor: .trailing)
-                _ = size
+        return GeometryReader { (geo: GeometryProxy) in
+            Canvas { (ctx: inout GraphicsContext, _: CGSize) in
+                drawVinyl(job: job, settings: settings, mediaWidth: mediaWidth, travel: travel, size: geo.size, in: ctx)
             }
         }
+    }
+
+    private func drawVinyl(job: CutJob, settings: JobSettings, mediaWidth: Double, travel: Bool,
+                           size: CGSize, in ctx: GraphicsContext) {
+        let width = CGFloat(mediaWidth)
+        let length: CGFloat = max(CGFloat(job.bounds.height + settings.marginY + 60), width * 0.55)
+        let scaleX: CGFloat = (size.width - padding * 2) / width
+        let scaleY: CGFloat = (size.height - padding * 2 - 70) / length
+        let scale: CGFloat = min(scaleX, scaleY)
+        let left: CGFloat = (size.width - width * scale) / 2
+        let front: CGFloat = (size.height + length * scale) / 2 - 20   // y of the vinyl's front edge
+        // Plotter position (across from the right, feed from the front) → view.
+        let toView: (Point) -> CGPoint = { (p: Point) -> CGPoint in
+            let x: CGFloat = left + CGFloat(mediaWidth - (settings.marginX + p.x)) * scale
+            let y: CGFloat = front - CGFloat(settings.marginY + p.y) * scale
+            return CGPoint(x: x, y: y)
+        }
+        let vinyl = CGRect(x: left, y: front - length * scale, width: width * scale, height: length * scale)
+        ctx.fill(Path(vinyl), with: .color(Color(red: 0.97, green: 0.96, blue: 0.93)))
+        ctx.stroke(Path(vinyl), with: .color(.gray.opacity(0.6)), lineWidth: 1)
+
+        var path = Path()
+        for poly in job.cutPaths { path.addPolyline(poly, toView) }
+        ctx.stroke(path, with: .color(job.fitsMachine ? .accentColor : .red), lineWidth: 1.5)
+        if travel { Self.drawTravel(job.toolpaths, start: .zero, in: ctx, toView) }
+
+        // Origin crosshair at the front right, by the blade.
+        let o = CGPoint(x: vinyl.maxX, y: front)
+        var cross = Path()
+        cross.move(to: CGPoint(x: o.x - 10, y: o.y)); cross.addLine(to: CGPoint(x: o.x + 10, y: o.y))
+        cross.move(to: CGPoint(x: o.x, y: o.y - 10)); cross.addLine(to: CGPoint(x: o.x, y: o.y + 10))
+        ctx.stroke(cross, with: .color(.accentColor), lineWidth: 1.5)
+        ctx.draw(Text("Origin").font(.caption2).foregroundStyle(Color.accentColor), at: CGPoint(x: o.x - 4, y: o.y + 14), anchor: .trailing)
+
+        // Width dimension and labels.
+        let dimY = front + 30
+        var dim = Path()
+        dim.move(to: CGPoint(x: vinyl.minX, y: dimY)); dim.addLine(to: CGPoint(x: vinyl.maxX, y: dimY))
+        dim.move(to: CGPoint(x: vinyl.minX, y: dimY - 5)); dim.addLine(to: CGPoint(x: vinyl.minX, y: dimY + 5))
+        dim.move(to: CGPoint(x: vinyl.maxX, y: dimY - 5)); dim.addLine(to: CGPoint(x: vinyl.maxX, y: dimY + 5))
+        ctx.stroke(dim, with: .color(.secondary), lineWidth: 1)
+        ctx.draw(Text(String(format: String(localized: "%.0f mm cutting width"), mediaWidth)).font(.caption2).foregroundStyle(.secondary),
+                 at: CGPoint(x: vinyl.midX, y: dimY - 8))
+        ctx.draw(Text("Front (you)").font(.caption2).foregroundStyle(.secondary), at: CGPoint(x: vinyl.midX, y: dimY + 12))
+        let info = String(format: String(localized: "%.0f mm from the right · %.0f mm from the start"), settings.marginX, settings.marginY)
+        ctx.draw(Text(info).font(.caption).foregroundStyle(.secondary), at: CGPoint(x: vinyl.maxX - 8, y: vinyl.minY + 14), anchor: .trailing)
+        ctx.draw(Text("Seen from above, standing at the front. The design comes out top edge first.").font(.caption2).foregroundStyle(.secondary),
+                 at: CGPoint(x: vinyl.maxX - 8, y: vinyl.minY + 30), anchor: .trailing)
     }
 
     // MARK: Helpers

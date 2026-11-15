@@ -56,7 +56,7 @@ jobs:
 
       - name: Build app (Release, universal)
         run: |
-          set -o pipefail
+          set +e
           xcodebuild \
             -project Recorte.xcodeproj \
             -scheme Recorte \
@@ -70,12 +70,30 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            build | tee xcodebuild.log | grep -E "error:|warning:|BUILD " || true
-          test -d build/DerivedData/Build/Products/Release/Recorte.app
+            build > xcodebuild.log 2>&1
+          STATUS=$?
+          set -e
+          # Show compiler errors/warnings and the final result in the job log
+          grep -E "error:|warning:|\*\* BUILD" xcodebuild.log | sort -u || true
+          if [ $STATUS -ne 0 ]; then
+            echo "::error::xcodebuild failed with exit code $STATUS (full log in the xcodebuild-log artifact)"
+            tail -n 80 xcodebuild.log
+            exit $STATUS
+          fi
+
+      - name: Locate app
+        id: app
+        run: |
+          APP=build/DerivedData/Build/Products/Release/Recorte.app
+          EXE=$(/usr/libexec/PlistBuddy -c "Print :CFBundleExecutable" "$APP/Contents/Info.plist")
+          echo "path=$APP" >> "$GITHUB_OUTPUT"
+          echo "exe=$APP/Contents/MacOS/$EXE" >> "$GITHUB_OUTPUT"
+          ls -la "$APP/Contents/MacOS/"
+          test -f "$APP/Contents/MacOS/$EXE" || { echo "::error::Executable '$EXE' missing from app bundle"; exit 1; }
 
       - name: Stamp version & ad-hoc sign
         run: |
-          APP=build/DerivedData/Build/Products/Release/Recorte.app
+          APP="${{ steps.app.outputs.path }}"
           # Info.plist has fixed values, so stamp the release version into the bundle
           plutil -replace CFBundleShortVersionString -string "${{ steps.version.outputs.version }}" "$APP/Contents/Info.plist"
           plutil -replace CFBundleVersion            -string "${{ steps.version.outputs.build }}"   "$APP/Contents/Info.plist"
@@ -84,13 +102,13 @@ jobs:
             --entitlements App/Recorte/Recorte.entitlements \
             --sign - "$APP"
           codesign --verify --deep --strict --verbose=2 "$APP"
-          lipo -info "$APP/Contents/MacOS/Recorte"
+          lipo -info "${{ steps.app.outputs.exe }}"
 
       - name: Create zip
         run: |
           mkdir -p dist
           ditto -c -k --sequesterRsrc --keepParent \
-            build/DerivedData/Build/Products/Release/Recorte.app \
+            "${{ steps.app.outputs.path }}" \
             "dist/${{ steps.version.outputs.zip }}"
           cd dist && shasum -a 256 "${{ steps.version.outputs.zip }}" > "${{ steps.version.outputs.zip }}.sha256"
           cat "${{ steps.version.outputs.zip }}.sha256"
@@ -100,6 +118,14 @@ jobs:
         with:
           name: Recorte-${{ steps.version.outputs.version }}
           path: dist/*
+
+      - name: Upload build log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcodebuild-log
+          path: xcodebuild.log
+          if-no-files-found: ignore
 
       - name: Attach to release
         if: github.event_name == 'release'
