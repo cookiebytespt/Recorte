@@ -4,6 +4,7 @@ import Foundation
 /// Keys for `UserDefaults` / `@AppStorage`.
 enum Preferences {
     static let connectionKind = "connectionKind"
+    static let hasSeenGettingStarted = "hasSeenGettingStarted"
     static let serialPortPath = "serialPortPath"
     static let printerQueue = "printerQueue"
     static let baudRate = "baudRate"

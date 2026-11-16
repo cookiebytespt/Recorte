@@ -1,5 +1,6 @@
 import CutterCore
 import SwiftUI
+import TipKit
 import UniformTypeIdentifiers
 
 struct MainView: View {
@@ -7,6 +8,8 @@ struct MainView: View {
     @Environment(\.undoManager) private var undoManager
     @Environment(CutterController.self) private var cutter
     @State private var editor = EditorState()
+    @Environment(\.openWindow) private var openWindow
+    @AppStorage(Preferences.hasSeenGettingStarted) private var hasSeenGettingStarted = false
 
     var body: some View {
         HSplitView {
@@ -20,7 +23,9 @@ struct MainView: View {
             ToolbarItem(placement: .principal) {
                 Picker("Tool", selection: $editor.tool) {
                     ForEach(Tool.allCases) { tool in
-                        Image(systemName: tool.symbol).help(tool.title).tag(tool)
+                        Image(systemName: tool.symbol)
+                            .help(Text(tool.title) + Text(verbatim: " — ") + Text(tool.hint))
+                            .tag(tool)
                     }
                 }
                 .pickerStyle(.segmented)
@@ -28,9 +33,9 @@ struct MainView: View {
             }
             ToolbarItemGroup(placement: .primaryAction) {
                 Button { editor.showImporter = true } label: { Label("Import…", systemImage: "square.and.arrow.down.on.square") }
-                    .help("Add an SVG, PDF, Illustrator or DXF file as cut lines")
+                    .help(HelpText.importFile)
                 Button { editor.showImagePlacer = true } label: { Label("Place artwork…", systemImage: "photo.badge.plus") }
-                    .help("Add a PDF, Illustrator, PNG or JPEG file to be printed (Print & Cut)")
+                    .help(HelpText.placeArtwork)
                 Button { editor.showCutSheet = true } label: {
                     if document.design.printAndCut.isEnabled {
                         Label("Print & Cut…", systemImage: "printer")
@@ -39,7 +44,7 @@ struct MainView: View {
                     }
                 }
                 .buttonStyle(.borderedProminent)
-                .help("Output settings, printing and cutting (⌘P)")
+                .help(cutButtonHelp)
                 .disabled(document.design.objects.isEmpty)
             }
         }
@@ -68,12 +73,24 @@ struct MainView: View {
             editor.document = $document
             editor.design = document.design
             editor.undoManager = undoManager
+            if !hasSeenGettingStarted {
+                hasSeenGettingStarted = true
+                openWindow(id: HelpWindowID.gettingStarted)
+            }
+            Task { await PrintAndCutTip.projectOpened.donate() }
         }
         .onChange(of: document.design) { _, new in
             // Revert, reload or external edits: keep the editor in sync.
             if editor.design != new { editor.design = new }
         }
         .onChange(of: undoManager) { _, new in editor.undoManager = new }
+    }
+
+    private var cutButtonHelp: LocalizedStringKey {
+        if document.design.objects.isEmpty { return "Draw, write or import something to cut first." }
+        return document.design.printAndCut.isEnabled
+            ? "Print the sheet with registration marks, then cut it on the machine (⌘P)."
+            : "Choose the size, position and cutting settings, then cut (⌘P)."
     }
 }
 

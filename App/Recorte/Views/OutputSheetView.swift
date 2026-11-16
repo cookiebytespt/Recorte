@@ -1,6 +1,7 @@
 import AppKit
 import CutterCore
 import SwiftUI
+import TipKit
 import UniformTypeIdentifiers
 
 /// The Output sheet (⌘P): Cut only / Print & Cut settings with a live preview, then the Cut wizard
@@ -79,8 +80,8 @@ struct OutputSheetView: View {
             Picker("Output mode", selection: $session.mode) {
                 Text("Cut only").tag(CutSession.Mode.cutOnly)
                 Text("Print & Cut").tag(CutSession.Mode.printAndCut)
-                    .help("Called Contour cut / ARMS in SignMaster")
             }
+            .help("Cut only: cut shapes out of plain vinyl. Print & Cut: print the artwork with registration marks, then cut around it. In SignMaster: Contour cut / ARMS.")
             .pickerStyle(.segmented)
             .labelsHidden()
             .fixedSize()
@@ -98,16 +99,22 @@ struct OutputSheetView: View {
 
     private var footer: some View {
         HStack(spacing: 8) {
-            Button("Test cut") { cutter.sendTestCut() }
+            Button("Test cut") {
+                TestCutTip().invalidate(reason: .actionPerformed)
+                cutter.sendTestCut()
+            }
+            .popoverTip(TestCutTip())
                 .disabled(!cutter.hasDevice || cutter.isSending)
-                .help("Cuts a small square and circle to check blade depth and pressure")
+                .help(cutter.hasDevice ? HelpText.testCut : "Connect the machine to make a test cut.")
             Button("Save HPGL…") { showHPGLExport = true }
                 .disabled(session.isEmpty)
+                .help("Saves the cutting job as a file, for other cutting software or for support. Not needed to cut.")
             Spacer()
             Text(summary)
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
+                .help("Shapes to cut, total cutting length and an estimate of the time, based on the speed.")
             Spacer()
             Button("Cancel") { dismiss() }
                 .keyboardShortcut(.cancelAction)
@@ -115,6 +122,7 @@ struct OutputSheetView: View {
                 .buttonStyle(.borderedProminent)
                 .keyboardShortcut(.defaultAction)
                 .disabled(session.hasBlockingIssue)
+                .help(session.hasBlockingIssue ? "Fix the problems shown at the top first." : primaryHelp)
         }
         .padding(.horizontal, 16)
         .frame(height: 52)
@@ -140,6 +148,16 @@ struct OutputSheetView: View {
         case .pdf: return "Save PDF…"
         case .image: return "Save Image…"
         case .skip: return "Skip to Cut"
+        }
+    }
+
+    private var primaryHelp: LocalizedStringKey {
+        guard session.isPrintAndCut else { return "Shows how to load the vinyl, then sends the job to the machine." }
+        switch session.printChoice {
+        case .print: return "Prints the sheet, then shows how to load it in the machine."
+        case .pdf: return "Saves the sheet as a PDF to print elsewhere, then shows how to load it."
+        case .image: return "Saves the sheet as an image to print elsewhere, then shows how to load it."
+        case .skip: return "Goes straight to cutting a sheet that is already printed."
         }
     }
 
@@ -206,19 +224,22 @@ struct OutputSettingsForm: View {
     private var layout: RegistrationMarkLayout { session.design.printAndCut.layout }
 
     private var marksSection: some View {
-        Section("Registration marks") {
+        Section {
             Toggle("Print the marks", isOn: Binding(get: { layout.printsMarks }, set: { v in session.updateLayout { $0.printsMarks = v } }))
-                .help("Turn off only if the sheet already has the marks printed on it")
+                .help(HelpText.printsMarks)
             Picker("Mark size", selection: Binding(get: { layout.markSizeParameter }, set: { v in session.updateLayout { $0.markSizeParameter = v } })) {
                 ForEach(Array(Set([15, 20, 25, 30, 35, 40, layout.markSizeParameter])).sorted(), id: \.self) { size in
                     Text(String(format: "%d · Ø %.0f mm", size, Double(size) * 0.2)).tag(size)
                 }
             }
-            .help("The machine's mark size setting. 25 prints Ø 5 mm circles, like SignMaster.")
-            Picker("Place the marks", selection: Binding(get: { layout.placement }, set: { v in session.updateLayout { $0.placement = v } })) {
+            .help(HelpText.markSize)
+            Picker(selection: Binding(get: { layout.placement }, set: { v in session.updateLayout { $0.placement = v } })) {
                 Text("Around the artwork").tag(MarkPlacement.aroundArtwork)
                 Text("At the page edges").tag(MarkPlacement.pageEdges)
+            } label: {
+                HStack(spacing: 4) { Text("Place the marks"); InfoButton(topic: .markPlacement) }
             }
+            .help(HelpText.placeMarks)
             if layout.placement == .aroundArtwork {
                 LabeledContent {
                     TextField("Distance from the artwork", value: Binding(get: { layout.artworkDistanceMM },
@@ -232,14 +253,16 @@ struct OutputSettingsForm: View {
                     Text("Distance from the artwork")
                     Text("Left and right of the artwork")
                 }
-                .help("Called Mark Position in SignMaster (20.5 mm)")
+                .help(HelpText.markDistance)
             } else {
                 insetField("Side inset", \.sideInsetMM)
                 insetField("Top inset", \.topInsetMM)
                 insetField("Bottom inset", \.bottomInsetMM)
             }
             Toggle("Job name on the sheet", isOn: Binding(get: { layout.printsJobName }, set: { v in session.updateLayout { $0.printsJobName = v } }))
-                .help("Called Job Name in SignMaster")
+                .help(HelpText.jobName)
+        } header: {
+            HStack(spacing: 4) { Text("Registration marks"); InfoButton(topic: .registrationMarks) }
         }
     }
 
@@ -252,6 +275,7 @@ struct OutputSettingsForm: View {
                 .frame(width: 64)
             Text("mm").foregroundStyle(.secondary)
         }
+        .help(HelpText.markInset)
     }
 
     private var printingSection: some View {
@@ -264,15 +288,17 @@ struct OutputSettingsForm: View {
             }
             .pickerStyle(.radioGroup)
             .labelsHidden()
-            .help("Skip printing is called Skip in SignMaster")
+            .help("How to get the sheet on paper. Print it at 100 % scale with no margins, or the marks won't line up. In SignMaster: Print Direct / Save PDF / Save as Image / Skip.")
             if session.printChoice == .image {
                 Picker("Format", selection: $session.imageFormat) {
                     Text("PNG").tag(PrintSheetRenderer.ImageFormat.png)
                     Text("TIFF").tag(PrintSheetRenderer.ImageFormat.tiff)
                 }
+                .help("PNG for most uses. TIFF for print shops and RIP software that ask for it.")
                 Picker("Resolution", selection: $session.imageDPI) {
                     ForEach([150, 300, 600], id: \.self) { Text("\($0) dpi").tag($0) }
                 }
+                .help("300 dpi is enough for most printers. 600 dpi for fine detail; the file is four times bigger.")
             }
         }
     }
@@ -288,24 +314,29 @@ struct OutputSettingsForm: View {
     // MARK: Cut only
 
     private var sizeSection: some View {
-        Section("Size and position") {
+        Section {
             LabeledContent("Size") {
                 TextField("Width (mm)", value: $session.widthMM, format: mm).labelsHidden().frame(width: 64)
                 Text("×").foregroundStyle(.secondary)
                 TextField("Height (mm)", value: $session.heightMM, format: mm).labelsHidden().frame(width: 64)
                 Text("mm").foregroundStyle(.secondary)
             }
+            .help("Size of the design on the vinyl. Changing one side keeps the proportions.")
             LabeledContent("Scale") {
                 Button("Original size") { session.settings.scale = 1 }
+                    .help("Back to the size on the canvas (100 %).")
                     .disabled(session.settings.scale == 1)
                 TextField("Scale (%)", value: $session.scalePercent, format: .number.precision(.fractionLength(0...1))).labelsHidden().frame(width: 52)
                 Text("%").foregroundStyle(.secondary)
             }
+            .help("Scales the design for this cut only; the canvas doesn't change.")
             Toggle("Rotate 90°", isOn: $session.settings.rotate90)
+                .help("Turns the design a quarter turn, for example to fit a long design across the vinyl.")
             Toggle(isOn: $session.settings.mirror) {
                 Text("Mirror")
                 Text("For heat-transfer vinyl")
             }
+            .help("Heat-transfer vinyl is cut from the back, so the design must be mirrored to read the right way once pressed.")
             LabeledContent {
                 TextField("From the right (mm)", value: $session.settings.marginX, format: mm).labelsHidden().frame(width: 64)
                 Text("mm").foregroundStyle(.secondary)
@@ -313,15 +344,19 @@ struct OutputSettingsForm: View {
                 Text("From the right")
                 Text("Measured from the blade side")
             }
+            .help("Distance across the vinyl from its right edge, where the blade starts, to the design.")
             LabeledContent("From the start") {
                 TextField("From the start (mm)", value: $session.settings.marginY, format: mm).labelsHidden().frame(width: 64)
                 Text("mm").foregroundStyle(.secondary)
             }
+            .help("Distance along the vinyl from where the blade starts to the design.")
             Toggle(isOn: $session.settings.advanceAfterCut) {
                 Text("Advance the vinyl after cutting")
                 Text("Feeds the vinyl past the design so it is easy to cut off")
             }
-            .help("Called Advance After Plot in SignMaster. Off: the blade goes back to the origin.")
+            .help("Off: the blade goes back to where it started. In SignMaster: Advance After Plot.")
+        } header: {
+            HStack(spacing: 4) { Text("Size and position"); InfoButton(topic: .cutStart) }
         }
     }
 
@@ -343,14 +378,19 @@ struct OutputSettingsForm: View {
                     Text(session.machine.name + " · ") + Text(machineState)
                 }
             }
+            .help(machineHelp)
             Picker("Material", selection: $session.materialID) {
                 ForEach(MaterialPreset.all) { preset in
                     Text(LocalizedStringKey(preset.nameKey)).tag(preset.id)
                 }
             }
+            .help(HelpText.material)
             DisclosureGroup(isExpanded: $showBlade) {
-                Toggle("Send speed and pressure to the machine", isOn: $session.settings.sendSpeedAndForce)
-                    .help("Off: the machine uses the speed and pressure set on its panel. Called Cutting Speed / Cutting Force (ticked) in SignMaster.")
+                Toggle(isOn: $session.settings.sendSpeedAndForce) {
+                    HStack(spacing: 4) { Text("Send speed and pressure to the machine"); InfoButton(topic: .speedAndPressure) }
+                    Text(session.settings.sendSpeedAndForce ? "Sent with the job" : "The machine uses the settings on its panel")
+                }
+                    .help(HelpText.sendSpeedAndPressure)
                 LabeledContent("Speed") {
                     TextField("Speed (mm/s)", value: Binding(get: { session.settings.speed },
                                                              set: { session.settings.speed = min(max($0, 10), 800); session.markCustomMaterial() }),
@@ -364,6 +404,7 @@ struct OutputSettingsForm: View {
                     Text("mm/s").foregroundStyle(.secondary)
                 }
                 .disabled(!session.settings.sendSpeedAndForce)
+                .help(HelpText.speed)
                 LabeledContent("Pressure") {
                     TextField("Pressure (g)", value: Binding(get: { session.settings.force },
                                                              set: { session.settings.force = min(max($0, 10), 600); session.markCustomMaterial() }),
@@ -377,17 +418,23 @@ struct OutputSettingsForm: View {
                     Text("g").foregroundStyle(.secondary)
                 }
                 .disabled(!session.settings.sendSpeedAndForce)
-                LabeledContent("Blade offset") {
+                .help(HelpText.pressure)
+                LabeledContent {
                     TextField("Blade offset (mm)", value: $session.settings.bladeOffsetMM, format: .number.precision(.fractionLength(2))).labelsHidden().frame(width: 64)
                     Text("mm").foregroundStyle(.secondary)
+                } label: {
+                    HStack(spacing: 4) { Text("Blade offset"); InfoButton(topic: .bladeOffset) }
                 }
+                .help(HelpText.bladeOffset)
                 LabeledContent("Overcut") {
                     TextField("Overcut (mm)", value: $session.settings.overcutMM, format: mm).labelsHidden().frame(width: 64)
                     Text("mm").foregroundStyle(.secondary)
                 }
+                .help(HelpText.overcut)
                 Toggle("Cut inner shapes first", isOn: $session.settings.innerFirst)
-                    .help("Called Cut Insides First in SignMaster")
+                    .help("Cuts holes and inner shapes before the shapes around them, so small pieces don't move. In SignMaster: Cut Insides First.")
                 Toggle("Shortest knife path", isOn: $session.settings.optimizeOrder)
+                    .help("Reorders the shapes so the knife travels less between them. Doesn't change what is cut.")
             } label: {
                 HStack {
                     Text("Speed, pressure and blade")
@@ -402,6 +449,12 @@ struct OutputSettingsForm: View {
         if cutter.hasDevice { return "Ready" }
         if cutter.cutterNeedingQueue != nil { return "Needs setting up" }
         return "Not connected"
+    }
+
+    private var machineHelp: LocalizedStringKey {
+        if cutter.hasDevice { return "The machine is connected and ready to cut." }
+        if cutter.cutterNeedingQueue != nil { return "The machine is connected but Recorte needs to set it up once. Use Set up the machine above." }
+        return "Connect the machine with the USB cable and switch it on."
     }
 
     private var machineColor: Color {
@@ -420,6 +473,7 @@ struct OutputSettingsForm: View {
             }
             .pickerStyle(.segmented)
             .disabled(!session.hasSelection)
+            .help(session.hasSelection ? "Cut everything on the canvas, or only the objects you selected." : "Select objects on the canvas first to cut only those.")
         }
     }
 
@@ -449,17 +503,21 @@ struct OutputIssues: View {
         if let device = cutter.cutterNeedingQueue, !cutter.hasDevice {
             issue("The machine is connected but not set up yet", "Recorte needs to set it up once before it can cut.", "wrench.and.screwdriver", .orange) {
                 Button("Set up the machine") { cutter.createQueue(for: device) }
+                    .help(HelpText.setUpMachine)
             }
         } else if !cutter.hasDevice {
             issue("The machine is not connected", "Connect it with the USB cable and switch it on, then check again.", "cable.connector.slash", .orange) {
                 Button("Check again") { cutter.refreshDevices() }
+                    .help("Looks for the machine again.")
                 Button("Settings…") { openSettings() }
+                    .help("Opens the connection settings.")
             }
         }
         if showsJobIssues {
             if session.needsCutContour, let onCreateContour {
                 issue("There are no cut lines yet", "Make a cut line around the printed images, or draw one.", "scissors", .accentColor) {
                     Button("Create Cut Contour…", action: onCreateContour)
+                        .help(HelpText.createCutContour)
                 }
             } else if session.isEmpty {
                 issue("Nothing to cut", "Draw, write or import something to cut first.", "scissors", .secondary) { EmptyView() }
@@ -546,10 +604,11 @@ struct OutputPreview: View {
                 .pickerStyle(.segmented)
                 .labelsHidden()
                 .fixedSize()
-                .help("View both / View Print only / View Cut only in SignMaster")
+                .help("Show the printed sheet, the cut lines, or both. In SignMaster: View both / View Print only / View Cut only.")
             }
             Toggle("Knife travel", isOn: $session.showKnifeTravel)
                 .toggleStyle(.checkbox)
+                .help("Shows the moves the knife makes with the blade up, between shapes.")
             Spacer()
             if let sheet = session.sheet {
                 HStack(spacing: 10) {

@@ -282,36 +282,47 @@ struct CutWizardView: View {
             case .load:
                 Button("Cancel", action: onClose).keyboardShortcut(.cancelAction)
                 Button("Back", action: onBack)
+                    .help("Back to the output settings.")
                 Button(printAndCut ? "Next" : "Cut", action: send)
                     .buttonStyle(.borderedProminent)
                     .keyboardShortcut(.defaultAction)
                     .disabled(!cutter.hasDevice || cutter.isSending || session.hasBlockingIssue)
+                    .help(!cutter.hasDevice ? "Connect the machine first."
+                          : printAndCut ? "Sends the job. The machine reads the four marks, then cuts on its own."
+                          : "Sends the job to the machine and starts cutting.")
             case .sending:
                 Button("Stop", role: .destructive) { cutter.cancel(); step = .load }
+                    .help("Stops sending. The machine may still finish what it has already received.")
             case .result:
                 Button("Close", action: onClose)
             case .notFound:
                 Button("Cancel", action: onClose).keyboardShortcut(.cancelAction)
                 Button("Reprint sheet…", action: onPrintAnother)
+                    .help("Back to the output settings to print the sheet again, for example if the marks printed badly.")
                 Button("Try again") { step = .load }
+                    .help("Load the same sheet again and resend the job. No need to reprint.")
                     .buttonStyle(.borderedProminent)
                     .keyboardShortcut(.defaultAction)
             case .done:
                 if printAndCut {
                     Button("Print another sheet…", action: onPrintAnother)
+                        .help("Back to the output settings to print a new sheet.")
                     if sheetNumber < session.copies {
                         Button("Done", action: onClose)
                         Button("Next sheet") { sheetNumber += 1; step = .load }
+                            .help("Load the next printed sheet and cut it.")
                             .buttonStyle(.borderedProminent)
                             .keyboardShortcut(.defaultAction)
                     } else {
                         Button("Cut another copy") { sheetNumber += 1; step = .load }
+                            .help("Load another printed copy of this sheet and cut it, without printing again.")
                         Button("Done", action: onClose)
                             .buttonStyle(.borderedProminent)
                             .keyboardShortcut(.defaultAction)
                     }
                 } else {
                     Button("Cut again") { step = .load }
+                        .help("Load more vinyl and cut the same job again.")
                     Button("Done", action: onClose)
                         .buttonStyle(.borderedProminent)
                         .keyboardShortcut(.defaultAction)
@@ -319,7 +330,9 @@ struct CutWizardView: View {
             case .failed:
                 Button("Cancel", action: onClose).keyboardShortcut(.cancelAction)
                 Button("Back") { step = .load }
+                    .help("Back to the loading step.")
                 Button("Try again", action: send).buttonStyle(.borderedProminent).keyboardShortcut(.defaultAction)
+                    .help("Sends the same job again.")
             }
         }
     }
