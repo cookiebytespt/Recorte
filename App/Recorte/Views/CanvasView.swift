@@ -85,7 +85,9 @@ struct CanvasView: View {
                 }
             }
             .overlay(alignment: .bottomLeading) { zoomBar }
-            .overlay(alignment: .top) { if editor.pathEdit != nil { pathEditHint } }
+            .overlay(alignment: .top) {
+                if editor.pathEdit != nil { pathEditHint } else if editor.design.objects.isEmpty { emptyCanvasHint }
+            }
             .onAppear { focused = true }
         }
     }
@@ -106,11 +108,14 @@ struct CanvasView: View {
     private var zoomBar: some View {
         HStack(spacing: 8) {
             Button { setZoom(editor.zoom / 1.25) } label: { Image(systemName: "minus.magnifyingglass") }
+                .help("Zoom out")
             Text("\(Int((editor.zoom * 100).rounded())) %")
                 .monospacedDigit()
                 .frame(width: 48)
             Button { setZoom(editor.zoom * 1.25) } label: { Image(systemName: "plus.magnifyingglass") }
+                .help("Zoom in. You can also pinch on the trackpad.")
             Button("Fit") { setZoom(1); editor.pan = .zero }
+                .help("Shows the whole canvas in the window.")
             Divider().frame(height: 14)
             Text("\(editor.design.canvasSize.width.formatted(.number.precision(.fractionLength(0)))) × \(editor.design.canvasSize.height.formatted(.number.precision(.fractionLength(0)))) mm")
                 .foregroundStyle(.secondary)
@@ -121,12 +126,35 @@ struct CanvasView: View {
         .padding(12)
     }
 
+    /// Shown while the canvas is empty: how to start.
+    private var emptyCanvasHint: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "pencil.and.outline").foregroundStyle(.secondary)
+            VStack(alignment: .leading, spacing: 1) {
+                Text("Start your design").fontWeight(.semibold)
+                Text("Draw with the tools above, add text with T, or bring in a file.")
+                    .foregroundStyle(.secondary)
+            }
+            Button("Import…") { editor.showImporter = true }
+                .help(HelpText.importFile)
+            Button("Place artwork…") { editor.showImagePlacer = true }
+                .help(HelpText.placeArtwork)
+        }
+        .font(.callout)
+        .controlSize(.small)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 10))
+        .padding(12)
+    }
+
     private var pathEditHint: some View {
         HStack(spacing: 10) {
             Text("Editing points").fontWeight(.semibold)
             Text("Click a line to select it · drag points, handles or lines · ⌥-click the line to add a point · ⌥-drag a point to pull out curve handles · double-click a point for smooth/corner · ⌫ deletes")
                 .foregroundStyle(.secondary)
             Button("Done") { editor.endPathEdit() }
+                .help("Stop editing points (Return or Esc).")
         }
         .font(.caption)
         .controlSize(.small)

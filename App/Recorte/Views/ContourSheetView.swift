@@ -1,6 +1,7 @@
 import AppKit
 import CutterCore
 import SwiftUI
+import TipKit
 
 /// Create Cut Contour (⇧⌘K): makes cut lines around placed (printed) images, like SignMaster's
 /// Create Cut Contour. Results go on the “Cut contour” layer as normal, editable shapes.
@@ -108,6 +109,7 @@ struct ContourSheetView: View {
                     options = .default; replaceExisting = true; layers = .both
                     edgeMode = .transparency; picks = [:]; pickHistory = []; overlays = [:]
                 }
+                .help("Puts every setting back to its default.")
                 Spacer()
                 Button("Cancel") { dismiss() }
                     .keyboardShortcut(.cancelAction)
@@ -115,6 +117,7 @@ struct ContourSheetView: View {
                     .buttonStyle(.borderedProminent)
                     .keyboardShortcut(.defaultAction)
                     .disabled(targets.isEmpty || isCreating)
+                    .help("Adds the cut lines to the canvas as normal shapes you can still edit.")
             }
             .padding(.horizontal, 16)
             .frame(height: 52)
@@ -337,6 +340,7 @@ struct ContourSheetView: View {
                 .pickerStyle(.segmented)
                 .labelsHidden()
                 .fixedSize()
+                .help("Show the image, the cut line, or both.")
                 Spacer()
                 if let tolerance = currentTolerance {
                     Text("Tolerance \(Int(tolerance.rounded()))").monospacedDigit()
@@ -377,7 +381,7 @@ struct ContourSheetView: View {
                         ])
                     }
                     .settingsRowPadding()
-                    .help("Build Contours / Build Boxes in SignMaster")
+                    .help("Follow the artwork traces its outline. Rectangle and Rounded put a box around each image. In SignMaster: Build Contours / Build Boxes.")
                     SettingsDivider()
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Distance from the artwork")
@@ -403,7 +407,7 @@ struct ContourSheetView: View {
                     // which alternated by 18.5 pt during a slider drag and re-centred the whole row (logged).
                     .frame(width: Self.rowInnerWidth, alignment: .leading)
                     .settingsRowPadding()
-                    .help("Called Outline offset in SignMaster")
+                    .help("Gap between the artwork and the cut line. 2 mm hides small differences between the print and the cut. In SignMaster: Outline offset.")
                     SettingsDivider()
                     SettingRow("Corners") {
                         SegmentedChoice(selection: $options.corners, width: 150, choices: [
@@ -411,17 +415,19 @@ struct ContourSheetView: View {
                         ])
                     }
                     .disabled(!follow)
+                    .help(follow ? "Round corners are easier to weed and to cut. Sharp keeps the corners of angular artwork." : "Only for Follow the artwork.")
                     SettingsDivider()
                     SettingRow("Cut out holes", subtitle: "Also cut transparent areas inside an image") {
                         SettingSwitch(isOn: $options.cutHoles)
                     }
                     .disabled(!follow)
-                    .help("Called Keep Holes in SignMaster")
+                    .help("Also cuts around transparent areas inside the image, like the inside of an O. In SignMaster: Keep Holes.")
                     SettingsDivider()
                     SettingRow("Smooth curves", subtitle: "Fewer points and smoother cuts; the points stay editable") {
                         SettingSwitch(isOn: $options.smoothCurves)
                     }
                     .disabled(!follow)
+                    .help("Turns the traced steps into smooth curves, so the knife runs more smoothly.")
                 }
 
                 SettingsSection("Finding the edge") {
@@ -434,7 +440,7 @@ struct ContourSheetView: View {
                         .labelsHidden()
                         .fixedSize()
                     }
-                    .help("Pick colour works like Instant Alpha in Preview")
+                    .help("How Recorte tells the image from its background. Pick colour works like Instant Alpha in Preview.")
                     SettingsDivider()
                     switch edgeMode {
                     case .transparency:
@@ -448,7 +454,7 @@ struct ContourSheetView: View {
                             SettingSwitch(isOn: $options.cutEnclosedWhite)
                         }
                         .disabled(!options.cutHoles || !follow)
-                        .help("Off: only white that touches the edge of the image is background")
+                        .help("Off: only white that touches the edge of the image is background.")
                     case .pick:
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Click the background in the preview and drag to take more similar colours. Click again to remove more; ⌥-click puts an area back.")
@@ -457,11 +463,13 @@ struct ContourSheetView: View {
                                 Text("\(pickCount) picks").monospacedDigit()
                                 Spacer()
                                 Button("Undo Last Pick", action: undoLastPick).disabled(pickHistory.isEmpty)
+                                    .help("Removes the last colour you picked.")
                                 Button("Clear") {
                                     picks = [:]; pickHistory = []
                                     for id in rasters.keys { refreshOverlay(id) }
                                 }
                                 .disabled(pickCount == 0)
+                                .help("Removes all picked colours.")
                             }
                         }
                         .settingsRowPadding()
@@ -476,16 +484,19 @@ struct ContourSheetView: View {
                             Text("mm").foregroundStyle(.secondary)
                         }
                     }
+                    .help("Small dots and dust in the image smaller than this get no cut line of their own.")
                 }
 
                 SettingsSection("Result") {
                     SettingRow("Put the cut lines on") {
                         Text("New layer “Cut contour”").foregroundStyle(.secondary)
                     }
+                    .help("Each image gets its own cut line object, named after the image, on top of the canvas.")
                     SettingsDivider()
                     SettingRow("Replace existing cut contours") {
                         SettingSwitch(isOn: $replaceExisting)
                     }
+                    .help("Removes cut contours made earlier for the same images, so they aren't cut twice.")
                 }
             }
             // Exactly the column's width (less the padding). If the content were wider than the scroll view,
@@ -499,6 +510,7 @@ struct ContourSheetView: View {
     // MARK: Create
 
     private func create() {
+        CreateContourTip().invalidate(reason: .actionPerformed)
         let objects = targets
         let options = self.options
         let perObject = Dictionary(uniqueKeysWithValues: objects.map { ($0.id, self.options(for: $0)) })

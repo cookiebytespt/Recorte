@@ -9,6 +9,7 @@ struct RecorteApp: App {
         // Start with an empty canvas instead of the Open panel.
         UserDefaults.standard.register(defaults: ["NSShowAppCentricOpenPanelInsteadOfUntitledFile": false])
         Preferences.registerDefaults()
+        RecorteTips.configure()
     }
 
     var body: some Scene {
@@ -19,7 +20,19 @@ struct RecorteApp: App {
         }
         .commands {
             EditorCommands()
+            HelpCommands()
         }
+
+        Window("Getting Started", id: HelpWindowID.gettingStarted) {
+            GettingStartedView()
+        }
+        .windowResizability(.contentSize)
+        .defaultPosition(.center)
+
+        Window("Keyboard Shortcuts", id: HelpWindowID.shortcuts) {
+            ShortcutsView()
+        }
+        .windowResizability(.contentSize)
 
         Settings {
             SettingsView()

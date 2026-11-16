@@ -1,6 +1,7 @@
 import AppKit
 import CutterCore
 import SwiftUI
+import TipKit
 
 /// Right-hand panel: properties of the selection (or the canvas) plus the layers list.
 struct SidebarView: View {
@@ -26,7 +27,9 @@ struct SidebarView: View {
                             Text("\(editor.selection.count) objects selected")
                             HStack {
                                 Button("Duplicate") { editor.duplicateSelection() }
+                                    .help("Makes a copy of the selection (⌘D).")
                                 Button("Delete", role: .destructive) { editor.deleteObjects() }
+                                    .help("Removes the selection, except locked objects. Undo with ⌘Z.")
                             }
                         }
                     } else {
@@ -87,9 +90,11 @@ private struct CanvasSection: View {
             TextField("Width (mm)", value: Binding(
                 get: { editor.design.canvasSize.width },
                 set: { v in editor.change { $0.canvasSize.width = max(v, 10) } }), format: mm)
+                .help("Size of the canvas. With Print & Cut on, it is the paper size.")
             TextField("Height (mm)", value: Binding(
                 get: { editor.design.canvasSize.height },
                 set: { v in editor.change { $0.canvasSize.height = max(v, 10) } }), format: mm)
+                .help("Size of the canvas. With Print & Cut on, it is the paper size.")
             Menu("Page size") {
                 ForEach(Self.pagePresets, id: \.0) { preset in
                     Button(preset.0) { editor.change { $0.canvasSize = preset.1 } }
@@ -99,17 +104,25 @@ private struct CanvasSection: View {
                     let w = Preferences.machineProfile().cutWidthMM
                     editor.change { $0.canvasSize.width = w }
                 }
+                .help("Makes the canvas as wide as the machine can cut.")
             }
+            .help("Sets the canvas to a paper size, or to the machine's cutting width.")
             LabeledContent("Objects", value: "\(editor.design.objects.count)")
         }
 
         Section {
+            if !editor.design.printAndCut.isEnabled {
+                TipView(PrintAndCutTip())
+            }
             Toggle("Print & Cut", isOn: Binding(
                 get: { editor.design.printAndCut.isEnabled },
-                set: { v in editor.change {
+                set: { v in
+                    if v { PrintAndCutTip().invalidate(reason: .actionPerformed) }
+                    editor.change {
                     $0.printAndCut.isEnabled = v
                     if v { $0.printAndCut.layout.markSizeParameter = Preferences.machineProfile().registrationMarkSize }
                 } }))
+                .help(HelpText.printAndCut)
             if editor.design.printAndCut.isEnabled {
                 let layout = editor.design.printAndCut.layout
                 let sheet = editor.design.printSheet
@@ -118,41 +131,58 @@ private struct CanvasSection: View {
                     set: { v in editor.change { $0.printAndCut.layout.markSizeParameter = v } }), in: 5...100, step: 5) {
                     LabeledContent("Mark size", value: String(format: "%d · Ø %.0f mm", layout.markSizeParameter, layout.markDiameterMM))
                 }
+                .help(HelpText.markSize)
                 Picker("Place the marks", selection: Binding(
                     get: { layout.placement },
                     set: { v in editor.change { $0.printAndCut.layout.placement = v } })) {
                     Text("Around the artwork").tag(MarkPlacement.aroundArtwork)
                     Text("At the page edges").tag(MarkPlacement.pageEdges)
                 }
+                .help(HelpText.placeMarks)
                 if layout.placement == .aroundArtwork {
                     TextField("Distance from the artwork (mm)", value: Binding(
                         get: { layout.artworkDistanceMM },
                         set: { v in editor.change { $0.printAndCut.layout.artworkDistanceMM = max(v, layout.markDiameterMM) } }), format: mm)
-                        .help("Called Mark Position in SignMaster")
+                        .help(HelpText.markDistance)
                 } else {
                     TextField("Side inset (mm)", value: Binding(
                         get: { layout.sideInsetMM },
                         set: { v in editor.change { $0.printAndCut.layout.sideInsetMM = max(v, layout.markDiameterMM / 2) } }), format: mm)
+                        .help(HelpText.markInset)
                     TextField("Top inset (mm)", value: Binding(
                         get: { layout.topInsetMM },
                         set: { v in editor.change { $0.printAndCut.layout.topInsetMM = max(v, layout.markDiameterMM / 2) } }), format: mm)
+                        .help(HelpText.markInset)
                     TextField("Bottom inset (mm)", value: Binding(
                         get: { layout.bottomInsetMM },
                         set: { v in editor.change { $0.printAndCut.layout.bottomInsetMM = max(v, layout.markDiameterMM / 2) } }), format: mm)
+                        .help(HelpText.markInset)
                 }
                 if !sheet.marksFitPage {
                     Label("The marks don't fit on the page", systemImage: "exclamationmark.triangle.fill")
                         .foregroundStyle(.red)
+                        .help("Move the artwork away from the edges, use a bigger page or a smaller distance.")
+                }
+                if !editor.hasPrintedImages && editor.design.cutObjects.isEmpty {
+                    Label("Next: place the artwork to print, then make a cut line around it.", systemImage: "lightbulb")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                } else if editor.hasPrintedImages && editor.design.cutObjects.isEmpty {
+                    Label("Next: make a cut line around the artwork with Create Cut Contour.", systemImage: "lightbulb")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
                 }
                 Button("Place artwork…") { editor.showImagePlacer = true }
+                    .help(HelpText.placeArtwork)
                 Button("Create Cut Contour…") { editor.showContourSheet = true }
                     .disabled(!editor.hasPrintedImages)
+                    .help(editor.hasPrintedImages ? HelpText.createCutContour : "Place artwork to print first, then make a cut line around it.")
                 Text("The canvas is the printed sheet. Placed images are printed; shapes, text and imported lines are cut after the machine reads the four marks. Keep everything inside the dashed area.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
         } header: {
-            Text("Print & Cut")
+            HStack(spacing: 4) { Text("Print & Cut"); InfoButton(topic: .registrationMarks) }
         }
         Section {
             Text("Pick a tool in the toolbar and drag on the canvas. Double-check sizes here before cutting.")
@@ -176,17 +206,23 @@ private struct ObjectSection: View {
     var body: some View {
         Section(object.name) {
             TextField("Name", text: Binding(get: { object.name }, set: { v in editor.update(object.id) { $0.name = v } }))
+                .help("The name shown in the layers list.")
             HStack {
                 TextField("X", value: frameBinding({ $0.minX }, { r, v in r = Rect(origin: Point(v, r.minY), size: r.size) }), format: mm)
                 TextField("Y", value: frameBinding({ $0.minY }, { r, v in r = Rect(origin: Point(r.minX, v), size: r.size) }), format: mm)
             }
+            .help("Position of the object's top-left corner, in mm from the top-left of the canvas.")
             HStack {
                 TextField("W", value: frameBinding({ $0.width }, { r, v in r = Rect(origin: r.origin, size: Size(max(v, 0.1), r.height)) }), format: mm)
                 TextField("H", value: frameBinding({ $0.height }, { r, v in r = Rect(origin: r.origin, size: Size(r.width, max(v, 0.1))) }), format: mm)
             }
+            .help("Width and height in mm.")
             TextField("Rotation (°)", value: Binding(get: { object.rotation }, set: { v in editor.update(object.id) { $0.rotation = v } }), format: .number.precision(.fractionLength(0...1)))
+                .help("Turns the object around its centre, in degrees.")
             Toggle("Visible", isOn: Binding(get: { object.isVisible }, set: { v in editor.update(object.id) { $0.isVisible = v } }))
+                .help("Hidden objects are neither printed nor cut.")
             Toggle("Locked", isOn: Binding(get: { object.isLocked }, set: { v in editor.update(object.id) { $0.isLocked = v } }))
+                .help("Locked objects can't be moved, resized or deleted. They are still printed and cut.")
         }
 
         kindSection
@@ -194,7 +230,9 @@ private struct ObjectSection: View {
         Section {
             HStack {
                 Button("Duplicate") { editor.duplicateSelection() }
+                    .help("Makes a copy of the selection (⌘D).")
                 Button("Delete", role: .destructive) { editor.deleteObjects() }
+                    .help("Removes the selection, except locked objects. Undo with ⌘Z.")
             }
         }
     }
@@ -205,29 +243,35 @@ private struct ObjectSection: View {
         case .rectangle(let radius):
             Section("Rectangle") {
                 TextField("Corner radius (mm)", value: Binding(get: { radius }, set: { v in editor.update(object.id) { $0.kind = .rectangle(cornerRadius: max(v, 0)) } }), format: mm)
+                    .help("Rounds the corners. 0 gives sharp corners.")
             }
         case .polygon(let sides):
             Section("Polygon") {
                 Stepper(value: Binding(get: { sides }, set: { v in editor.update(object.id) { $0.kind = .polygon(sides: v) } }), in: 3...24) {
                     LabeledContent("Sides", value: "\(sides)")
                 }
+                .help("Number of sides, from 3 to 24.")
             }
         case .star(let points, let ratio):
             Section("Star") {
                 Stepper(value: Binding(get: { points }, set: { v in editor.update(object.id) { $0.kind = .star(points: v, innerRatio: ratio) } }), in: 3...24) {
                     LabeledContent("Points", value: "\(points)")
                 }
+                .help("Number of points, from 3 to 24.")
                 Slider(value: Binding(get: { ratio }, set: { v in editor.update(object.id) { $0.kind = .star(points: points, innerRatio: v) } }), in: 0.1...0.9) {
                     Text("Inner radius")
                 }
+                .help("Lower values make thinner, sharper points.")
             }
         case .line(let reversed):
             Section("Line") {
                 Toggle("Other diagonal", isOn: Binding(get: { reversed }, set: { v in editor.update(object.id) { $0.kind = .line(reversed: v) } }))
+                    .help("Draws the line between the other two corners of its frame.")
             }
         case .freehand(let points, let closed):
             Section("Drawing") {
                 Toggle("Closed shape", isOn: Binding(get: { closed }, set: { v in editor.update(object.id) { $0.kind = .freehand(points: points, closed: v) } }))
+                    .help("Joins the end to the start, so the drawing is cut out as a piece.")
             }
         case .text(let spec):
             TextSection(editor: editor, object: object, spec: spec)
@@ -240,13 +284,14 @@ private struct ObjectSection: View {
             ArtworkLinesSection(editor: editor, object: object, lineCount: art.curves.count)
         case .image(let spec):
             Section("Printed image") {
+                TipView(CreateContourTip())
                 LabeledContent("Source", value: spec.sourceName)
                 LabeledContent("Format", value: spec.format.uppercased())
                 Button("Create Cut Contour…") {
                     editor.selection = [object.id]
                     editor.showContourSheet = true
                 }
-                .help("Makes a cut line around this image (⇧⌘K)")
+                .help("Makes a cut line around this image, a small distance away from it (⇧⌘K).")
                 Button("Fit to sheet") {
                     let area = editor.printableArea
                     let f = object.frame
@@ -256,6 +301,7 @@ private struct ObjectSection: View {
                         $0.frame = Rect(origin: Point(area.center.x - size.width / 2, area.center.y - size.height / 2), size: size)
                     }
                 }
+                .help("Makes the image as big as the printable area allows, keeping its proportions, and centres it.")
                 Text("Printed on the Print & Cut sheet, never cut. Create a cut contour, or draw or import the cut lines on top of it.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
@@ -295,8 +341,11 @@ private struct TextSection: View {
                 if !Self.families.contains(spec.fontName) { Text(spec.fontName).tag(spec.fontName) }
                 ForEach(Self.families, id: \.self) { Text($0).tag($0) }
             }
+            .help("Any font installed on this Mac.")
             TextField("Size (pt)", value: Binding(get: { spec.fontSize }, set: { v in set { $0.fontSize = max(v, 1) } }), format: .number.precision(.fractionLength(0...1)))
+                .help("Font size in points, as in Illustrator.")
             Button("Fit frame to text") { set({ _ in }, refit: true) }
+                .help("Resizes the frame to fit the text exactly.")
             Text("Text is converted to outlines when cutting.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
@@ -313,9 +362,9 @@ private struct LayersList: View {
                 Text("Layers").font(.headline)
                 Spacer()
                 Button { editor.bringToFront() } label: { Image(systemName: "square.3.layers.3d.top.filled") }
-                    .help("Bring to front")
+                    .help("Bring to front (⌘]). Objects on top are drawn over the ones below.")
                 Button { editor.sendToBack() } label: { Image(systemName: "square.3.layers.3d.bottom.filled") }
-                    .help("Send to back")
+                    .help("Send to back (⌘[).")
             }
             .buttonStyle(.borderless)
             .disabled(editor.selection.isEmpty)
@@ -329,10 +378,11 @@ private struct LayersList: View {
                         } label: {
                             Image(systemName: object.isVisible ? "eye" : "eye.slash").foregroundStyle(object.isVisible ? .primary : .secondary)
                         }
+                        .help("Show or hide. Hidden objects are neither printed nor cut.")
                         Image(systemName: object.isCutContour ? "scissors" : symbol(for: object.kind))
                             .foregroundStyle(object.isCutContour ? Color.accentColor : .secondary)
                             .frame(width: 16)
-                            .help(object.isCutContour ? "Cut contour" : "")
+                            .help(object.isCutContour ? "Cut contour, made with Create Cut Contour" : "")
                         Text(object.name).lineLimit(1)
                         Spacer()
                         Button {
@@ -340,6 +390,7 @@ private struct LayersList: View {
                         } label: {
                             Image(systemName: object.isLocked ? "lock.fill" : "lock.open").foregroundStyle(object.isLocked ? .primary : .tertiary)
                         }
+                        .help("Lock or unlock. Locked objects can't be moved, resized or deleted.")
                     }
                     .buttonStyle(.borderless)
                     .tag(object.id)
@@ -393,10 +444,11 @@ private struct ArtworkLinesSection: View {
 
     var body: some View {
         Section("Lines") {
+            TipView(EditPointsTip())
             Button(isEditing ? LocalizedStringKey("Done Editing Points") : "Edit Points") {
                 if isEditing { editor.endPathEdit() } else { editor.beginPathEdit(object.id) }
             }
-            .help("Or double-click the object on the canvas")
+            .help("Move, add or remove the points of the lines. You can also double-click the object on the canvas.")
             if isEditing {
                 LabeledContent("Selected point") {
                     Picker("Selected point", selection: Binding(
@@ -416,12 +468,14 @@ private struct ArtworkLinesSection: View {
                     editor.deleteInPathEdit()
                 }
                 .disabled(selectedLine == nil)
+                .help("Removes the whole line that the selected point belongs to.")
             }
             Button("Keep Outer Lines Only") { editor.keepOuterLines() }
                 .disabled(outerCount == lineCount)
                 .help("Removes the lines inside other lines, such as holes in a cut contour")
             Button("Split into Separate Objects") { editor.splitIntoLines() }
                 .disabled(lineCount < 2)
+                .help("Makes each line its own object, to move, hide or delete them one by one.")
             LabeledContent {
                 HStack {
                     TextField("Smooth into curves", value: $toleranceMM, format: .number.precision(.fractionLength(0...2)))
@@ -430,6 +484,7 @@ private struct ArtworkLinesSection: View {
                         .frame(width: 48)
                     Text("mm").foregroundStyle(.secondary)
                     Button("Apply") { editor.smoothIntoCurves(toleranceMM: max(toleranceMM, 0.01)) }
+                        .help("Replaces many small straight segments with fewer smooth curves. Good for traced or imported lines.")
                 }
             } label: {
                 Text("Smooth into curves")
@@ -448,6 +503,7 @@ private struct ArtworkLinesSection: View {
                     } else {
                         Button("Apply") { Task { await editor.offsetLines(distanceMM: offsetMM, keepOriginal: keepOriginal) } }
                             .disabled(offsetMM == 0 || selectedLineIsOpen || !hasClosedLines)
+                            .help(hasClosedLines ? "Moves the lines outwards (positive) or inwards (negative) by this distance." : "Only closed lines can be offset.")
                     }
                 }
             } label: {

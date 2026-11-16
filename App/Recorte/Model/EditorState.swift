@@ -3,6 +3,7 @@ import AppKit
 import Foundation
 import Observation
 import SwiftUI
+import TipKit
 
 enum Tool: String, CaseIterable, Identifiable {
     case select, hand, rectangle, ellipse, line, polygon, star, freehand, text
@@ -34,6 +35,21 @@ enum Tool: String, CaseIterable, Identifiable {
         case .star: "Star (S)"
         case .freehand: "Freehand (P)"
         case .text: "Text (T)"
+        }
+    }
+
+    /// How to use the tool, shown in its help tag after the title.
+    var hint: LocalizedStringKey {
+        switch self {
+        case .select: "Click to select, drag to move, Shift-click to add more. Double-click lines to edit their points."
+        case .hand: "Drag to move around the canvas. Pinch to zoom."
+        case .rectangle: "Drag to draw, or click for a 40 mm square. Hold Shift to keep it square."
+        case .ellipse: "Drag to draw, or click for a 40 mm circle. Hold Shift to keep it round."
+        case .line: "Drag to draw a straight line. Open lines are cut but don't make a separate piece."
+        case .polygon: "Drag to draw. Change the number of sides in the sidebar."
+        case .star: "Drag to draw. Change the points and inner radius in the sidebar."
+        case .freehand: "Drag to draw freely. Turn on Closed shape in the sidebar to cut out a piece."
+        case .text: "Click to add text in any installed font. It is turned into outlines for cutting."
         }
     }
 
@@ -326,6 +342,7 @@ extension EditorState {
 
     func beginPathEdit(_ id: UUID) {
         guard let object = design.object(id), object.isEditableArtwork, !object.isLocked else { return }
+        EditPointsTip().invalidate(reason: .actionPerformed)
         tool = .select
         selection = [id]
         let count = object.artworkLocalCurves?.count ?? 0

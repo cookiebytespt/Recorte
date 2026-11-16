@@ -804,46 +804,112 @@
         }
       }
     },
-    "Add a PDF, Illustrator, PNG or JPEG file to be printed (Print & Cut)" : {
+    "300 dpi is enough for most printers. 600 dpi for fine detail; the file is four times bigger." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Añadir un archivo PDF, Illustrator, PNG o JPEG para imprimir (Imprimir y cortar)"
+            "value" : "300 ppp bastan para la mayoría de las impresoras. 600 ppp para detalles finos; el archivo ocupa cuatro veces más."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ajouter un fichier PDF, Illustrator, PNG ou JPEG à imprimer (Impression et découpe)"
+            "value" : "300 dpi suffisent pour la plupart des imprimantes. 600 dpi pour les détails fins ; le fichier est quatre fois plus lourd."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adicionar um PDF, Illustrator, PNG ou JPEG para imprimir (Imprimir e Cortar)"
+            "value" : "300 dpi chega para a maioria das impressoras. 600 dpi para detalhes finos; o ficheiro fica quatro vezes maior."
           }
         }
       }
     },
-    "Add an SVG, PDF, Illustrator or DXF file as cut lines" : {
+    "About: " : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Añadir un archivo SVG, PDF, Illustrator o DXF como líneas de corte"
+            "value" : "Acerca de: "
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ajouter un fichier SVG, PDF, Illustrator ou DXF comme lignes de découpe"
+            "value" : "À propos : "
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adicionar um ficheiro SVG, PDF, Illustrator ou DXF como linhas de corte"
+            "value" : "Sobre: "
+          }
+        }
+      }
+    },
+    "Adds a PDF, Illustrator, PNG or JPEG file to be printed on the Print & Cut sheet. Printed images are never cut (⌥⌘I)." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añade un archivo PDF, Illustrator, PNG o JPEG para imprimir en la hoja de Imprimir y cortar. Las imágenes impresas nunca se cortan (⌥⌘I)."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoute un fichier PDF, Illustrator, PNG ou JPEG à imprimer sur la feuille d’impression et découpe. Les images imprimées ne sont jamais découpées (⌥⌘I)."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adiciona um ficheiro PDF, Illustrator, PNG ou JPEG para imprimir na folha de Imprimir e Cortar. As imagens impressas nunca são cortadas (⌥⌘I)."
+          }
+        }
+      }
+    },
+    "Adds an SVG, PDF, Illustrator or DXF file as cut lines (⇧⌘I)." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añade un archivo SVG, PDF, Illustrator o DXF como líneas de corte (⇧⌘I)."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoute un fichier SVG, PDF, Illustrator ou DXF comme lignes de découpe (⇧⌘I)."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adiciona um ficheiro SVG, PDF, Illustrator ou DXF como linhas de corte (⇧⌘I)."
+          }
+        }
+      }
+    },
+    "Adds the cut lines to the canvas as normal shapes you can still edit." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añade las líneas de corte al lienzo como formas normales que puede seguir editando."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoute les lignes de découpe à la zone de travail comme des formes normales, toujours modifiables."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adiciona as linhas de corte à tela como formas normais, que ainda pode editar."
           }
         }
       }
@@ -914,6 +980,50 @@
         }
       }
     },
+    "Also cuts around transparent areas inside the image, like the inside of an O. In SignMaster: Keep Holes." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corta también alrededor de las zonas transparentes dentro de la imagen, como el interior de una O. En SignMaster: Keep Holes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Découpe aussi autour des zones transparentes à l’intérieur de l’image, comme l’intérieur d’un O. Dans SignMaster : Keep Holes."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corta também à volta das zonas transparentes dentro da imagem, como o interior de um O. No SignMaster: Keep Holes."
+          }
+        }
+      }
+    },
+    "Any font installed on this Mac." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cualquier tipo de letra instalado en este Mac."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "N’importe quelle police installée sur ce Mac."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qualquer tipo de letra instalado neste Mac."
+          }
+        }
+      }
+    },
     "Apply" : {
       "localizations" : {
         "es" : {
@@ -954,6 +1064,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "À volta da arte"
+          }
+        }
+      }
+    },
+    "Around the artwork uses less paper and vinyl. At the page edges keeps the marks in the same place on every sheet." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alrededor de la ilustración gasta menos papel y vinilo. En los bordes de la página mantiene las marcas en el mismo sitio en todas las hojas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autour de l’illustration utilise moins de papier et de vinyle. Aux bords de la page garde les repères au même endroit sur chaque feuille."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À volta da arte gasta menos papel e vinil. Nas margens da página mantém as marcas no mesmo sítio em todas as folhas."
+          }
+        }
+      }
+    },
+    "Around the artwork: the marks sit beside the artwork (20.5 mm by default, like SignMaster), which uses less paper and vinyl. At the page edges: the marks stay in the corners of the page, wherever the artwork is." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alrededor de la ilustración: las marcas quedan al lado de la ilustración (20,5 mm por defecto, como en SignMaster), lo que gasta menos papel y vinilo. En los bordes de la página: las marcas quedan en las esquinas de la página, esté donde esté la ilustración."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autour de l’illustration : les repères sont placés à côté de l’illustration (20,5 mm par défaut, comme SignMaster), ce qui utilise moins de papier et de vinyle. Aux bords de la page : les repères restent dans les coins de la page, où que soit l’illustration."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À volta da arte: as marcas ficam ao lado da arte (20,5 mm por omissão, como no SignMaster), o que gasta menos papel e vinil. Nas margens da página: as marcas ficam nos cantos da página, esteja a arte onde estiver."
           }
         }
       }
@@ -1024,6 +1178,138 @@
         }
       }
     },
+    "Back to the Select tool" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volver a la herramienta Selección"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revenir à l’outil Sélection"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltar à ferramenta Selecionar"
+          }
+        }
+      }
+    },
+    "Back to the loading step." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volver al paso de carga."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revenir à l’étape de chargement."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltar ao passo de carregar."
+          }
+        }
+      }
+    },
+    "Back to the output settings to print a new sheet." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuelve a los ajustes de salida para imprimir una hoja nueva."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revient aux réglages de sortie pour imprimer une nouvelle feuille."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volta às definições de saída para imprimir uma folha nova."
+          }
+        }
+      }
+    },
+    "Back to the output settings to print the sheet again, for example if the marks printed badly." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuelve a los ajustes de salida para imprimir la hoja otra vez, por ejemplo si las marcas se imprimieron mal."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revient aux réglages de sortie pour réimprimer la feuille, par exemple si les repères sont mal imprimés."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volta às definições de saída para imprimir a folha outra vez, por exemplo se as marcas saíram mal impressas."
+          }
+        }
+      }
+    },
+    "Back to the output settings." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volver a los ajustes de salida."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revenir aux réglages de sortie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltar às definições de saída."
+          }
+        }
+      }
+    },
+    "Back to the size on the canvas (100 %)." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuelve al tamaño del lienzo (100 %)."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revient à la taille de la zone de travail (100 %)."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volta ao tamanho que tem na tela (100 %)."
+          }
+        }
+      }
+    },
     "Blade offset" : {
       "localizations" : {
         "es" : {
@@ -1068,6 +1354,28 @@
         }
       }
     },
+    "Blade offset and overcut" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desplazamiento de la cuchilla y sobrecorte"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Décalage de la lame et surcoupe"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desvio da lâmina e sobrecorte"
+          }
+        }
+      }
+    },
     "Blade on this mark" : {
       "localizations" : {
         "es" : {
@@ -1086,6 +1394,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lâmina nesta marca"
+          }
+        }
+      }
+    },
+    "Blade tip" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Punta de la cuchilla"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pointe de la lame"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ponta da lâmina"
           }
         }
       }
@@ -1178,222 +1508,46 @@
         }
       }
     },
-    "Bring to front" : {
+    "Bring to front (⌘]). Objects on top are drawn over the ones below." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Traer al frente"
+            "value" : "Traer al frente (⌘]). Los objetos de arriba se dibujan sobre los de abajo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mettre au premier plan"
+            "value" : "Mettre au premier plan (⌘]). Les objets du dessus sont dessinés par-dessus ceux du dessous."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trazer para a frente"
+            "value" : "Trazer para a frente (⌘]). Os objetos de cima são desenhados por cima dos de baixo."
           }
         }
       }
     },
-    "Build Contours / Build Boxes in SignMaster" : {
+    "By default the machine uses the speed and pressure set on its own panel. Turn on Send speed and pressure to use the values here for each job instead. Start from a material, then check with a test cut: the knife should cut through the vinyl and only scratch the backing." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Build Contours / Build Boxes en SignMaster"
+            "value" : "Por defecto, la máquina usa la velocidad y la presión configuradas en su panel. Active Enviar velocidad y presión para usar en cada trabajo los valores de aquí. Empiece por un material y compruébelo con un corte de prueba: la cuchilla debe cortar el vinilo y solo rayar el soporte."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Build Contours / Build Boxes dans SignMaster"
+            "value" : "Par défaut, la machine utilise la vitesse et la pression réglées sur son panneau. Activez Envoyer la vitesse et la pression pour utiliser plutôt les valeurs d’ici à chaque travail. Partez d’un matériau, puis vérifiez avec une découpe test : la lame doit traverser le vinyle et seulement rayer le support."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Build Contours / Build Boxes no SignMaster"
-          }
-        }
-      }
-    },
-    "Called Advance After Plot in SignMaster. Off: the blade goes back to the origin." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En SignMaster se llama Advance After Plot. Desactivado: la cuchilla vuelve al origen."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Appelé Advance After Plot dans SignMaster. Désactivé : la lame revient à l’origine."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No SignMaster chama-se Advance After Plot. Desligado: a lâmina volta à origem."
-          }
-        }
-      }
-    },
-    "Called Contour cut / ARMS in SignMaster" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En SignMaster se llama Contour cut / ARMS"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Appelé Contour cut / ARMS dans SignMaster"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No SignMaster chama-se Contour cut / ARMS"
-          }
-        }
-      }
-    },
-    "Called Cut Insides First in SignMaster" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En SignMaster se llama Cut Insides First"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Appelé Cut Insides First dans SignMaster"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No SignMaster chama-se Cut Insides First"
-          }
-        }
-      }
-    },
-    "Called Job Name in SignMaster" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En SignMaster se llama Job Name"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Appelé Job Name dans SignMaster"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No SignMaster chama-se Job Name"
-          }
-        }
-      }
-    },
-    "Called Keep Holes in SignMaster" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En SignMaster se llama Keep Holes"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Appelé Keep Holes dans SignMaster"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No SignMaster chama-se Keep Holes"
-          }
-        }
-      }
-    },
-    "Called Mark Position in SignMaster" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En SignMaster se llama Mark Position"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Appelé Mark Position dans SignMaster"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No SignMaster chama-se Mark Position"
-          }
-        }
-      }
-    },
-    "Called Mark Position in SignMaster (20.5 mm)" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En SignMaster se llama Mark Position (20,5 mm)"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Appelé Mark Position dans SignMaster (20,5 mm)"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No SignMaster chama-se Mark Position (20,5 mm)"
-          }
-        }
-      }
-    },
-    "Called Outline offset in SignMaster" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En SignMaster se llama Outline offset"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Appelé Outline offset dans SignMaster"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No SignMaster chama-se Outline offset"
+            "value" : "Por omissão, a máquina usa a velocidade e a pressão definidas no seu painel. Ligue Enviar velocidade e pressão para usar os valores daqui em cada trabalho. Comece por um material e confirme com um corte de teste: a lâmina deve cortar o vinil e apenas riscar o papel de suporte."
           }
         }
       }
@@ -1486,6 +1640,72 @@
         }
       }
     },
+    "Check the blade offset and pressure with a test cut (in the Output sheet) when you change the blade or the material." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compruebe el desplazamiento de la cuchilla y la presión con un corte de prueba (en la ventana Salida) cuando cambie de cuchilla o de material."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérifiez le décalage de la lame et la pression avec une découpe test (dans la fenêtre Sortie) quand vous changez de lame ou de matériau."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirme o desvio da lâmina e a pressão com um corte de teste (na janela Saída) quando mudar de lâmina ou de material."
+          }
+        }
+      }
+    },
+    "Choose Cut or Print & Cut" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elija Solo cortar o Imprimir y cortar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez Découpe seule ou Impression et découpe"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha Só cortar ou Imprimir e Cortar"
+          }
+        }
+      }
+    },
+    "Choose the size, position and cutting settings, then cut (⌘P)." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elija el tamaño, la posición y los ajustes de corte, y luego corte (⌘P)."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez la taille, la position et les réglages de découpe, puis découpez (⌘P)."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha o tamanho, a posição e as definições de corte, depois corte (⌘P)."
+          }
+        }
+      }
+    },
     "Clear" : {
       "localizations" : {
         "es" : {
@@ -1574,6 +1794,50 @@
         }
       }
     },
+    "Click to add text in any installed font. It is turned into outlines for cutting." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haga clic para añadir texto en cualquier tipo de letra instalado. Se convierte en contornos para cortar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cliquez pour ajouter du texte dans n’importe quelle police installée. Il est vectorisé pour la découpe."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clique para adicionar texto em qualquer tipo de letra instalado. É convertido em contornos para cortar."
+          }
+        }
+      }
+    },
+    "Click to select, drag to move, Shift-click to add more. Double-click lines to edit their points." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haga clic para seleccionar, arrastre para mover, Mayús-clic para añadir más. Haga doble clic en las líneas para editar sus puntos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cliquez pour sélectionner, faites glisser pour déplacer, Maj-clic pour en ajouter. Double-cliquez sur des lignes pour modifier leurs points."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clique para selecionar, arraste para mover, Shift-clique para juntar mais. Faça duplo clique nas linhas para editar os pontos."
+          }
+        }
+      }
+    },
     "Close" : {
       "localizations" : {
         "es" : {
@@ -1658,6 +1922,94 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ligue-a com o cabo USB e ligue-a à corrente, depois verifique de novo."
+          }
+        }
+      }
+    },
+    "Connect the machine" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conecte la máquina"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Branchez la machine"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligue a máquina"
+          }
+        }
+      }
+    },
+    "Connect the machine first." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conecte primero la máquina."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Branchez d’abord la machine."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligue primeiro a máquina."
+          }
+        }
+      }
+    },
+    "Connect the machine to make a test cut." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conecte la máquina para hacer un corte de prueba."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Branchez la machine pour faire une découpe test."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligue a máquina para fazer um corte de teste."
+          }
+        }
+      }
+    },
+    "Connect the machine with the USB cable and switch it on." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conecte la máquina con el cable USB y enciéndala."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Branchez la machine avec le câble USB et allumez-la."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligue a máquina com o cabo USB e acenda-a."
           }
         }
       }
@@ -1768,6 +2120,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Canto"
+          }
+        }
+      }
+    },
+    "Corner loop" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bucle en la esquina"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boucle d’angle"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laço no canto"
           }
         }
       }
@@ -1926,6 +2300,28 @@
         }
       }
     },
+    "Create Cut Contour traces a cut line around the image, a small distance away from it." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crear contorno de corte traza una línea de corte alrededor de la imagen, a una pequeña distancia."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créer un contour de découpe trace une ligne de découpe autour de l’image, à une petite distance."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Criar contorno de corte traça uma linha de corte à volta da imagem, a uma pequena distância."
+          }
+        }
+      }
+    },
     "Create Cut Contour…" : {
       "localizations" : {
         "es" : {
@@ -1944,6 +2340,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Criar contorno de corte…"
+          }
+        }
+      }
+    },
+    "Creates a printer queue that sends the jobs to the machine unchanged. Only needed once; macOS may ask for your password." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crea una cola de impresión que envía los trabajos a la máquina sin cambios. Solo hace falta una vez; macOS puede pedir su contraseña."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crée une file d’impression qui envoie les travaux à la machine sans les modifier. Une seule fois suffit ; macOS peut demander votre mot de passe."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cria uma fila de impressão que envia os trabalhos para a máquina sem alterações. Só é preciso uma vez; o macOS pode pedir a sua palavra-passe."
           }
         }
       }
@@ -2124,6 +2542,50 @@
         }
       }
     },
+    "Cut contour, made with Create Cut Contour" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contorno de corte, hecho con Crear contorno de corte"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contour de découpe, créé avec Créer un contour de découpe"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contorno de corte, feito com Criar contorno de corte"
+          }
+        }
+      }
+    },
+    "Cut everything on the canvas, or only the objects you selected." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cortar todo lo que hay en el lienzo, o solo los objetos seleccionados."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Découper tout ce qui est sur la zone de travail, ou seulement les objets sélectionnés."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cortar tudo o que está na tela, ou só os objetos selecionados."
+          }
+        }
+      }
+    },
     "Cut finished" : {
       "localizations" : {
         "es" : {
@@ -2234,6 +2696,50 @@
         }
       }
     },
+    "Cut only cuts shapes out of plain vinyl. Print & Cut prints your artwork with registration marks, then cuts around it. Press ⌘P when you're ready." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo cortar corta formas en vinilo liso. Imprimir y cortar imprime su ilustración con marcas de registro y luego corta alrededor. Pulse ⌘P cuando esté listo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Découpe seule découpe des formes dans du vinyle uni. Impression et découpe imprime votre illustration avec des repères, puis découpe autour. Appuyez sur ⌘P quand vous êtes prêt."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só cortar corta formas em vinil liso. Imprimir e Cortar imprime a sua arte com marcas de registo e depois corta à volta. Carregue em ⌘P quando estiver pronto."
+          }
+        }
+      }
+    },
+    "Cut only: cut shapes out of plain vinyl. Print & Cut: print the artwork with registration marks, then cut around it. In SignMaster: Contour cut / ARMS." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo cortar: cortar formas en vinilo liso. Imprimir y cortar: imprimir la ilustración con marcas de registro y luego cortar alrededor. En SignMaster: Contour cut / ARMS."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Découpe seule : découper des formes dans du vinyle uni. Impression et découpe : imprimer l’illustration avec des repères, puis découper autour. Dans SignMaster : Contour cut / ARMS."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só cortar: cortar formas em vinil liso. Imprimir e Cortar: imprimir a arte com marcas de registo e depois cortar à volta. No SignMaster: Contour cut / ARMS."
+          }
+        }
+      }
+    },
     "Cut out holes" : {
       "localizations" : {
         "es" : {
@@ -2256,24 +2762,46 @@
         }
       }
     },
-    "Cuts a small square and circle to check blade depth and pressure" : {
+    "Cuts a small square and circle, to check the blade depth and pressure before the real job." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Corta un pequeño cuadrado y un círculo para comprobar la profundidad de la cuchilla y la presión"
+            "value" : "Corta un pequeño cuadrado y un círculo, para comprobar la profundidad de la cuchilla y la presión antes del trabajo real."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Découpe un petit carré et un cercle pour vérifier la profondeur de la lame et la pression"
+            "value" : "Découpe un petit carré et un cercle, pour vérifier la profondeur de la lame et la pression avant le vrai travail."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Corta um pequeno quadrado e um círculo para verificar a profundidade da lâmina e a pressão"
+            "value" : "Corta um pequeno quadrado e um círculo, para confirmar a profundidade da lâmina e a pressão antes do trabalho a sério."
+          }
+        }
+      }
+    },
+    "Cuts holes and inner shapes before the shapes around them, so small pieces don't move. In SignMaster: Cut Insides First." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corta los huecos y las formas interiores antes que las formas que los rodean, para que las piezas pequeñas no se muevan. En SignMaster: Cut Insides First."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Découpe les trous et les formes intérieures avant les formes qui les entourent, pour que les petites pièces ne bougent pas. Dans SignMaster : Cut Insides First."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corta os buracos e as formas interiores antes das formas à volta, para as peças pequenas não se mexerem. No SignMaster: Cut Insides First."
           }
         }
       }
@@ -2384,6 +2912,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cortar…"
+          }
+        }
+      }
+    },
+    "Cut… / Print & Cut…" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cortar… / Imprimir y cortar…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Découper… / Impression et découpe…"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cortar… / Imprimir e Cortar…"
           }
         }
       }
@@ -2504,6 +3054,50 @@
         }
       }
     },
+    "Distance across the vinyl from its right edge, where the blade starts, to the design." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distancia a lo ancho del vinilo, desde su borde derecho, donde empieza la cuchilla, hasta el diseño."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distance en travers du vinyle, depuis son bord droit, où la lame commence, jusqu’au motif."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distância, ao longo da largura do vinil, desde a margem direita, onde a lâmina começa, até ao desenho."
+          }
+        }
+      }
+    },
+    "Distance along the vinyl from where the blade starts to the design." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distancia a lo largo del vinilo, desde donde empieza la cuchilla hasta el diseño."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distance le long du vinyle, depuis l’endroit où la lame commence jusqu’au motif."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distância, ao longo do vinil, desde onde a lâmina começa até ao desenho."
+          }
+        }
+      }
+    },
     "Distance from the artwork" : {
       "localizations" : {
         "es" : {
@@ -2544,6 +3138,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Distância à arte (mm)"
+          }
+        }
+      }
+    },
+    "Distance from the edge of the page to the centre of the marks. Keep the marks inside the area your printer can print." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distancia del borde de la página al centro de las marcas. Mantenga las marcas dentro de la zona que su impresora puede imprimir."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distance entre le bord de la page et le centre des repères. Gardez les repères dans la zone que votre imprimante peut imprimer."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distância da margem da página ao centro das marcas. Mantenha as marcas dentro da área que a impressora consegue imprimir."
           }
         }
       }
@@ -2592,6 +3208,226 @@
         }
       }
     },
+    "Drag to draw a straight line. Open lines are cut but don't make a separate piece." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrastre para dibujar una línea recta. Las líneas abiertas se cortan, pero no forman una pieza separada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faites glisser pour tracer une ligne droite. Les lignes ouvertes sont découpées mais ne forment pas une pièce séparée."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arraste para desenhar uma linha reta. As linhas abertas são cortadas, mas não formam uma peça separada."
+          }
+        }
+      }
+    },
+    "Drag to draw freely. Turn on Closed shape in the sidebar to cut out a piece." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrastre para dibujar a mano alzada. Active Forma cerrada en la barra lateral para cortar una pieza."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faites glisser pour dessiner librement. Activez Forme fermée dans la barre latérale pour découper une pièce."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arraste para desenhar à mão livre. Ligue Forma fechada na barra lateral para cortar uma peça."
+          }
+        }
+      }
+    },
+    "Drag to draw, or click for a 40 mm circle. Hold Shift to keep it round." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrastre para dibujar, o haga clic para un círculo de 40 mm. Mantenga Mayús para que quede redondo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faites glisser pour dessiner, ou cliquez pour un cercle de 40 mm. Maintenez Maj pour garder un cercle."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arraste para desenhar, ou clique para um círculo de 40 mm. Mantenha Shift para ficar redondo."
+          }
+        }
+      }
+    },
+    "Drag to draw, or click for a 40 mm square. Hold Shift to keep it square." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrastre para dibujar, o haga clic para un cuadrado de 40 mm. Mantenga Mayús para que quede cuadrado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faites glisser pour dessiner, ou cliquez pour un carré de 40 mm. Maintenez Maj pour garder un carré."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arraste para desenhar, ou clique para um quadrado de 40 mm. Mantenha Shift para ficar quadrado."
+          }
+        }
+      }
+    },
+    "Drag to draw. Change the number of sides in the sidebar." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrastre para dibujar. Cambie el número de lados en la barra lateral."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faites glisser pour dessiner. Changez le nombre de côtés dans la barre latérale."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arraste para desenhar. Mude o número de lados na barra lateral."
+          }
+        }
+      }
+    },
+    "Drag to draw. Change the points and inner radius in the sidebar." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrastre para dibujar. Cambie las puntas y el radio interior en la barra lateral."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faites glisser pour dessiner. Changez les branches et le rayon intérieur dans la barre latérale."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arraste para desenhar. Mude as pontas e o raio interior na barra lateral."
+          }
+        }
+      }
+    },
+    "Drag to move around the canvas. Pinch to zoom." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrastre para moverse por el lienzo. Pellizque para hacer zoom."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faites glisser pour vous déplacer dans la zone de travail. Pincez pour zoomer."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arraste para se mover pela tela. Junte os dedos para fazer zoom."
+          }
+        }
+      }
+    },
+    "Draw or bring in your design" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dibuje o traiga su diseño"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dessinez ou importez votre motif"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desenhe ou traga o seu desenho"
+          }
+        }
+      }
+    },
+    "Draw shapes and write text on the canvas, import cut lines (SVG, PDF, Illustrator, DXF), or place artwork to print." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dibuje formas y escriba texto en el lienzo, importe líneas de corte (SVG, PDF, Illustrator, DXF) o coloque una ilustración para imprimir."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dessinez des formes et écrivez du texte sur la zone de travail, importez des lignes de découpe (SVG, PDF, Illustrator, DXF) ou placez une illustration à imprimer."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desenhe formas e escreva texto na tela, importe linhas de corte (SVG, PDF, Illustrator, DXF) ou coloque arte para imprimir."
+          }
+        }
+      }
+    },
+    "Draw with the tools above, add text with T, or bring in a file." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dibuje con las herramientas de arriba, añada texto con T o traiga un archivo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dessinez avec les outils du haut, ajoutez du texte avec T ou importez un fichier."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desenhe com as ferramentas de cima, adicione texto com T ou traga um ficheiro."
+          }
+        }
+      }
+    },
     "Draw, write or import something to cut first." : {
       "localizations" : {
         "es" : {
@@ -2636,6 +3472,28 @@
         }
       }
     },
+    "Draws the line between the other two corners of its frame." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dibuja la línea entre las otras dos esquinas de su marco."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trace la ligne entre les deux autres coins de son cadre."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desenha a linha entre os outros dois cantos da moldura."
+          }
+        }
+      }
+    },
     "Duplicate" : {
       "localizations" : {
         "es" : {
@@ -2654,6 +3512,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Duplicar"
+          }
+        }
+      }
+    },
+    "Each image gets its own cut line object, named after the image, on top of the canvas." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada imagen recibe su propio objeto de línea de corte, con el nombre de la imagen, encima de todo en el lienzo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque image reçoit son propre objet de ligne de découpe, au nom de l’image, au-dessus de la zone de travail."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada imagem recebe o seu próprio objeto de linha de corte, com o nome da imagem, por cima de tudo na tela."
           }
         }
       }
@@ -2698,6 +3578,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editar pontos"
+          }
+        }
+      }
+    },
+    "Edit Points lets you move, add or remove points, for example to tidy an imported or traced line." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar puntos permite mover, añadir o eliminar puntos, por ejemplo para ordenar una línea importada o trazada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier les points permet de déplacer, ajouter ou supprimer des points, par exemple pour nettoyer une ligne importée ou tracée."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar pontos permite mover, adicionar ou apagar pontos, por exemplo para arrumar uma linha importada ou traçada."
+          }
+        }
+      }
+    },
+    "Edit points of the selected lines" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar los puntos de las líneas seleccionadas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier les points des lignes sélectionnées"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar os pontos das linhas selecionadas"
           }
         }
       }
@@ -2830,6 +3754,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ficheiros"
+          }
+        }
+      }
+    },
+    "Files and output" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Archivos y salida"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fichiers et sortie"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ficheiros e saída"
           }
         }
       }
@@ -2988,6 +3934,50 @@
         }
       }
     },
+    "Fix the lines here" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corrija las líneas aquí"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corrigez les lignes ici"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corrija as linhas aqui"
+          }
+        }
+      }
+    },
+    "Fix the problems shown at the top first." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resuelva primero los problemas indicados arriba."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corrigez d’abord les problèmes affichés en haut."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resolva primeiro os problemas indicados em cima."
+          }
+        }
+      }
+    },
     "Flow control" : {
       "localizations" : {
         "es" : {
@@ -3032,6 +4022,28 @@
         }
       }
     },
+    "Follow the artwork traces its outline. Rectangle and Rounded put a box around each image. In SignMaster: Build Contours / Build Boxes." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seguir el dibujo traza su contorno. Rectángulo y Redondeado ponen un recuadro alrededor de cada imagen. En SignMaster: Build Contours / Build Boxes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suivre le dessin trace son contour. Rectangle et Arrondi placent un cadre autour de chaque image. Dans SignMaster : Build Contours / Build Boxes."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seguir a arte traça o contorno. Retângulo e Arredondado põem uma caixa à volta de cada imagem. No SignMaster: Build Contours / Build Boxes."
+          }
+        }
+      }
+    },
     "Font" : {
       "localizations" : {
         "es" : {
@@ -3054,25 +4066,24 @@
         }
       }
     },
-    "For JPEG and other images without transparency" : {
-      "extractionState" : "stale",
+    "Font size in points, as in Illustrator." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Para JPEG y otras imágenes sin transparencia"
+            "value" : "Tamaño de letra en puntos, como en Illustrator."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pour les JPEG et autres images sans transparence"
+            "value" : "Taille de police en points, comme dans Illustrator."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Para JPEG e outras imagens sem transparência"
+            "value" : "Tamanho da letra em pontos, como no Illustrator."
           }
         }
       }
@@ -3187,6 +4198,28 @@
         }
       }
     },
+    "Freehand" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mano alzada"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Main levée"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mão livre"
+          }
+        }
+      }
+    },
     "Freehand (P)" : {
       "localizations" : {
         "es" : {
@@ -3205,6 +4238,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mão livre (P)"
+          }
+        }
+      }
+    },
+    "From design to cut sticker in four steps." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Del diseño a la pegatina cortada en cuatro pasos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du motif à l’autocollant découpé en quatre étapes."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do desenho ao autocolante cortado em quatro passos."
           }
         }
       }
@@ -3319,6 +4374,116 @@
         }
       }
     },
+    "Front of the machine (you)" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frente de la máquina (usted)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avant de la machine (vous)"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frente da máquina (você)"
+          }
+        }
+      }
+    },
+    "Gap between the artwork and the cut line. 2 mm hides small differences between the print and the cut. In SignMaster: Outline offset." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Separación entre la ilustración y la línea de corte. 2 mm disimulan pequeñas diferencias entre la impresión y el corte. En SignMaster: Outline offset."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écart entre l’illustration et la ligne de découpe. 2 mm masquent les petits décalages entre l’impression et la découpe. Dans SignMaster : Outline offset."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espaço entre a arte e a linha de corte. 2 mm disfarçam pequenas diferenças entre a impressão e o corte. No SignMaster: Outline offset."
+          }
+        }
+      }
+    },
+    "Gap between the artwork and the marks to its left and right. In SignMaster: Mark Position (20.5 mm)." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Separación entre la ilustración y las marcas a su izquierda y derecha. En SignMaster: Mark Position (20,5 mm)."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écart entre l’illustration et les repères à sa gauche et à sa droite. Dans SignMaster : Mark Position (20,5 mm)."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espaço entre a arte e as marcas à esquerda e à direita. No SignMaster: Mark Position (20,5 mm)."
+          }
+        }
+      }
+    },
+    "Getting Started" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Primeros pasos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prise en main"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Primeiros passos"
+          }
+        }
+      }
+    },
+    "Goes straight to cutting a sheet that is already printed." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pasa directamente a cortar una hoja ya impresa."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passe directement à la découpe d’une feuille déjà imprimée."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passa diretamente ao corte de uma folha já impressa."
+          }
+        }
+      }
+    },
     "H" : {},
     "Hardware (RTS/CTS)" : {
       "localizations" : {
@@ -3338,6 +4503,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hardware (RTS/CTS)"
+          }
+        }
+      }
+    },
+    "Heat-transfer vinyl is cut from the back, so the design must be mirrored to read the right way once pressed." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El vinilo textil se corta por el reverso, así que el diseño debe ir en espejo para leerse bien una vez planchado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le vinyle thermocollant se découpe par l’envers : le motif doit être en miroir pour se lire correctement une fois pressé."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O vinil térmico é cortado pelo verso, por isso o desenho tem de ser espelhado para ficar certo depois de prensado."
           }
         }
       }
@@ -3364,6 +4551,94 @@
         }
       }
     },
+    "Hidden objects are neither printed nor cut." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los objetos ocultos no se imprimen ni se cortan."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les objets masqués ne sont ni imprimés ni découpés."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os objetos ocultos não são impressos nem cortados."
+          }
+        }
+      }
+    },
+    "Hover over any setting to see what it does, or click ⓘ for more. Open this window again from Help ▸ Getting Started." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pase el puntero por encima de cualquier ajuste para ver qué hace, o haga clic en ⓘ para saber más. Vuelva a abrir esta ventana desde Ayuda ▸ Primeros pasos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Survolez un réglage pour voir à quoi il sert, ou cliquez sur ⓘ pour en savoir plus. Rouvrez cette fenêtre depuis Aide ▸ Prise en main."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passe o ponteiro por cima de qualquer definição para ver o que faz, ou clique em ⓘ para saber mais. Abra esta janela outra vez em Ajuda ▸ Primeiros passos."
+          }
+        }
+      }
+    },
+    "How Recorte tells the image from its background. Pick colour works like Instant Alpha in Preview." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cómo distingue Recorte la imagen de su fondo. Elegir color funciona como Alfa instantáneo en Vista Previa."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comment Recorte distingue l’image de son fond. Choisir une couleur fonctionne comme Alpha instantané dans Aperçu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como o Recorte distingue a imagem do fundo. Escolher cor funciona como o Alfa instantâneo da Pré-visualização."
+          }
+        }
+      }
+    },
+    "How closely imported curves are followed. Fine is more exact but has more points; Coarse cuts faster." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con qué precisión se siguen las curvas importadas. Fina es más exacta pero tiene más puntos; Aproximada corta más rápido."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Précision du suivi des courbes importées. Fin est plus exact mais a plus de points ; Grossier découpe plus vite."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quão de perto se seguem as curvas importadas. Fina é mais exata mas tem mais pontos; Grosseira corta mais depressa."
+          }
+        }
+      }
+    },
     "How did it go?" : {
       "localizations" : {
         "es" : {
@@ -3382,6 +4657,116 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Como correu?"
+          }
+        }
+      }
+    },
+    "How far the blade tip trails behind the centre of the holder. Recorte adds small loops at corners so they come out sharp." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuánto queda la punta de la cuchilla detrás del centro del portacuchillas. Recorte añade pequeños bucles en las esquinas para que salgan vivas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distance entre la pointe de la lame et le centre du porte-lame. Recorte ajoute de petites boucles aux angles pour qu’ils restent nets."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quanto a ponta da lâmina fica atrás do centro do suporte. O Recorte acrescenta pequenos laços nos cantos para saírem vivos."
+          }
+        }
+      }
+    },
+    "How fast the knife moves, in millimetres per second. Go slower for small details and thick material." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La rapidez con que se mueve la cuchilla, en milímetros por segundo. Vaya más despacio con detalles pequeños y materiales gruesos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vitesse de déplacement de la lame, en millimètres par seconde. Ralentissez pour les petits détails et les matériaux épais."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A rapidez com que a lâmina se move, em milímetros por segundo. Vá mais devagar em detalhes pequenos e materiais grossos."
+          }
+        }
+      }
+    },
+    "How hard the knife presses, in grams. Too little leaves the vinyl uncut, too much cuts the backing. Check with a test cut." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La fuerza con que presiona la cuchilla, en gramos. Poca deja el vinilo sin cortar, demasiada corta el soporte. Compruébelo con un corte de prueba."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Force d’appui de la lame, en grammes. Trop faible, le vinyle n’est pas découpé ; trop forte, le support est coupé. Vérifiez avec une découpe test."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A força com que a lâmina carrega, em gramas. Pouca deixa o vinil por cortar, demasiada corta o papel de suporte. Confirme com um corte de teste."
+          }
+        }
+      }
+    },
+    "How the machine tells the Mac to wait while it cuts. Must match the machine's setting." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cómo pide la máquina al Mac que espere mientras corta. Debe coincidir con el ajuste de la máquina."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comment la machine demande au Mac d’attendre pendant la découpe. Doit correspondre au réglage de la machine."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como a máquina pede ao Mac para esperar enquanto corta. Tem de coincidir com a definição da máquina."
+          }
+        }
+      }
+    },
+    "How to get the sheet on paper. Print it at 100 % scale with no margins, or the marks won't line up. In SignMaster: Print Direct / Save PDF / Save as Image / Skip." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cómo pasar la hoja a papel. Imprímala al 100 % y sin márgenes, o las marcas no coincidirán. En SignMaster: Print Direct / Save PDF / Save as Image / Skip."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comment obtenir la feuille sur papier. Imprimez à 100 % sans marges, sinon les repères ne correspondront pas. Dans SignMaster : Print Direct / Save PDF / Save as Image / Skip."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como passar a folha para papel. Imprima a 100 % e sem margens, senão as marcas não coincidem. No SignMaster: Print Direct / Save PDF / Save as Image / Skip."
           }
         }
       }
@@ -3562,6 +4947,28 @@
         }
       }
     },
+    "Joins the end to the start, so the drawing is cut out as a piece." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une el final con el inicio, para que el dibujo se corte como una pieza."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relie la fin au début, pour que le dessin soit découpé comme une pièce."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une o fim ao início, para o desenho ser cortado como uma peça."
+          }
+        }
+      }
+    },
     "Keep Outer Lines Only" : {
       "localizations" : {
         "es" : {
@@ -3646,6 +5053,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mantenha as mãos afastadas enquanto a máquina se move."
+          }
+        }
+      }
+    },
+    "Keyboard Shortcuts" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajos de teclado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourcis clavier"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atalhos de teclado"
           }
         }
       }
@@ -3738,6 +5167,28 @@
         }
       }
     },
+    "Let Recorte draw the cut line" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deje que Recorte dibuje la línea de corte"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissez Recorte tracer la ligne de découpe"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deixe o Recorte desenhar a linha de corte"
+          }
+        }
+      }
+    },
     "Line" : {
       "localizations" : {
         "es" : {
@@ -3826,6 +5277,50 @@
         }
       }
     },
+    "Load another printed copy of this sheet and cut it, without printing again." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cargue otra copia impresa de esta hoja y córtela, sin volver a imprimir."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargez un autre exemplaire imprimé de cette feuille et découpez-le, sans réimprimer."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregue outra cópia impressa desta folha e corte-a, sem voltar a imprimir."
+          }
+        }
+      }
+    },
+    "Load more vinyl and cut the same job again." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cargue más vinilo y corte el mismo trabajo otra vez."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargez du vinyle et découpez à nouveau le même travail."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregue mais vinil e corte o mesmo trabalho outra vez."
+          }
+        }
+      }
+    },
     "Load printed sheet %lld of %lld" : {
       "localizations" : {
         "en" : {
@@ -3854,6 +5349,50 @@
         }
       }
     },
+    "Load the machine and cut" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cargue la máquina y corte"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargez la machine et découpez"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregue a máquina e corte"
+          }
+        }
+      }
+    },
+    "Load the next printed sheet and cut it." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cargue la siguiente hoja impresa y córtela."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargez la feuille imprimée suivante et découpez-la."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregue a próxima folha impressa e corte-a."
+          }
+        }
+      }
+    },
     "Load the printed sheet" : {
       "localizations" : {
         "es" : {
@@ -3872,6 +5411,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Coloque a folha impressa"
+          }
+        }
+      }
+    },
+    "Load the same sheet again and resend the job. No need to reprint." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cargue la misma hoja otra vez y reenvíe el trabajo. No hace falta reimprimir."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechargez la même feuille et renvoyez le travail. Inutile de réimprimer."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregue a mesma folha outra vez e reenvie o trabalho. Não é preciso reimprimir."
           }
         }
       }
@@ -3920,6 +5481,28 @@
         }
       }
     },
+    "Lock or unlock. Locked objects can't be moved, resized or deleted." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloquear o desbloquear. Los objetos bloqueados no se pueden mover, redimensionar ni eliminar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verrouiller ou déverrouiller. Les objets verrouillés ne peuvent être ni déplacés, ni redimensionnés, ni supprimés."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloquear ou desbloquear. Os objetos bloqueados não podem ser movidos, redimensionados nem apagados."
+          }
+        }
+      }
+    },
     "Locked" : {
       "localizations" : {
         "es" : {
@@ -3938,6 +5521,72 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bloqueado"
+          }
+        }
+      }
+    },
+    "Locked objects can't be moved, resized or deleted. They are still printed and cut." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los objetos bloqueados no se pueden mover, redimensionar ni eliminar. Se siguen imprimiendo y cortando."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les objets verrouillés ne peuvent être ni déplacés, ni redimensionnés, ni supprimés. Ils sont quand même imprimés et découpés."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os objetos bloqueados não podem ser movidos, redimensionados nem apagados. Continuam a ser impressos e cortados."
+          }
+        }
+      }
+    },
+    "Looks again for connected machines, ports and queues." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuelve a buscar máquinas, puertos y colas conectados."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recherche à nouveau les machines, ports et files connectés."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volta a procurar máquinas, portas e filas ligadas."
+          }
+        }
+      }
+    },
+    "Looks for the machine again." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuelve a buscar la máquina."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recherche à nouveau la machine."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volta a procurar a máquina."
           }
         }
       }
@@ -3964,6 +5613,28 @@
         }
       }
     },
+    "Lower values make thinner, sharper points." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valores más bajos dan puntas más finas y afiladas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Des valeurs plus faibles donnent des branches plus fines et pointues."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valores mais baixos dão pontas mais finas e aguçadas."
+          }
+        }
+      }
+    },
     "Machine" : {
       "localizations" : {
         "es" : {
@@ -3982,6 +5653,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Máquina"
+          }
+        }
+      }
+    },
+    "Machine panel" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Panel de la máquina"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Panneau de la machine"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Painel da máquina"
+          }
+        }
+      }
+    },
+    "Machine units per millimetre. Leave it at 40 for the Liyu; a wrong value cuts everything at the wrong size." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unidades de la máquina por milímetro. Deje 40 para la Liyu; un valor erróneo corta todo con el tamaño equivocado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unités machine par millimètre. Laissez 40 pour la Liyu ; une mauvaise valeur découpe tout à la mauvaise taille."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unidades da máquina por milímetro. Deixe 40 para a Liyu; um valor errado corta tudo no tamanho errado."
           }
         }
       }
@@ -4052,24 +5767,134 @@
         }
       }
     },
-    "Makes a cut line around this image (⇧⌘K)" : {
+    "Makes a copy of the selection (⌘D)." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Crea una línea de corte alrededor de esta imagen (⇧⌘K)"
+            "value" : "Hace una copia de la selección (⌘D)."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Crée une ligne de découpe autour de cette image (⇧⌘K)"
+            "value" : "Crée une copie de la sélection (⌘D)."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cria uma linha de corte à volta desta imagem (⇧⌘K)"
+            "value" : "Faz uma cópia da seleção (⌘D)."
+          }
+        }
+      }
+    },
+    "Makes a cut line around the printed images, a small distance away from them (⇧⌘K)." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crea una línea de corte alrededor de las imágenes impresas, a una pequeña distancia (⇧⌘K)."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crée une ligne de découpe autour des images imprimées, à une petite distance (⇧⌘K)."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faz uma linha de corte à volta das imagens impressas, a uma pequena distância (⇧⌘K)."
+          }
+        }
+      }
+    },
+    "Makes a cut line around this image, a small distance away from it (⇧⌘K)." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crea una línea de corte alrededor de esta imagen, a una pequeña distancia (⇧⌘K)."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crée une ligne de découpe autour de cette image, à une petite distance (⇧⌘K)."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faz uma linha de corte à volta desta imagem, a uma pequena distância (⇧⌘K)."
+          }
+        }
+      }
+    },
+    "Makes each line its own object, to move, hide or delete them one by one." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convierte cada línea en un objeto propio, para moverlas, ocultarlas o eliminarlas una a una."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fait de chaque ligne un objet distinct, pour les déplacer, masquer ou supprimer une par une."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faz de cada linha um objeto próprio, para as mover, ocultar ou apagar uma a uma."
+          }
+        }
+      }
+    },
+    "Makes the canvas as wide as the machine can cut." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hace el lienzo tan ancho como la máquina puede cortar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rend la zone de travail aussi large que la machine peut découper."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Põe a tela tão larga quanto a máquina consegue cortar."
+          }
+        }
+      }
+    },
+    "Makes the image as big as the printable area allows, keeping its proportions, and centres it." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agranda la imagen tanto como permite la zona imprimible, manteniendo sus proporciones, y la centra."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agrandit l’image autant que la zone imprimable le permet, en gardant ses proportions, et la centre."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aumenta a imagem tanto quanto a área de impressão permite, mantendo as proporções, e centra-a."
           }
         }
       }
@@ -4278,6 +6103,28 @@
         }
       }
     },
+    "Move 1 mm" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover 1 mm"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déplacer de 1 mm"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover 1 mm"
+          }
+        }
+      }
+    },
     "Move the artwork away from the edges, use a bigger page or a smaller distance." : {
       "localizations" : {
         "es" : {
@@ -4340,6 +6187,72 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mova as formas que passam pelas marcas ou coloque as marcas à volta da arte."
+          }
+        }
+      }
+    },
+    "Move, add or remove the points of the lines. You can also double-click the object on the canvas." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover, añadir o eliminar los puntos de las líneas. También puede hacer doble clic en el objeto en el lienzo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déplacer, ajouter ou supprimer les points des lignes. Vous pouvez aussi double-cliquer sur l’objet dans la zone de travail."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover, adicionar ou apagar os pontos das linhas. Também pode fazer duplo clique no objeto na tela."
+          }
+        }
+      }
+    },
+    "Moves the lines outwards (positive) or inwards (negative) by this distance." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desplaza las líneas hacia fuera (positivo) o hacia dentro (negativo) esta distancia."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Décale les lignes vers l’extérieur (positif) ou l’intérieur (négatif) de cette distance."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desloca as linhas para fora (positivo) ou para dentro (negativo) esta distância."
+          }
+        }
+      }
+    },
+    "Must match the speed set on the machine. See its manual." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debe coincidir con la velocidad configurada en la máquina. Consulte su manual."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doit correspondre à la vitesse réglée sur la machine. Voir son manuel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tem de coincidir com a velocidade definida na máquina. Veja o manual."
           }
         }
       }
@@ -4478,6 +6391,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Folha seguinte"
+          }
+        }
+      }
+    },
+    "Next: make a cut line around the artwork with Create Cut Contour." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siguiente: cree una línea de corte alrededor de la ilustración con Crear contorno de corte."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ensuite : créez une ligne de découpe autour de l’illustration avec Créer un contour de découpe."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A seguir: faça uma linha de corte à volta da arte com Criar contorno de corte."
+          }
+        }
+      }
+    },
+    "Next: place the artwork to print, then make a cut line around it." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siguiente: coloque la ilustración para imprimir y luego cree una línea de corte alrededor."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ensuite : placez l’illustration à imprimer, puis créez une ligne de découpe autour."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A seguir: coloque a arte para imprimir e depois faça uma linha de corte à volta."
           }
         }
       }
@@ -4636,6 +6593,28 @@
         }
       }
     },
+    "Number of points, from 3 to 24." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de puntas, de 3 a 24."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombre de branches, de 3 à 24."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de pontas, de 3 a 24."
+          }
+        }
+      }
+    },
     "Number of printed sheets to cut one after another" : {
       "localizations" : {
         "es" : {
@@ -4654,6 +6633,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Número de folhas impressas a cortar umas a seguir às outras"
+          }
+        }
+      }
+    },
+    "Number of sides, from 3 to 24." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de lados, de 3 a 24."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombre de côtés, de 3 à 24."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de lados, de 3 a 24."
           }
         }
       }
@@ -4746,46 +6747,68 @@
         }
       }
     },
-    "Off: only white that touches the edge of the image is background" : {
+    "Off: only white that touches the edge of the image is background." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desactivado: solo el blanco que toca el borde de la imagen es fondo"
+            "value" : "Desactivado: solo el blanco que toca el borde de la imagen es fondo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Désactivé : seul le blanc qui touche le bord de l’image est le fond"
+            "value" : "Désactivé : seul le blanc qui touche le bord de l’image est considéré comme fond."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desligado: só o branco que toca no limite da imagem é fundo"
+            "value" : "Desligado: só o branco que toca na margem da imagem é fundo."
           }
         }
       }
     },
-    "Off: the machine uses the speed and pressure set on its panel. Called Cutting Speed / Cutting Force (ticked) in SignMaster." : {
+    "Off: the blade goes back to where it started. In SignMaster: Advance After Plot." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desactivado: la máquina usa la velocidad y la presión ajustadas en su panel. En SignMaster se llama Cutting Speed / Cutting Force (marcados)."
+            "value" : "Desactivado: la cuchilla vuelve a donde empezó. En SignMaster: Advance After Plot."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Désactivé : la machine utilise la vitesse et la pression réglées sur son panneau. Appelé Cutting Speed / Cutting Force (cochés) dans SignMaster."
+            "value" : "Désactivé : la lame revient à son point de départ. Dans SignMaster : Advance After Plot."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desligado: a máquina usa a velocidade e a pressão definidas no painel. No SignMaster chama-se Cutting Speed / Cutting Force (assinalados)."
+            "value" : "Desligado: a lâmina volta ao ponto onde começou. No SignMaster: Advance After Plot."
+          }
+        }
+      }
+    },
+    "Off: the machine uses the speed and pressure set on its panel. On: Recorte sends the values below with each job. In SignMaster: Cutting Speed / Cutting Force ticked." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desactivado: la máquina usa la velocidad y la presión configuradas en su panel. Activado: Recorte envía los valores de abajo con cada trabajo. En SignMaster: Cutting Speed / Cutting Force marcados."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactivé : la machine utilise la vitesse et la pression réglées sur son panneau. Activé : Recorte envoie les valeurs ci-dessous avec chaque travail. Dans SignMaster : Cutting Speed / Cutting Force cochés."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desligado: a máquina usa a velocidade e a pressão definidas no painel. Ligado: o Recorte envia os valores abaixo com cada trabalho. No SignMaster: Cutting Speed / Cutting Force assinalados."
           }
         }
       }
@@ -4852,6 +6875,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Só as linhas fechadas podem ser deslocadas"
+          }
+        }
+      }
+    },
+    "Only closed lines can be offset." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo se pueden desplazar las líneas cerradas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seules les lignes fermées peuvent être décalées."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só as linhas fechadas podem ser deslocadas."
+          }
+        }
+      }
+    },
+    "Only for Follow the artwork." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo para Seguir el dibujo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uniquement pour Suivre le dessin."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só para Seguir a arte."
           }
         }
       }
@@ -4936,24 +7003,46 @@
         }
       }
     },
-    "Or double-click the object on the canvas" : {
+    "Opens the Recorte guide in your browser." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O haz doble clic en el objeto en el lienzo"
+            "value" : "Abre la guía de Recorte en el navegador."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ou double-cliquez sur l’objet dans le plan de travail"
+            "value" : "Ouvre le guide de Recorte dans votre navigateur."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ou faça duplo clique no objeto na tela"
+            "value" : "Abre o guia do Recorte no navegador."
+          }
+        }
+      }
+    },
+    "Opens the connection settings." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre los ajustes de conexión."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvre les réglages de connexion."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre as definições de ligação."
           }
         }
       }
@@ -5068,28 +7157,6 @@
         }
       }
     },
-    "Output settings, printing and cutting (⌘P)" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajustes de salida, impresión y corte (⌘P)"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Réglages de sortie, impression et découpe (⌘P)"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Definições de saída, impressão e corte (⌘P)"
-          }
-        }
-      }
-    },
     "Overcut" : {
       "localizations" : {
         "es" : {
@@ -5135,6 +7202,28 @@
       }
     },
     "PNG" : {},
+    "PNG for most uses. TIFF for print shops and RIP software that ask for it." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PNG para casi todo. TIFF para imprentas y programas RIP que lo pidan."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PNG pour la plupart des usages. TIFF pour les imprimeurs et logiciels RIP qui le demandent."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PNG para quase tudo. TIFF para gráficas e programas RIP que o peçam."
+          }
+        }
+      }
+    },
     "Page size" : {
       "localizations" : {
         "es" : {
@@ -5153,6 +7242,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tamanho da página"
+          }
+        }
+      }
+    },
+    "Pan" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover vista"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déplacer la vue"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover vista"
           }
         }
       }
@@ -5223,28 +7334,6 @@
         }
       }
     },
-    "Pick colour works like Instant Alpha in Preview" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elegir color funciona como el Alfa instantáneo de Vista Previa"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choisir une couleur fonctionne comme l’alpha instantané d’Aperçu"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escolher cor funciona como o Alfa instantâneo da Pré-visualização"
-          }
-        }
-      }
-    },
     "Place Artwork…" : {
       "localizations" : {
         "es" : {
@@ -5289,6 +7378,28 @@
         }
       }
     },
+    "Place artwork to print first, then make a cut line around it." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coloque primero la ilustración para imprimir y luego cree una línea de corte alrededor."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Placez d’abord l’illustration à imprimer, puis créez une ligne de découpe autour."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coloque primeiro a arte para imprimir e depois faça uma linha de corte à volta."
+          }
+        }
+      }
+    },
     "Place artwork…" : {
       "localizations" : {
         "es" : {
@@ -5329,6 +7440,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Colocar as marcas"
+          }
+        }
+      }
+    },
+    "Plug the cutter in with the USB cable and switch it on. The first time, Recorte offers to set it up; this is only needed once." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conecte la máquina de corte con el cable USB y enciéndala. La primera vez, Recorte ofrece configurarla; solo hace falta una vez."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Branchez la machine de découpe avec le câble USB et allumez-la. La première fois, Recorte propose de la configurer ; une seule fois suffit."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligue a máquina de corte com o cabo USB e acenda-a. Da primeira vez, o Recorte propõe configurá-la; só é preciso uma vez."
           }
         }
       }
@@ -5417,6 +7550,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Porta"
+          }
+        }
+      }
+    },
+    "Position of the object's top-left corner, in mm from the top-left of the canvas." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posición de la esquina superior izquierda del objeto, en mm desde la esquina superior izquierda del lienzo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Position du coin supérieur gauche de l’objet, en mm depuis le coin supérieur gauche de la zone de travail."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posição do canto superior esquerdo do objeto, em mm a partir do canto superior esquerdo da tela."
           }
         }
       }
@@ -5663,6 +7818,50 @@
         }
       }
     },
+    "Print the sheet with registration marks, then cut it on the machine (⌘P)." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprima la hoja con marcas de registro y luego córtela en la máquina (⌘P)."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprimez la feuille avec des repères, puis découpez-la sur la machine (⌘P)."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprima a folha com marcas de registo e depois corte-a na máquina (⌘P)."
+          }
+        }
+      }
+    },
+    "Print your artwork with registration marks on any printer, then let the machine cut around it." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprima su ilustración con marcas de registro en cualquier impresora y deje que la máquina corte alrededor."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprimez votre illustration avec des repères sur n’importe quelle imprimante, puis laissez la machine découper autour."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprima a sua arte com marcas de registo em qualquer impressora e deixe a máquina cortar à volta."
+          }
+        }
+      }
+    },
     "Printed image" : {
       "localizations" : {
         "es" : {
@@ -5751,6 +7950,50 @@
         }
       }
     },
+    "Prints the project name above the marks, to tell the sheets apart. In SignMaster: Job Name." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprime el nombre del proyecto encima de las marcas, para distinguir las hojas. En SignMaster: Job Name."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprime le nom du projet au-dessus des repères, pour distinguer les feuilles. Dans SignMaster : Job Name."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprime o nome do projeto por cima das marcas, para distinguir as folhas. No SignMaster: Job Name."
+          }
+        }
+      }
+    },
+    "Prints the sheet, then shows how to load it in the machine." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprime la hoja y luego muestra cómo cargarla en la máquina."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprime la feuille, puis montre comment la charger dans la machine."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imprime a folha e depois mostra como a carregar na máquina."
+          }
+        }
+      }
+    },
     "Print…" : {
       "localizations" : {
         "es" : {
@@ -5813,6 +8056,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Coloque a folha com a face impressa para cima, **virada ao contrário para que a marca da seta fique à frente, à direita**."
+          }
+        }
+      }
+    },
+    "Puts every setting back to its default." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restablece todos los ajustes por defecto."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rétablit tous les réglages par défaut."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repõe todas as definições originais."
           }
         }
       }
@@ -5883,6 +8148,28 @@
         }
       }
     },
+    "Recorte Help" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayuda de Recorte"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aide Recorte"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajuda do Recorte"
+          }
+        }
+      }
+    },
     "Recorte needs to set it up once before it can cut." : {
       "localizations" : {
         "es" : {
@@ -5901,6 +8188,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "O Recorte tem de a configurar uma vez antes de poder cortar."
+          }
+        }
+      }
+    },
+    "Recorte prints four black circles around the artwork. The machine's camera finds them, so the knife knows exactly where the print is. Load the sheet with the arrow mark under the blade: the cut starts there. The mark size must match the setting on the machine." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recorte imprime cuatro círculos negros alrededor de la ilustración. La cámara de la máquina los encuentra, y así la cuchilla sabe exactamente dónde está la impresión. Cargue la hoja con la marca de la flecha debajo de la cuchilla: el corte empieza ahí. El tamaño de las marcas debe coincidir con el ajuste de la máquina."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recorte imprime quatre cercles noirs autour de l’illustration. La caméra de la machine les repère, et la lame sait exactement où se trouve l’impression. Chargez la feuille avec le repère à flèche sous la lame : la découpe commence là. La taille des repères doit correspondre au réglage de la machine."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Recorte imprime quatro círculos pretos à volta da arte. A câmara da máquina encontra-os e assim a lâmina sabe exatamente onde está a impressão. Carregue a folha com a marca da seta debaixo da lâmina: o corte começa aí. O tamanho das marcas tem de coincidir com a definição da máquina."
+          }
+        }
+      }
+    },
+    "Recorte shows how to load the vinyl or the printed sheet and where to put the blade. With a new material, make a test cut first." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recorte muestra cómo cargar el vinilo o la hoja impresa y dónde poner la cuchilla. Con un material nuevo, haga primero un corte de prueba."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recorte montre comment charger le vinyle ou la feuille imprimée et où placer la lame. Avec un nouveau matériau, faites d’abord une découpe test."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Recorte mostra como carregar o vinil ou a folha impressa e onde pôr a lâmina. Com um material novo, faça primeiro um corte de teste."
           }
         }
       }
@@ -5993,6 +8324,72 @@
         }
       }
     },
+    "Removes all picked colours." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina todos los colores elegidos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprime toutes les couleurs choisies."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apaga todas as cores escolhidas."
+          }
+        }
+      }
+    },
+    "Removes cut contours made earlier for the same images, so they aren't cut twice." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina los contornos de corte hechos antes para las mismas imágenes, para que no se corten dos veces."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprime les contours de découpe créés auparavant pour les mêmes images, pour ne pas découper deux fois."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apaga os contornos de corte feitos antes para as mesmas imagens, para não serem cortados duas vezes."
+          }
+        }
+      }
+    },
+    "Removes the last colour you picked." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina el último color elegido."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprime la dernière couleur choisie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apaga a última cor escolhida."
+          }
+        }
+      }
+    },
     "Removes the lines inside other lines, such as holes in a cut contour" : {
       "localizations" : {
         "es" : {
@@ -6015,6 +8412,72 @@
         }
       }
     },
+    "Removes the selection, except locked objects. Undo with ⌘Z." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina la selección, excepto los objetos bloqueados. Deshaga con ⌘Z."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprime la sélection, sauf les objets verrouillés. Annulez avec ⌘Z."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apaga a seleção, exceto os objetos bloqueados. Anule com ⌘Z."
+          }
+        }
+      }
+    },
+    "Removes the whole line that the selected point belongs to." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina toda la línea a la que pertenece el punto seleccionado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprime toute la ligne à laquelle appartient le point sélectionné."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apaga a linha inteira a que pertence o ponto selecionado."
+          }
+        }
+      }
+    },
+    "Reorders the shapes so the knife travels less between them. Doesn't change what is cut." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reordena las formas para que la cuchilla recorra menos entre ellas. No cambia lo que se corta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réordonne les formes pour que la lame se déplace moins entre elles. Ne change pas ce qui est découpé."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reordena as formas para a lâmina andar menos entre elas. Não muda o que é cortado."
+          }
+        }
+      }
+    },
     "Replace existing cut contours" : {
       "localizations" : {
         "es" : {
@@ -6033,6 +8496,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Substituir contornos de corte existentes"
+          }
+        }
+      }
+    },
+    "Replaces many small straight segments with fewer smooth curves. Good for traced or imported lines." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sustituye muchos segmentos rectos pequeños por menos curvas suaves. Útil para líneas trazadas o importadas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remplace de nombreux petits segments droits par moins de courbes lisses. Idéal pour les lignes tracées ou importées."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Troca muitos segmentos retos pequenos por menos curvas suaves. Bom para linhas traçadas ou importadas."
+          }
+        }
+      }
+    },
+    "Report a Problem…" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informar de un problema…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Signaler un problème…"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comunicar um problema…"
           }
         }
       }
@@ -6099,6 +8606,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Repor"
+          }
+        }
+      }
+    },
+    "Resizes the frame to fit the text exactly." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajusta el marco exactamente al texto."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajuste le cadre exactement au texte."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajusta a moldura exatamente ao texto."
           }
         }
       }
@@ -6213,6 +8742,28 @@
         }
       }
     },
+    "Round corners are easier to weed and to cut. Sharp keeps the corners of angular artwork." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las esquinas redondas son más fáciles de cortar y de pelar. Vivas mantiene las esquinas de ilustraciones angulosas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les angles arrondis sont plus faciles à découper et à écheniller. Vifs garde les angles des illustrations anguleuses."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os cantos redondos são mais fáceis de cortar e de descascar. Vivos mantém os cantos de artes angulosas."
+          }
+        }
+      }
+    },
     "Rounded" : {
       "localizations" : {
         "es" : {
@@ -6231,6 +8782,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Arredondado"
+          }
+        }
+      }
+    },
+    "Rounds the corners. 0 gives sharp corners." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redondea las esquinas. 0 da esquinas vivas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrondit les angles. 0 donne des angles vifs."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arredonda os cantos. 0 dá cantos vivos."
           }
         }
       }
@@ -6367,6 +8940,72 @@
         }
       }
     },
+    "Saves the cutting job as a file, for other cutting software or for support. Not needed to cut." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guarda el trabajo de corte en un archivo, para otro programa de corte o para soporte. No hace falta para cortar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistre le travail de découpe dans un fichier, pour un autre logiciel de découpe ou pour l’assistance. Inutile pour découper."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guarda o trabalho de corte num ficheiro, para outro programa de corte ou para suporte. Não é preciso para cortar."
+          }
+        }
+      }
+    },
+    "Saves the sheet as a PDF to print elsewhere, then shows how to load it." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guarda la hoja en PDF para imprimirla en otro sitio y luego muestra cómo cargarla."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistre la feuille en PDF pour l’imprimer ailleurs, puis montre comment la charger."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guarda a folha em PDF para imprimir noutro lado e depois mostra como a carregar."
+          }
+        }
+      }
+    },
+    "Saves the sheet as an image to print elsewhere, then shows how to load it." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guarda la hoja como imagen para imprimirla en otro sitio y luego muestra cómo cargarla."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistre la feuille en image pour l’imprimer ailleurs, puis montre comment la charger."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guarda a folha como imagem para imprimir noutro lado e depois mostra como a carregar."
+          }
+        }
+      }
+    },
     "Scale" : {
       "localizations" : {
         "es" : {
@@ -6407,6 +9046,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Escala (%)"
+          }
+        }
+      }
+    },
+    "Scales the design for this cut only; the canvas doesn't change." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escala el diseño solo para este corte; el lienzo no cambia."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Met le motif à l’échelle pour cette découpe seulement ; la zone de travail ne change pas."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muda a escala só neste corte; a tela não muda."
           }
         }
       }
@@ -6455,6 +9116,28 @@
         }
       }
     },
+    "Select" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selección"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sélection"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecionar"
+          }
+        }
+      }
+    },
     "Select (V)" : {
       "localizations" : {
         "es" : {
@@ -6495,6 +9178,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Selecionar todos os objetos"
+          }
+        }
+      }
+    },
+    "Select objects on the canvas first to cut only those." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleccione primero objetos en el lienzo para cortar solo esos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sélectionnez d’abord des objets dans la zone de travail pour ne découper qu’eux."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione primeiro objetos na tela para cortar só esses."
           }
         }
       }
@@ -6609,24 +9314,24 @@
         }
       }
     },
-    "Send to back" : {
+    "Send to back (⌘[)." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enviar al fondo"
+            "value" : "Enviar al fondo (⌘[)."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mettre à l’arrière-plan"
+            "value" : "Mettre à l’arrière-plan (⌘[)."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enviar para trás"
+            "value" : "Enviar para trás (⌘[)."
           }
         }
       }
@@ -6649,6 +9354,94 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "A enviar para a máquina… %lld %%"
+          }
+        }
+      }
+    },
+    "Sends the job to the machine and starts cutting." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envía el trabajo a la máquina y empieza a cortar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envoie le travail à la machine et lance la découpe."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envia o trabalho para a máquina e começa a cortar."
+          }
+        }
+      }
+    },
+    "Sends the job. The machine reads the four marks, then cuts on its own." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envía el trabajo. La máquina lee las cuatro marcas y luego corta sola."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envoie le travail. La machine lit les quatre repères, puis découpe toute seule."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envia o trabalho. A máquina lê as quatro marcas e depois corta sozinha."
+          }
+        }
+      }
+    },
+    "Sends the same job again." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envía el mismo trabajo otra vez."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renvoie le même travail."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envia o mesmo trabalho outra vez."
+          }
+        }
+      }
+    },
+    "Sent by Recorte" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviado por Recorte"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envoyé par Recorte"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviado pelo Recorte"
           }
         }
       }
@@ -6697,6 +9490,28 @@
         }
       }
     },
+    "Sent with the job" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviadas con el trabajo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envoyées avec le travail"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviadas com o trabalho"
+          }
+        }
+      }
+    },
     "Set up the cutter" : {
       "localizations" : {
         "es" : {
@@ -6737,6 +9552,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Configurar a máquina"
+          }
+        }
+      }
+    },
+    "Sets a starting speed and pressure for the material. Fine-tune them with a test cut." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Define una velocidad y una presión de partida para el material. Afínelas con un corte de prueba."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Définit une vitesse et une pression de départ pour le matériau. Affinez-les avec une découpe test."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Define uma velocidade e pressão de partida para o material. Afine-as com um corte de teste."
+          }
+        }
+      }
+    },
+    "Sets the canvas to a paper size, or to the machine's cutting width." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajusta el lienzo a un tamaño de papel, o al ancho de corte de la máquina."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donne à la zone de travail un format de papier, ou la largeur de découpe de la machine."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Põe a tela num tamanho de papel, ou na largura de corte da máquina."
           }
         }
       }
@@ -6803,6 +9662,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Formas"
+          }
+        }
+      }
+    },
+    "Shapes to cut, total cutting length and an estimate of the time, based on the speed." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formas a cortar, longitud total de corte y una estimación del tiempo, según la velocidad."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formes à découper, longueur totale de découpe et estimation du temps, selon la vitesse."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formas a cortar, comprimento total de corte e uma estimativa do tempo, com base na velocidade."
           }
         }
       }
@@ -6897,6 +9778,160 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar"
+          }
+        }
+      }
+    },
+    "Show Tips Again" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volver a mostrar los consejos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher à nouveau les conseils"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar as dicas outra vez"
+          }
+        }
+      }
+    },
+    "Show or hide. Hidden objects are neither printed nor cut." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar u ocultar. Los objetos ocultos no se imprimen ni se cortan."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher ou masquer. Les objets masqués ne sont ni imprimés ni découpés."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar ou ocultar. Os objetos ocultos não são impressos nem cortados."
+          }
+        }
+      }
+    },
+    "Show the image, the cut line, or both." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar la imagen, la línea de corte o ambas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher l’image, la ligne de découpe ou les deux."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar a imagem, a linha de corte ou as duas."
+          }
+        }
+      }
+    },
+    "Show the printed sheet, the cut lines, or both. In SignMaster: View both / View Print only / View Cut only." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar la hoja impresa, las líneas de corte o ambas. En SignMaster: View both / View Print only / View Cut only."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher la feuille imprimée, les lignes de découpe ou les deux. Dans SignMaster : View both / View Print only / View Cut only."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar a folha impressa, as linhas de corte ou as duas. No SignMaster: View both / View Print only / View Cut only."
+          }
+        }
+      }
+    },
+    "Shows how to load the vinyl, then sends the job to the machine." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra cómo cargar el vinilo y luego envía el trabajo a la máquina."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Montre comment charger le vinyle, puis envoie le travail à la machine."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra como carregar o vinil e depois envia o trabalho para a máquina."
+          }
+        }
+      }
+    },
+    "Shows the moves the knife makes with the blade up, between shapes." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra los movimientos de la cuchilla levantada entre las formas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Montre les déplacements de la lame relevée entre les formes."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra os movimentos da lâmina levantada entre as formas."
+          }
+        }
+      }
+    },
+    "Shows the whole canvas in the window." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra todo el lienzo en la ventana."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Affiche toute la zone de travail dans la fenêtre."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra a tela inteira na janela."
           }
         }
       }
@@ -7055,6 +10090,72 @@
         }
       }
     },
+    "Size of the canvas. With Print & Cut on, it is the paper size." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamaño del lienzo. Con Imprimir y cortar activado, es el tamaño del papel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taille de la zone de travail. Avec Impression et découpe activé, c’est le format du papier."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamanho da tela. Com Imprimir e Cortar ligado, é o tamanho do papel."
+          }
+        }
+      }
+    },
+    "Size of the design on the vinyl. Changing one side keeps the proportions." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamaño del diseño en el vinilo. Cambiar un lado mantiene las proporciones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taille du motif sur le vinyle. Modifier un côté garde les proportions."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamanho do desenho no vinil. Mudar um lado mantém as proporções."
+          }
+        }
+      }
+    },
+    "Size of the printed circles the machine's camera looks for. Must match the mark size set on the machine: 25 prints Ø 5 mm circles." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamaño de los círculos impresos que busca la cámara de la máquina. Debe coincidir con el tamaño de marca configurado en la máquina: 25 imprime círculos de Ø 5 mm."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taille des cercles imprimés que cherche la caméra de la machine. Doit correspondre à la taille de repère réglée sur la machine : 25 imprime des cercles de Ø 5 mm."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamanho dos círculos impressos que a câmara da máquina procura. Tem de coincidir com o tamanho de marca definido na máquina: 25 imprime círculos de Ø 5 mm."
+          }
+        }
+      }
+    },
     "Skip printing" : {
       "localizations" : {
         "es" : {
@@ -7077,28 +10178,6 @@
         }
       }
     },
-    "Skip printing is called Skip in SignMaster" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En SignMaster, Omitir la impresión se llama Skip"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dans SignMaster, Ne pas imprimer s’appelle Skip"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No SignMaster, Não imprimir chama-se Skip"
-          }
-        }
-      }
-    },
     "Skip to Cut" : {
       "localizations" : {
         "es" : {
@@ -7117,6 +10196,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Passar ao corte"
+          }
+        }
+      }
+    },
+    "Small dots and dust in the image smaller than this get no cut line of their own." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los puntitos y la suciedad de la imagen menores que esto no reciben línea de corte propia."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les petits points et poussières de l’image plus petits que cela n’ont pas leur propre ligne de découpe."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pontinhos e sujidade na imagem menores do que isto não recebem linha de corte própria."
           }
         }
       }
@@ -7231,6 +10332,28 @@
         }
       }
     },
+    "Some SVG files give sizes without units. This decides how big they come in." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algunos archivos SVG indican tamaños sin unidades. Esto decide con qué tamaño entran."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Certains fichiers SVG donnent des tailles sans unités. Ce réglage décide de leur taille à l’import."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alguns ficheiros SVG indicam tamanhos sem unidades. Isto decide o tamanho com que entram."
+          }
+        }
+      }
+    },
     "Some elements were skipped: %@." : {
       "localizations" : {
         "es" : {
@@ -7341,6 +10464,28 @@
         }
       }
     },
+    "Speed and pressure" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velocidad y presión"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vitesse et pression"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velocidade e pressão"
+          }
+        }
+      }
+    },
     "Speed, pressure and blade" : {
       "localizations" : {
         "es" : {
@@ -7429,6 +10574,50 @@
         }
       }
     },
+    "Start" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empezar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commencer"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Começar"
+          }
+        }
+      }
+    },
+    "Start your design" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empiece su diseño"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commencez votre motif"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comece o seu desenho"
+          }
+        }
+      }
+    },
     "Steps per mm" : {
       "localizations" : {
         "es" : {
@@ -7469,6 +10658,72 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Parar"
+          }
+        }
+      }
+    },
+    "Stop editing points" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dejar de editar puntos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter de modifier les points"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parar de editar pontos"
+          }
+        }
+      }
+    },
+    "Stop editing points (Return or Esc)." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dejar de editar puntos (Retorno o Esc)."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter de modifier les points (Retour ou Échap)."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parar de editar pontos (Return ou Esc)."
+          }
+        }
+      }
+    },
+    "Stops sending. The machine may still finish what it has already received." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detiene el envío. La máquina puede terminar aún lo que ya ha recibido."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrête l’envoi. La machine peut encore terminer ce qu’elle a déjà reçu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para o envio. A máquina pode ainda acabar o que já recebeu."
           }
         }
       }
@@ -7606,6 +10861,50 @@
         }
       }
     },
+    "The Liyu connects as a printer queue. USB / serial port is for other machines that show up as a serial device." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La Liyu se conecta como cola de impresión. Puerto USB / serie es para otras máquinas que aparecen como dispositivo serie."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La Liyu se connecte comme une file d’impression. Port USB / série sert aux autres machines vues comme un périphérique série."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A Liyu liga-se como fila de impressão. Porta USB / série é para outras máquinas que aparecem como dispositivo série."
+          }
+        }
+      }
+    },
+    "The blade starts at the front-right corner of the vinyl, on the side of the machine's screen. From the right and From the start move the design away from that corner. Seen from the front, the design comes out upside down; it is not mirrored." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La cuchilla empieza en la esquina delantera derecha del vinilo, del lado de la pantalla de la máquina. Desde la derecha y Desde el inicio alejan el diseño de esa esquina. Visto de frente, el diseño sale boca abajo; no sale en espejo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La lame commence au coin avant droit du vinyle, du côté de l’écran de la machine. Depuis la droite et Depuis le début éloignent le motif de ce coin. Vu de face, le motif sort à l’envers ; il n’est pas en miroir."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A lâmina começa no canto da frente à direita do vinil, do lado do ecrã da máquina. Da direita e Do início afastam o desenho desse canto. Visto de frente, o desenho sai de pernas para o ar; não sai espelhado."
+          }
+        }
+      }
+    },
     "The canvas is the printed sheet. Placed images are printed; shapes, text and imported lines are cut after the machine reads the four marks. Keep everything inside the dashed area." : {
       "localizations" : {
         "es" : {
@@ -7650,6 +10949,28 @@
         }
       }
     },
+    "The knife carries on this far past the start of a closed shape, so the ends meet cleanly." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La cuchilla sigue esta distancia más allá del inicio de una forma cerrada, para que los extremos se unan bien."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La lame continue sur cette distance après le début d’une forme fermée, pour que les extrémités se rejoignent proprement."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A lâmina continua esta distância para lá do início de uma forma fechada, para as pontas se unirem bem."
+          }
+        }
+      }
+    },
     "The machine didn't find the marks" : {
       "localizations" : {
         "es" : {
@@ -7668,6 +10989,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "A máquina não encontrou as marcas"
+          }
+        }
+      }
+    },
+    "The machine is connected and ready to cut." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La máquina está conectada y lista para cortar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La machine est connectée et prête à découper."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A máquina está ligada e pronta para cortar."
+          }
+        }
+      }
+    },
+    "The machine is connected but Recorte needs to set it up once. Use Set up the machine above." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La máquina está conectada, pero Recorte debe configurarla una vez. Use Configurar la máquina, arriba."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La machine est connectée mais Recorte doit la configurer une fois. Utilisez Configurer la machine, plus haut."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A máquina está ligada, mas o Recorte tem de a configurar uma vez. Use Configurar a máquina, em cima."
           }
         }
       }
@@ -7716,6 +11081,28 @@
         }
       }
     },
+    "The machine uses the settings on its panel" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La máquina usa los ajustes de su panel"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La machine utilise les réglages de son panneau"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A máquina usa as definições do painel"
+          }
+        }
+      }
+    },
     "The machine visits the four marks, then cuts. Keep your hands clear while it moves." : {
       "localizations" : {
         "es" : {
@@ -7760,24 +11147,24 @@
         }
       }
     },
-    "The machine's mark size setting. 25 prints Ø 5 mm circles, like SignMaster." : {
+    "The mark size set on the machine. New Print & Cut projects start with it." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El ajuste de tamaño de marca de la máquina. 25 imprime círculos de Ø 5 mm, como SignMaster."
+            "value" : "El tamaño de marca configurado en la máquina. Los nuevos proyectos de Imprimir y cortar empiezan con él."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le réglage de taille des repères de la machine. 25 imprime des cercles de Ø 5 mm, comme SignMaster."
+            "value" : "La taille de repère réglée sur la machine. Les nouveaux projets d’impression et découpe l’utilisent au départ."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A definição de tamanho de marca da máquina. 25 imprime círculos de Ø 5 mm, como o SignMaster."
+            "value" : "O tamanho de marca definido na máquina. Os novos projetos de Imprimir e Cortar começam com ele."
           }
         }
       }
@@ -7804,6 +11191,72 @@
         }
       }
     },
+    "The name shown in the layers list." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El nombre que aparece en la lista de capas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le nom affiché dans la liste des calques."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O nome que aparece na lista de camadas."
+          }
+        }
+      }
+    },
+    "The printer queue that sends jobs to the machine. Recorte names it Recorte_Liyu when it sets the machine up." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La cola de impresión que envía los trabajos a la máquina. Recorte la llama Recorte_Liyu cuando configura la máquina."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La file d’impression qui envoie les travaux à la machine. Recorte la nomme Recorte_Liyu quand il configure la machine."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A fila de impressão que envia os trabalhos para a máquina. O Recorte chama-lhe Recorte_Liyu quando configura a máquina."
+          }
+        }
+      }
+    },
+    "The serial port the machine is connected to." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El puerto serie al que está conectada la máquina."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le port série auquel la machine est connectée."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A porta série onde a máquina está ligada."
+          }
+        }
+      }
+    },
     "The sheet is already printed" : {
       "localizations" : {
         "es" : {
@@ -7826,6 +11279,94 @@
         }
       }
     },
+    "The starting value for new Output sessions. You can still change it for each job." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El valor inicial en la ventana Salida. Puede seguir cambiándolo en cada trabajo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La valeur de départ dans la fenêtre Sortie. Vous pouvez toujours la changer pour chaque travail."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O valor inicial na janela Saída. Pode continuar a mudá-lo em cada trabalho."
+          }
+        }
+      }
+    },
+    "The tip of a drag knife trails a little behind the centre of the holder, which would round off the corners. Recorte adds a small loop at each corner to turn the blade. Overcut carries the cut a little past the start, so closed shapes come out cleanly. Find the right values with a test cut." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La punta de una cuchilla de arrastre queda un poco detrás del centro del portacuchillas, lo que redondearía las esquinas. Recorte añade un pequeño bucle en cada esquina para girar la cuchilla. El sobrecorte prolonga el corte un poco más allá del inicio, para que las formas cerradas salgan limpias. Encuentre los valores adecuados con un corte de prueba."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La pointe d’une lame traînante se trouve un peu derrière le centre du porte-lame, ce qui arrondirait les angles. Recorte ajoute une petite boucle à chaque angle pour faire pivoter la lame. La surcoupe prolonge la découpe un peu après le début, pour que les formes fermées soient nettes. Trouvez les bonnes valeurs avec une découpe test."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A ponta de uma lâmina arrastada fica um pouco atrás do centro do suporte, o que arredondaria os cantos. O Recorte acrescenta um pequeno laço em cada canto para rodar a lâmina. O sobrecorte prolonga o corte um pouco para lá do início, para as formas fechadas saírem limpas. Encontre os valores certos com um corte de teste."
+          }
+        }
+      }
+    },
+    "The tips and the Getting Started window come back the next time you open Recorte." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los consejos y la ventana Primeros pasos volverán a aparecer la próxima vez que abra Recorte."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les conseils et la fenêtre Prise en main reviendront à la prochaine ouverture de Recorte."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As dicas e a janela Primeiros passos voltam a aparecer da próxima vez que abrir o Recorte."
+          }
+        }
+      }
+    },
+    "The widest the machine can cut. Recorte warns when a design is wider." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El ancho máximo que la máquina puede cortar. Recorte avisa cuando un diseño es más ancho."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La plus grande largeur que la machine peut découper. Recorte prévient quand un motif est plus large."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A maior largura que a máquina consegue cortar. O Recorte avisa quando um desenho é mais largo."
+          }
+        }
+      }
+    },
     "There are no cut lines yet" : {
       "localizations" : {
         "es" : {
@@ -7844,6 +11385,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ainda não há linhas de corte"
+          }
+        }
+      }
+    },
+    "Tips will show again" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los consejos volverán a aparecer"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les conseils s’afficheront à nouveau"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As dicas vão voltar a aparecer"
           }
         }
       }
@@ -7954,6 +11517,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ferramenta"
+          }
+        }
+      }
+    },
+    "Tools" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herramientas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Outils"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ferramentas"
           }
         }
       }
@@ -8090,25 +11675,46 @@
         }
       }
     },
-    "Treat white as background" : {
-      "extractionState" : "stale",
+    "Try Print & Cut" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tratar el blanco como fondo"
+            "value" : "Pruebe Imprimir y cortar"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Traiter le blanc comme fond"
+            "value" : "Essayez Impression et découpe"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tratar o branco como fundo"
+            "value" : "Experimente Imprimir e Cortar"
+          }
+        }
+      }
+    },
+    "Try a test cut first" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haga primero un corte de prueba"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faites d’abord une découpe test"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faça primeiro um corte de teste"
           }
         }
       }
@@ -8157,24 +11763,112 @@
         }
       }
     },
-    "Turn off only if the sheet already has the marks printed on it" : {
+    "Turn off only if the sheet already has the marks printed on it." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desactívelo solo si la hoja ya tiene las marcas impresas"
+            "value" : "Desactívelo solo si la hoja ya tiene las marcas impresas."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Désactivez uniquement si la feuille porte déjà les repères imprimés"
+            "value" : "Désactivez uniquement si la feuille porte déjà les repères imprimés."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desligue só se a folha já tiver as marcas impressas"
+            "value" : "Desligue só se a folha já tiver as marcas impressas."
+          }
+        }
+      }
+    },
+    "Turns the canvas into the printed sheet. Recorte adds registration marks that the machine's camera finds, so the cut lines up with the print." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convierte el lienzo en la hoja impresa. Recorte añade marcas de registro que la cámara de la máquina encuentra, para que el corte coincida con la impresión."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transforme la zone de travail en feuille imprimée. Recorte ajoute des repères que la caméra de la machine détecte, pour que la découpe suive l’impression."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transforma a tela na folha impressa. O Recorte acrescenta marcas de registo que a câmara da máquina encontra, para o corte coincidir com a impressão."
+          }
+        }
+      }
+    },
+    "Turns the design a quarter turn, for example to fit a long design across the vinyl." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gira el diseño un cuarto de vuelta, por ejemplo para que un diseño largo quepa a lo ancho del vinilo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fait pivoter le motif d’un quart de tour, par exemple pour qu’un motif long tienne en travers du vinyle."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Roda o desenho um quarto de volta, por exemplo para um desenho comprido caber na largura do vinil."
+          }
+        }
+      }
+    },
+    "Turns the object around its centre, in degrees." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gira el objeto alrededor de su centro, en grados."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fait pivoter l’objet autour de son centre, en degrés."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Roda o objeto à volta do centro, em graus."
+          }
+        }
+      }
+    },
+    "Turns the traced steps into smooth curves, so the knife runs more smoothly." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convierte los escalones del trazado en curvas suaves, para que la cuchilla corra mejor."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transforme les escaliers du tracé en courbes lisses, pour que la lame glisse mieux."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transforma os degraus do traçado em curvas suaves, para a lâmina correr melhor."
           }
         }
       }
@@ -8197,6 +11891,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "USB / porta série"
+          }
+        }
+      }
+    },
+    "Undo / Redo" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deshacer / Rehacer"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler / Rétablir"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desfazer / Refazer"
           }
         }
       }
@@ -8311,28 +12027,6 @@
         }
       }
     },
-    "View both / View Print only / View Cut only in SignMaster" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "View both / View Print only / View Cut only en SignMaster"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "View both / View Print only / View Cut only dans SignMaster"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "View both / View Print only / View Cut only no SignMaster"
-          }
-        }
-      }
-    },
     "Visible" : {
       "localizations" : {
         "es" : {
@@ -8396,6 +12090,94 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Padrão web (96 por polegada)"
+          }
+        }
+      }
+    },
+    "Welcome to Recorte" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bienvenido a Recorte"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bienvenue dans Recorte"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bem-vindo ao Recorte"
+          }
+        }
+      }
+    },
+    "Where the cut starts" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dónde empieza el corte"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Où commence la découpe"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onde o corte começa"
+          }
+        }
+      }
+    },
+    "Where the marks go" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dónde van las marcas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Où placer les repères"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onde ficam as marcas"
+          }
+        }
+      }
+    },
+    "While drawing: keep proportions" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al dibujar: mantener las proporciones"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En dessinant : garder les proportions"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ao desenhar: manter as proporções"
           }
         }
       }
@@ -8466,6 +12248,50 @@
         }
       }
     },
+    "Width and height in mm." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ancho y alto en mm."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Largeur et hauteur en mm."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Largura e altura em mm."
+          }
+        }
+      }
+    },
+    "With a new material or blade, cut a small test to check the pressure before the real job." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con un material o una cuchilla nuevos, haga un pequeño corte de prueba para comprobar la presión antes del trabajo real."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec un nouveau matériau ou une nouvelle lame, faites une petite découpe test pour vérifier la pression avant le vrai travail."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com um material ou lâmina novos, corte um pequeno teste para confirmar a pressão antes do trabalho a sério."
+          }
+        }
+      }
+    },
     "With the arrows on the panel, move the blade over **the arrow mark** (front right), then press **Origin**." : {
       "localizations" : {
         "es" : {
@@ -8490,6 +12316,50 @@
     },
     "X" : {},
     "Y" : {},
+    "Zoom in. You can also pinch on the trackpad." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acercar. También puede separar los dedos en el trackpad."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom avant. Vous pouvez aussi écarter les doigts sur le trackpad."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aproximar. Também pode afastar os dedos no trackpad."
+          }
+        }
+      }
+    },
+    "Zoom out" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alejar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom arrière"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afastar"
+          }
+        }
+      }
+    },
     "g" : {
       "localizations" : {
         "es" : {

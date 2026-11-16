@@ -17,6 +17,7 @@ struct SendProgressView: View {
                 Text("Keep the machine clear while it moves.")
                     .foregroundStyle(.secondary)
                 Button("Stop", role: .destructive) { cutter.cancel() }
+                    .help("Stops sending. The machine may still finish what it has already received.")
             case .finished:
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 36))
