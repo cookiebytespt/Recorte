@@ -12,7 +12,7 @@ struct ContourSheetView: View {
     @State private var options = ContourOptions.default
     @State private var layers: Layers = .both
     @State private var replaceExisting = true
-    @State private var preview: [UUID: [Polyline]] = [:]
+    @State private var preview: [UUID: [BezierPath]] = [:]
     @State private var isTracing = false
     @State private var isCreating = false
 
@@ -24,7 +24,8 @@ struct ContourSheetView: View {
     }
 
     private var follow: Bool { options.shape == .follow }
-    private var previewLines: [Polyline] { preview.values.flatMap { $0 } }
+    private var previewLines: [Polyline] { preview.values.flatMap { $0 }.map { $0.flattened(tolerance: 0.1) } }
+    private var previewNodeCount: Int { preview.values.flatMap { $0 }.reduce(0) { $0 + $1.nodes.count } }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -81,12 +82,12 @@ struct ContourSheetView: View {
         var targets: [UUID]
     }
 
-    private static func trace(_ objects: [DesignObject], options: ContourOptions) async -> [UUID: [Polyline]] {
+    private static func trace(_ objects: [DesignObject], options: ContourOptions) async -> [UUID: [BezierPath]] {
         await Task.detached(priority: .userInitiated) {
-            var out: [UUID: [Polyline]] = [:]
+            var out: [UUID: [BezierPath]] = [:]
             for object in objects {
                 if Task.isCancelled { break }
-                out[object.id] = ContourTracer.contours(for: object, options: options)
+                out[object.id] = ContourTracer.contourCurves(for: object, options: options)
             }
             return out
         }.value
@@ -155,7 +156,7 @@ struct ContourSheetView: View {
     private var summary: String {
         let lines = previewLines
         let length = String(format: "%.2f m", lines.totalLength / 1000)
-        return String(localized: "\(lines.count) cut lines · \(length)")
+        return String(localized: "\(lines.count) cut lines · \(length)") + " · " + String(localized: "\(previewNodeCount) points")
     }
 
     // MARK: Settings
@@ -193,6 +194,11 @@ struct ContourSheetView: View {
                 }
                 .disabled(!follow)
                 .help("Called Keep Holes in SignMaster")
+                Toggle(isOn: $options.smoothCurves) {
+                    Text("Smooth curves")
+                    Text("Fewer points and smoother cuts; the points stay editable")
+                }
+                .disabled(!follow)
             }
 
             Section("Finding the edge") {
@@ -201,6 +207,12 @@ struct ContourSheetView: View {
                     Text("Treat white as background")
                     Text("For JPEG and other images without transparency")
                 }
+                Toggle(isOn: $options.cutEnclosedWhite) {
+                    Text("Also cut white areas inside")
+                    Text("For example white letters on a coloured background")
+                }
+                .disabled(!options.whiteIsBackground || !options.cutHoles || !follow)
+                .help("Off: only white that touches the edge of the image is background")
                 LabeledContent("Ignore specks smaller than") {
                     TextField("Ignore specks smaller than", value: $options.minimumSpeckMM, format: .number.precision(.fractionLength(1)))
                         .labelsHidden()
@@ -232,11 +244,11 @@ struct ContourSheetView: View {
                 let name = String(localized: "Cut contour – \(image.name)")
                 switch options.shape {
                 case .follow:
-                    let paths = traced[image.id] ?? []
-                    let b = paths.bounds
+                    let curves = traced[image.id] ?? []
+                    let b = curves.bounds
                     guard !b.isNull, b.width > 0, b.height > 0 else { continue }
-                    let normalized = paths.transformed(AffineTransform.scaling(1 / b.width, 1 / b.height).concatenating(.translation(-b.minX, -b.minY)))
-                    created.append(DesignObject(name: name, kind: .artwork(ArtworkSpec(sourceName: String(localized: "Cut contour"), paths: normalized)),
+                    let normalized = curves.transformed(AffineTransform.scaling(1 / b.width, 1 / b.height).concatenating(.translation(-b.minX, -b.minY)))
+                    created.append(DesignObject(name: name, kind: .artwork(ArtworkSpec(sourceName: String(localized: "Cut contour"), curves: normalized)),
                                                 frame: b, contourSourceID: image.id))
                 case .rectangle, .rounded:
                     // Keep boxes as real rectangles so the corner radius stays editable.

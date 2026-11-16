@@ -27,6 +27,7 @@ final class SVGParserDelegate: NSObject, XMLParserDelegate {
     private var pageSize: Size?
     private var builder: PathBuilder
     private(set) var paths: [Polyline] = []
+    private var curves: [BezierPath] = []
     private var textCount = 0
     private var imageCount = 0
     private var unsupported: Set<String> = []
@@ -47,7 +48,7 @@ final class SVGParserDelegate: NSObject, XMLParserDelegate {
         if textCount > 0 { warnings.append(.textIgnored(count: textCount)) }
         if imageCount > 0 { warnings.append(.imagesIgnored(count: imageCount)) }
         if !unsupported.isEmpty { warnings.append(.unsupportedElements(unsupported.sorted())) }
-        return CutDocument(name: name, paths: paths, pageSize: pageSize, warnings: warnings)
+        return CutDocument(name: name, paths: paths, curves: curves, pageSize: pageSize, warnings: warnings)
     }
 
     // MARK: XMLParserDelegate
@@ -76,7 +77,7 @@ final class SVGParserDelegate: NSObject, XMLParserDelegate {
         case "path":
             if let d = attributes["d"] {
                 SVGPathData.parse(d, into: &builder, transform: transform)
-                paths.append(contentsOf: builder.finish())
+                paths.append(contentsOf: builder.finish()); curves.append(contentsOf: builder.lastCurves)
             }
         case "rect": addRect(attributes, transform)
         case "circle": addEllipse(attributes, transform, isCircle: true)
@@ -139,7 +140,7 @@ final class SVGParserDelegate: NSObject, XMLParserDelegate {
                           control2: t.apply(Point(x + rxx - kx, y)))
             builder.close()
         }
-        paths.append(contentsOf: builder.finish())
+        paths.append(contentsOf: builder.finish()); curves.append(contentsOf: builder.lastCurves)
     }
 
     private func addEllipse(_ a: [String: String], _ t: AffineTransform, isCircle: Bool) {
@@ -160,7 +161,7 @@ final class SVGParserDelegate: NSObject, XMLParserDelegate {
         builder.cubic(to: t.apply(Point(cx, cy - ry)), control1: t.apply(Point(cx - rx, cy - ky)), control2: t.apply(Point(cx - kx, cy - ry)))
         builder.cubic(to: t.apply(Point(cx + rx, cy)), control1: t.apply(Point(cx + kx, cy - ry)), control2: t.apply(Point(cx + rx, cy - ky)))
         builder.close()
-        paths.append(contentsOf: builder.finish())
+        paths.append(contentsOf: builder.finish()); curves.append(contentsOf: builder.lastCurves)
     }
 
     private func addLine(_ a: [String: String], _ t: AffineTransform) {
@@ -168,7 +169,7 @@ final class SVGParserDelegate: NSObject, XMLParserDelegate {
         let p2 = Point(num(a["x2"]) ?? 0, num(a["y2"]) ?? 0)
         builder.move(to: t.apply(p1))
         builder.line(to: t.apply(p2))
-        paths.append(contentsOf: builder.finish())
+        paths.append(contentsOf: builder.finish()); curves.append(contentsOf: builder.lastCurves)
     }
 
     private func addPoly(_ a: [String: String], _ t: AffineTransform, closed: Bool) {
@@ -183,7 +184,7 @@ final class SVGParserDelegate: NSObject, XMLParserDelegate {
             i += 2
         }
         if closed { builder.close() }
-        paths.append(contentsOf: builder.finish())
+        paths.append(contentsOf: builder.finish()); curves.append(contentsOf: builder.lastCurves)
     }
 
     // MARK: Root sizing

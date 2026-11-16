@@ -5,31 +5,71 @@ import SwiftUI
 /// Right-hand panel: properties of the selection (or the canvas) plus the layers list.
 struct SidebarView: View {
     @Bindable var editor: EditorState
+    /// Share of the panel height used by the layers list; starts at about a fifth on launch.
+    @State private var layersFraction: CGFloat = 0.22
+    @State private var dragStartHeight: CGFloat?
+
+    private let dividerHeight: CGFloat = 7
+    private let minLayers: CGFloat = 100
+    private let minProperties: CGFloat = 200
 
     var body: some View {
-        VSplitView {
-            Form {
-                if let object = editor.singleSelection {
-                    ObjectSection(editor: editor, object: object)
-                } else if editor.selection.count > 1 {
-                    Section {
-                        Text("\(editor.selection.count) objects selected")
-                        HStack {
-                            Button("Duplicate") { editor.duplicateSelection() }
-                            Button("Delete", role: .destructive) { editor.deleteSelection() }
+        GeometryReader { geo in
+            let total = geo.size.height
+            let layersHeight = min(max(total * layersFraction, minLayers), max(total - minProperties - dividerHeight, minLayers))
+            VStack(spacing: 0) {
+                Form {
+                    if let object = editor.singleSelection {
+                        ObjectSection(editor: editor, object: object)
+                    } else if editor.selection.count > 1 {
+                        Section {
+                            Text("\(editor.selection.count) objects selected")
+                            HStack {
+                                Button("Duplicate") { editor.duplicateSelection() }
+                                Button("Delete", role: .destructive) { editor.deleteObjects() }
+                            }
                         }
+                    } else {
+                        CanvasSection(editor: editor)
                     }
-                } else {
-                    CanvasSection(editor: editor)
                 }
-            }
-            .formStyle(.grouped)
-            .scrollContentBackground(.hidden)
-            .frame(minHeight: 200)
+                .formStyle(.grouped)
+                .scrollContentBackground(.hidden)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-            LayersList(editor: editor)
-                .frame(minHeight: 120)
+                splitDivider(total: total, layersHeight: layersHeight)
+
+                LayersList(editor: editor)
+                    .frame(height: layersHeight)
+            }
         }
+    }
+
+    /// Draggable divider between the properties and the layers list.
+    private func splitDivider(total: CGFloat, layersHeight: CGFloat) -> some View {
+        ZStack {
+            Color.clear
+            Divider()
+        }
+        .frame(height: dividerHeight)
+        .contentShape(Rectangle())
+        .onHover { inside in
+            if inside { NSCursor.resizeUpDown.push() } else { NSCursor.pop() }
+        }
+        .gesture(
+            DragGesture(minimumDistance: 1, coordinateSpace: .global)
+                .onChanged { value in
+                    let start = dragStartHeight ?? layersHeight
+                    dragStartHeight = start
+                    guard total > 0 else { return }
+                    layersFraction = (start - value.translation.height) / total
+                }
+                .onEnded { _ in
+                    guard total > 0 else { return }
+                    layersFraction = min(max(layersFraction, minLayers / total), max(total - minProperties, minLayers) / total)
+                    dragStartHeight = nil
+                }
+        )
     }
 }
 
@@ -154,7 +194,7 @@ private struct ObjectSection: View {
         Section {
             HStack {
                 Button("Duplicate") { editor.duplicateSelection() }
-                Button("Delete", role: .destructive) { editor.deleteSelection() }
+                Button("Delete", role: .destructive) { editor.deleteObjects() }
             }
         }
     }
@@ -194,8 +234,10 @@ private struct ObjectSection: View {
         case .artwork(let art):
             Section("Artwork") {
                 LabeledContent("Source", value: art.sourceName)
-                LabeledContent("Shapes", value: "\(art.paths.count)")
+                LabeledContent("Shapes", value: "\(art.curves.count)")
+                LabeledContent("Points", value: "\(object.artworkPointCount)")
             }
+            ArtworkLinesSection(editor: editor, object: object, lineCount: art.curves.count)
         case .image(let spec):
             Section("Printed image") {
                 LabeledContent("Source", value: spec.sourceName)
@@ -324,5 +366,102 @@ private struct LayersList: View {
         case .artwork: "doc.richtext"
         case .image: "photo"
         }
+    }
+}
+
+/// Editing the lines of artwork and cut contours: point editing, node types, removing inner lines,
+/// splitting, and turning traced lines into smooth curves.
+private struct ArtworkLinesSection: View {
+    @Bindable var editor: EditorState
+    let object: DesignObject
+    let lineCount: Int
+    @State private var toleranceMM = 0.1
+    @State private var offsetMM = 2.0
+    @State private var keepOriginal = true
+
+    private var isEditing: Bool { editor.pathEdit?.objectID == object.id }
+    private var selectedLine: Int? { isEditing ? editor.validPathEdit?.path : nil }
+    private var selectedNode: BezierNode? { isEditing ? editor.selectedNode : nil }
+    /// The selected line is open (offset only works on closed lines).
+    private var selectedLineIsOpen: Bool {
+        guard let p = selectedLine, let curves = object.artworkLocalCurves, curves.indices.contains(p) else { return false }
+        return !curves[p].isClosed
+    }
+    private var hasClosedLines: Bool { object.artworkLocalCurves?.contains(where: \.isClosed) ?? false }
+
+    private var outerCount: Int { object.artworkLocalCurves.map { DesignObject.outerPathIndices($0).count } ?? 0 }
+
+    var body: some View {
+        Section("Lines") {
+            Button(isEditing ? LocalizedStringKey("Done Editing Points") : "Edit Points") {
+                if isEditing { editor.endPathEdit() } else { editor.beginPathEdit(object.id) }
+            }
+            .help("Or double-click the object on the canvas")
+            if isEditing {
+                LabeledContent("Selected point") {
+                    Picker("Selected point", selection: Binding(
+                        get: { selectedNode?.hasHandles ?? false },
+                        set: { editor.setSelectedPoint(smooth: $0) })) {
+                        Text("Corner").tag(false)
+                        Text("Smooth").tag(true)
+                    }
+                    .pickerStyle(.segmented)
+                    .labelsHidden()
+                    .fixedSize()
+                }
+                .disabled(selectedNode == nil)
+                .help("Smooth points have curve handles; corner points join straight or independent segments. Double-click a point to switch.")
+                Button("Delete Selected Line", role: .destructive) {
+                    if var edit = editor.pathEdit { edit.point = nil; editor.pathEdit = edit }
+                    editor.deleteInPathEdit()
+                }
+                .disabled(selectedLine == nil)
+            }
+            Button("Keep Outer Lines Only") { editor.keepOuterLines() }
+                .disabled(outerCount == lineCount)
+                .help("Removes the lines inside other lines, such as holes in a cut contour")
+            Button("Split into Separate Objects") { editor.splitIntoLines() }
+                .disabled(lineCount < 2)
+            LabeledContent {
+                HStack {
+                    TextField("Smooth into curves", value: $toleranceMM, format: .number.precision(.fractionLength(0...2)))
+                        .labelsHidden()
+                        .multilineTextAlignment(.trailing)
+                        .frame(width: 48)
+                    Text("mm").foregroundStyle(.secondary)
+                    Button("Apply") { editor.smoothIntoCurves(toleranceMM: max(toleranceMM, 0.01)) }
+                }
+            } label: {
+                Text("Smooth into curves")
+                Text(selectedLine == nil ? LocalizedStringKey("Fits curves with fewer points; the line moves at most this distance")
+                                         : "Only on the selected line")
+            }
+            LabeledContent {
+                HStack {
+                    TextField("Offset", value: $offsetMM, format: .number.precision(.fractionLength(0...2)))
+                        .labelsHidden()
+                        .multilineTextAlignment(.trailing)
+                        .frame(width: 48)
+                    Text("mm").foregroundStyle(.secondary)
+                    if editor.isOffsetting {
+                        ProgressView().controlSize(.small)
+                    } else {
+                        Button("Apply") { Task { await editor.offsetLines(distanceMM: offsetMM, keepOriginal: keepOriginal) } }
+                            .disabled(offsetMM == 0 || selectedLineIsOpen || !hasClosedLines)
+                    }
+                }
+            } label: {
+                Text("Offset")
+                Text(selectedLineIsOpen ? LocalizedStringKey("Only closed lines can be offset")
+                     : selectedLine == nil ? "Positive grows outwards, negative shrinks; round corners"
+                     : "Only on the selected line")
+            }
+            if let note = editor.offsetNote {
+                Text(note).font(.footnote).foregroundStyle(.orange)
+            }
+            Toggle("Keep the original line", isOn: $keepOriginal)
+                .help("On: the offset becomes a new object. Off: it replaces the line.")
+        }
+        .disabled(object.isLocked)
     }
 }

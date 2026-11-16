@@ -16,13 +16,17 @@ public enum ImportWarning: Hashable, Sendable {
 public struct CutDocument: Hashable, Sendable {
     public var name: String
     public var paths: [Polyline]
+    /// The same lines as Bézier curves (one per path, same order) when the importer kept them.
+    public var curves: [BezierPath]?
     /// Page or artboard size in millimetres when the file declares one.
     public var pageSize: Size?
     public var warnings: [ImportWarning]
 
-    public init(name: String, paths: [Polyline], pageSize: Size? = nil, warnings: [ImportWarning] = []) {
+    public init(name: String, paths: [Polyline], curves: [BezierPath]? = nil, pageSize: Size? = nil,
+                warnings: [ImportWarning] = []) {
         self.name = name
         self.paths = paths
+        self.curves = curves.flatMap { $0.count == paths.count ? $0 : nil }
         self.pageSize = pageSize
         self.warnings = warnings
     }
@@ -34,6 +38,7 @@ public struct CutDocument: Hashable, Sendable {
     public func transformed(_ t: AffineTransform) -> CutDocument {
         var copy = self
         copy.paths = paths.transformed(t)
+        copy.curves = curves?.transformed(t)
         return copy
     }
 
@@ -47,7 +52,10 @@ public struct CutDocument: Hashable, Sendable {
     /// Drops degenerate polylines and merges duplicate points.
     public func cleaned(tolerance: Double = 0.01) -> CutDocument {
         var copy = self
-        copy.paths = paths.map { $0.simplified(tolerance: tolerance) }.filter { !$0.isEmpty }
+        let simplified = paths.map { $0.simplified(tolerance: tolerance) }
+        let keep = simplified.indices.filter { !simplified[$0].isEmpty }
+        copy.paths = keep.map { simplified[$0] }
+        if let curves { copy.curves = keep.map { curves[$0] } }
         return copy
     }
 }

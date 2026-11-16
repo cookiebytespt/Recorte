@@ -24,21 +24,31 @@ public struct ContourOptions: Sendable, Hashable, Codable {
     /// Also cut transparent areas inside the artwork.
     public var cutHoles: Bool
     /// Treat (near-)white pixels as background, for images without transparency.
+    /// Only white that reaches the edge of the image counts, so white letters and highlights
+    /// inside the artwork stay part of it (unless `cutEnclosedWhite` is set).
     public var whiteIsBackground: Bool
+    /// With `whiteIsBackground`: also treat white areas enclosed by the artwork (e.g. white letters)
+    /// as background, so they become holes when `cutHoles` is on.
+    public var cutEnclosedWhite: Bool
     /// Ignore opaque specks and small holes below this size, in mm.
     public var minimumSpeckMM: Double
     /// Tracing resolution in pixels per mm (10 ≈ 254 dpi).
     public var pixelsPerMM: Double
+    /// Fit smooth Bézier curves to the traced outline (fewer nodes, smoother cuts; follow mode only).
+    public var smoothCurves: Bool
 
     public init(shape: Shape = .follow, distanceMM: Double = 2, corners: Corners = .round, cutHoles: Bool = true,
-                whiteIsBackground: Bool = false, minimumSpeckMM: Double = 1, pixelsPerMM: Double = 10) {
+                whiteIsBackground: Bool = false, cutEnclosedWhite: Bool = false, minimumSpeckMM: Double = 1,
+                pixelsPerMM: Double = 10, smoothCurves: Bool = true) {
         self.shape = shape
         self.distanceMM = distanceMM
         self.corners = corners
         self.cutHoles = cutHoles
         self.whiteIsBackground = whiteIsBackground
+        self.cutEnclosedWhite = cutEnclosedWhite
         self.minimumSpeckMM = minimumSpeckMM
         self.pixelsPerMM = pixelsPerMM
+        self.smoothCurves = smoothCurves
     }
 
     public static let `default` = ContourOptions()
@@ -102,10 +112,25 @@ public enum ContourTracer {
         return local.transformed(object.localToDocument)
     }
 
+    /// Largest distance between the traced outline and the fitted curves, in mm.
+    public static let smoothingToleranceMM = 0.1
+
+    /// Cut lines as Bézier curves in document space: smooth curves fitted to the trace when
+    /// `smoothCurves` is set (follow mode), otherwise the traced lines as straight segments.
+    public static func contourCurves(for object: DesignObject, options: ContourOptions) -> [BezierPath] {
+        let lines = contours(for: object, options: options)
+        guard options.smoothCurves, options.shape == .follow else { return lines.map(BezierPath.init) }
+        return lines.map { line in
+            let fitted = BezierPath.fitted(to: line, tolerance: smoothingToleranceMM)
+            return fitted.isUsable ? fitted : BezierPath(line)
+        }
+    }
+
     /// Bounding box of the visible artwork in frame-local mm (after removing specks).
     public static func artworkBox(_ spec: ImageSpec, size: Size, options: ContourOptions) -> Rect? {
         let ppm = effectiveResolution(size: size, options: options, pad: 0)
-        guard var mask = rasterMask(spec, size: size, pixelsPerMM: ppm, pad: 0, whiteIsBackground: options.whiteIsBackground) else { return nil }
+        guard var mask = rasterMask(spec, size: size, pixelsPerMM: ppm, pad: 0, whiteIsBackground: options.whiteIsBackground,
+                                        cutEnclosedWhite: options.cutEnclosedWhite) else { return nil }
         removeSpecks(&mask, minimumPixels: options.minimumSpeckMM * ppm, fillHoles: false)
         guard let b = mask.occupiedBounds else { return nil }
         return Rect(minX: Double(b.minX) / ppm, minY: Double(b.minY) / ppm,
@@ -126,7 +151,8 @@ public enum ContourTracer {
         let padMM = distance + 1
         let ppm = effectiveResolution(size: size, options: options, pad: padMM)
         let pad = Int((padMM * ppm).rounded(.up))
-        guard let mask = rasterMask(spec, size: size, pixelsPerMM: ppm, pad: pad, whiteIsBackground: options.whiteIsBackground) else { return [] }
+        guard let mask = rasterMask(spec, size: size, pixelsPerMM: ppm, pad: pad, whiteIsBackground: options.whiteIsBackground,
+                                        cutEnclosedWhite: options.cutEnclosedWhite) else { return [] }
         let loops = trace(mask: mask, pixelsPerMM: ppm, options: options)
         let offset = Point(Double(pad) / ppm, Double(pad) / ppm)
         return loops.transformed(.translation(-offset.x, -offset.y))
@@ -168,7 +194,7 @@ public enum ContourTracer {
     /// Draws the image into its frame (stretched like the canvas; PDFs keep their aspect ratio like the print)
     /// and returns the artwork mask with `pad` empty pixels around it.
     public static func rasterMask(_ spec: ImageSpec, size: Size, pixelsPerMM ppm: Double, pad: Int,
-                                  whiteIsBackground: Bool) -> BitMask? {
+                                  whiteIsBackground: Bool, cutEnclosedWhite: Bool = false) -> BitMask? {
         let w = max(1, Int((size.width * ppm).rounded()))
         let h = max(1, Int((size.height * ppm).rounded()))
         let width = w + pad * 2, height = h + pad * 2
@@ -195,16 +221,50 @@ public enum ContourTracer {
             return true
         }
         guard drawn else { return nil }
-        var mask = BitMask(width: width, height: height)
+        var opaque = BitMask(width: width, height: height)
+        var white = BitMask(width: width, height: height)
         for i in 0..<(width * height) {
             let a = Int(pixels[i * 4 + 3])
             guard a >= 128 else { continue }
+            opaque.bits[i] = true
             if whiteIsBackground {
                 // Un-premultiply and compare against near-white.
                 let r = Int(pixels[i * 4]) * 255 / a, g = Int(pixels[i * 4 + 1]) * 255 / a, b = Int(pixels[i * 4 + 2]) * 255 / a
-                if r >= 240 && g >= 240 && b >= 240 { continue }
+                if r >= 240 && g >= 240 && b >= 240 { white.bits[i] = true }
             }
-            mask.bits[i] = true
+        }
+        guard whiteIsBackground else { return opaque }
+        return artworkMask(opaque: opaque, white: white, cutEnclosedWhite: cutEnclosedWhite)
+    }
+
+    /// Combines the opacity and white masks. Transparent pixels are always background. White pixels are
+    /// background when `cutEnclosedWhite` is set, otherwise only when they connect to the image's edge
+    /// (through white or transparent pixels), so white shapes inside the artwork stay artwork.
+    public static func artworkMask(opaque: BitMask, white: BitMask, cutEnclosedWhite: Bool) -> BitMask {
+        let w = opaque.width, h = opaque.height
+        var mask = BitMask(width: w, height: h)
+        if cutEnclosedWhite {
+            for i in 0..<(w * h) { mask.bits[i] = opaque.bits[i] && !white.bits[i] }
+            return mask
+        }
+        // Flood fill the background from the border through transparent and white pixels.
+        var outside = [Bool](repeating: false, count: w * h)
+        var stack: [Int] = []
+        func seed(_ i: Int) {
+            if !outside[i] && (!opaque.bits[i] || white.bits[i]) { outside[i] = true; stack.append(i) }
+        }
+        for x in 0..<w { seed(x); seed((h - 1) * w + x) }
+        for y in 0..<h { seed(y * w); seed(y * w + w - 1) }
+        while let i = stack.popLast() {
+            let x = i % w, y = i / w
+            if x > 0 { seed(i - 1) }
+            if x < w - 1 { seed(i + 1) }
+            if y > 0 { seed(i - w) }
+            if y < h - 1 { seed(i + w) }
+        }
+        for i in 0..<(w * h) {
+            // Enclosed white counts as artwork; transparent pixels never do.
+            mask.bits[i] = opaque.bits[i] && !(white.bits[i] && outside[i])
         }
         return mask
     }
@@ -454,5 +514,69 @@ public enum ContourTracer {
             }
         }
         return Polyline(points: out, isClosed: true)
+    }
+}
+
+// MARK: - Offsetting lines
+
+extension ContourTracer {
+    /// Grows (positive `distanceMM`) or shrinks (negative) the area enclosed by closed lines, with round corners,
+    /// and returns the new outlines as smooth curves. Lines inside other lines are holes (even-odd), and
+    /// overlapping results merge. Works on a raster of `pixelsPerMM` (lowered for large shapes), so the result
+    /// is accurate to about one pixel. Open lines are ignored.
+    public static func offset(_ curves: [BezierPath], distanceMM: Double, pixelsPerMM: Double = 10) -> [BezierPath] {
+        let closed = curves.filter(\.isClosed).map { $0.flattened(tolerance: 0.02) }.filter { $0.points.count >= 3 }
+        let b = closed.bounds
+        guard !b.isNull, b.width > 0 || b.height > 0 else { return [] }
+        let padMM = Swift.abs(distanceMM) + 1
+        let longest = max(b.width, b.height) + padMM * 2
+        let ppm = max(2, min(pixelsPerMM, 3000 / max(longest, 1)))
+        let width = Int(((b.width + padMM * 2) * ppm).rounded(.up))
+        let height = Int(((b.height + padMM * 2) * ppm).rounded(.up))
+        guard width > 0, height > 0 else { return [] }
+
+        // Rasterise the even-odd fill: memory row 0 is the top, local y grows downwards.
+        var pixels = [UInt8](repeating: 0, count: width * height)
+        let drawn: Bool = pixels.withUnsafeMutableBytes { buffer in
+            guard let ctx = CGContext(data: buffer.baseAddress, width: width, height: height, bitsPerComponent: 8,
+                                      bytesPerRow: width, space: CGColorSpaceCreateDeviceGray(),
+                                      bitmapInfo: CGImageAlphaInfo.none.rawValue) else { return false }
+            ctx.setShouldAntialias(false)
+            ctx.setFillColor(gray: 1, alpha: 1)
+            let path = CGMutablePath()
+            for line in closed {
+                let pts = line.points.map { p in
+                    CGPoint(x: (p.x - b.minX + padMM) * ppm, y: Double(height) - (p.y - b.minY + padMM) * ppm)
+                }
+                path.addLines(between: pts)
+                path.closeSubpath()
+            }
+            ctx.addPath(path)
+            ctx.fillPath(using: .evenOdd)
+            return true
+        }
+        guard drawn else { return [] }
+        var mask = BitMask(width: width, height: height)
+        for i in 0..<(width * height) { mask.bits[i] = pixels[i] >= 128 }
+
+        let radius = Swift.abs(distanceMM) * ppm
+        if distanceMM > 0 {
+            mask = dilateEuclidean(mask, radius: radius)
+        } else if distanceMM < 0 {
+            var outside = mask
+            for i in outside.bits.indices { outside.bits[i].toggle() }
+            outside = dilateEuclidean(outside, radius: radius)
+            for i in mask.bits.indices { mask.bits[i] = !outside.bits[i] }
+        }
+        let toLocal = AffineTransform.translation(b.minX - padMM, b.minY - padMM).concatenating(.scaling(1 / ppm, 1 / ppm))
+        let tolerance = max(smoothingToleranceMM, 1 / ppm)
+        return traceLoops(mask)
+            .map { simplify($0, tolerance: 0.6) }
+            .filter { $0.points.count >= 3 && max($0.bounds.width, $0.bounds.height) >= 2 }
+            .map { loop in
+                let line = loop.transformed(toLocal)
+                let fitted = BezierPath.fitted(to: line, tolerance: tolerance)
+                return fitted.isUsable ? fitted : BezierPath(line)
+            }
     }
 }
