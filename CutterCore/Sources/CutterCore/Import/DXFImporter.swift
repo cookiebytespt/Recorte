@@ -52,10 +52,11 @@ public struct DXFImporter: Sendable {
 
         var builder = PathBuilder(tolerance: options.tolerance / unitScale)
         var paths: [Polyline] = []
+        var curves: [BezierPath] = []
         var unsupported: Set<String> = []
         var pendingPolyline: (points: [Point], closed: Bool)? = nil
 
-        func emit() { paths.append(contentsOf: builder.finish()) }
+        func emit() { paths.append(contentsOf: builder.finish()); curves.append(contentsOf: builder.lastCurves) }
 
         for entity in entities {
             let type = entity.first?.1 ?? ""
@@ -150,12 +151,13 @@ public struct DXFImporter: Sendable {
         }
 
         // DXF is Y-up; flip and move to the origin.
-        let flipped = paths.transformed(AffineTransform(a: unitScale, b: 0, c: 0, d: -unitScale, tx: 0, ty: 0))
+        let flip = AffineTransform(a: unitScale, b: 0, c: 0, d: -unitScale, tx: 0, ty: 0)
+        let flipped = paths.transformed(flip)
         var warnings: [ImportWarning] = []
         if unsupported.contains("TEXT") || unsupported.contains("MTEXT") { warnings.append(.textIgnored(count: 1)) }
         let others = unsupported.subtracting(["TEXT", "MTEXT"])
         if !others.isEmpty { warnings.append(.unsupportedElements(others.sorted())) }
-        return CutDocument(name: name, paths: flipped, pageSize: nil, warnings: warnings).normalized()
+        return CutDocument(name: name, paths: flipped, curves: curves.transformed(flip), pageSize: nil, warnings: warnings).normalized()
     }
 
     private static func addPolyline(_ pts: [Point], bulges: [Double], closed: Bool, into builder: inout PathBuilder) {

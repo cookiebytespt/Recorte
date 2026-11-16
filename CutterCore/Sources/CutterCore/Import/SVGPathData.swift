@@ -154,9 +154,14 @@ struct SVGPathData {
                       let large = sc.nextFlag(), let sweep = sc.nextFlag(),
                       let x = sc.nextNumber(), let y = sc.nextNumber() else { return }
                 let p = abs(Point(x, y), relative: rel)
-                let pts = arcPoints(from: current, to: p, rx: rx, ry: ry, rotationDegrees: rot,
-                                    largeArc: large, sweep: sweep, tolerance: builder.tolerance / max(transform.meanScale, 1e-9))
-                for q in pts { builder.line(to: transform.apply(q)) }
+                // As Bézier pieces, so the arc stays a curve (and stays editable after import).
+                for piece in arcCubics(from: current, to: p, rx: rx, ry: ry, rotationDegrees: rot, largeArc: large, sweep: sweep) {
+                    if let c1 = piece.c1, let c2 = piece.c2 {
+                        builder.cubic(to: transform.apply(piece.p), control1: transform.apply(c1), control2: transform.apply(c2))
+                    } else {
+                        builder.line(to: transform.apply(piece.p))
+                    }
+                }
                 current = p
             case 0x5A: // Z
                 builder.close()
@@ -167,6 +172,58 @@ struct SVGPathData {
             lastCubicControl = nextCubic
             lastQuadControl = nextQuad
         }
+    }
+
+    /// Converts an SVG endpoint arc into cubic Bézier pieces of at most 90° (end point and control points;
+    /// no control points means a straight line, for degenerate radii).
+    static func arcCubics(from p1: Point, to p2: Point, rx rxIn: Double, ry ryIn: Double, rotationDegrees: Double,
+                          largeArc: Bool, sweep: Bool) -> [(p: Point, c1: Point?, c2: Point?)] {
+        if p1.isApproximatelyEqual(to: p2) { return [] }
+        var rx = Swift.abs(rxIn), ry = Swift.abs(ryIn)
+        if rx == 0 || ry == 0 { return [(p2, nil, nil)] }
+        let phi = rotationDegrees * .pi / 180
+        let cosPhi = cos(phi), sinPhi = sin(phi)
+        let dx2 = (p1.x - p2.x) / 2, dy2 = (p1.y - p2.y) / 2
+        let x1p = cosPhi * dx2 + sinPhi * dy2
+        let y1p = -sinPhi * dx2 + cosPhi * dy2
+        let lambda = (x1p * x1p) / (rx * rx) + (y1p * y1p) / (ry * ry)
+        if lambda > 1 {
+            rx *= lambda.squareRoot()
+            ry *= lambda.squareRoot()
+        }
+        let num = rx * rx * ry * ry - rx * rx * y1p * y1p - ry * ry * x1p * x1p
+        let den = rx * rx * y1p * y1p + ry * ry * x1p * x1p
+        var coef = den > 0 ? (max(0, num / den)).squareRoot() : 0
+        if largeArc == sweep { coef = -coef }
+        let cxp = coef * rx * y1p / ry
+        let cyp = coef * -ry * x1p / rx
+        let cx = cosPhi * cxp - sinPhi * cyp + (p1.x + p2.x) / 2
+        let cy = sinPhi * cxp + cosPhi * cyp + (p1.y + p2.y) / 2
+
+        func angle(_ u: Point, _ v: Point) -> Double { atan2(u.cross(v), u.dot(v)) }
+        let u = Point((x1p - cxp) / rx, (y1p - cyp) / ry)
+        let v = Point((-x1p - cxp) / rx, (-y1p - cyp) / ry)
+        let theta1 = angle(Point(1, 0), u)
+        var dtheta = angle(u, v)
+        if !sweep, dtheta > 0 { dtheta -= 2 * .pi }
+        if sweep, dtheta < 0 { dtheta += 2 * .pi }
+
+        func point(_ t: Double) -> Point {
+            Point(cx + rx * cos(t) * cosPhi - ry * sin(t) * sinPhi, cy + rx * cos(t) * sinPhi + ry * sin(t) * cosPhi)
+        }
+        func derivative(_ t: Double) -> Point {
+            Point(-rx * sin(t) * cosPhi - ry * cos(t) * sinPhi, -rx * sin(t) * sinPhi + ry * cos(t) * cosPhi)
+        }
+        let pieces = max(1, Int((Swift.abs(dtheta) / (.pi / 2)).rounded(.up)))
+        let step = dtheta / Double(pieces)
+        let k = 4.0 / 3.0 * tan(step / 4)
+        var out: [(p: Point, c1: Point?, c2: Point?)] = []
+        for i in 0..<pieces {
+            let t0 = theta1 + step * Double(i), t1 = t0 + step
+            let end = i == pieces - 1 ? p2 : point(t1)
+            out.append((end, point(t0) + derivative(t0) * k, point(t1) - derivative(t1) * k))
+        }
+        return out
     }
 
     /// Converts an SVG endpoint arc into points (excluding the start point, including the end point).

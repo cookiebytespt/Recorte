@@ -57,7 +57,13 @@ enum Tool: String, CaseIterable, Identifiable {
 @Observable
 final class EditorState {
     var tool: Tool = .select
-    var selection: Set<UUID> = []
+    var selection: Set<UUID> = [] {
+        didSet {
+            if let edit = pathEdit, selection != [edit.objectID] { pathEdit = nil }
+        }
+    }
+    /// Point editing of one artwork object (double-click it on the canvas).
+    var pathEdit: PathEdit?
     var zoom: CGFloat = 1
     var pan: CGSize = .zero
     var showCutSheet = false
@@ -65,6 +71,10 @@ final class EditorState {
     var showImporter = false
     var showImagePlacer = false
     var importError: String?
+    /// An offset is being computed (it can take a moment on large shapes).
+    var isOffsetting = false
+    /// Why the last offset did nothing, shown under the offset field.
+    var offsetNote: String?
 
     /// Decoded images for the canvas, keyed by object id (not part of the document).
     @ObservationIgnored var imageCache: [UUID: NSImage] = [:]
@@ -138,7 +148,15 @@ final class EditorState {
         change { $0.update(id, body) }
     }
 
+    /// Deletes what is selected: the selected point or line while editing points, otherwise the objects.
     func deleteSelection() {
+        if pathEdit != nil { deleteInPathEdit(); return }
+        deleteObjects()
+    }
+
+    /// Deletes the selected objects (also while editing points).
+    func deleteObjects() {
+        pathEdit = nil
         guard !selection.isEmpty else { return }
         let ids = selection
         change { $0.objects.removeAll { ids.contains($0.id) && !$0.isLocked } }
@@ -161,6 +179,7 @@ final class EditorState {
     func selectAll() { selection = Set(design.objects.filter { !$0.isLocked }.map(\.id)) }
 
     func nudge(_ dx: Double, _ dy: Double) {
+        if pathEdit != nil { nudgeInPathEdit(dx, dy); return }
         let ids = selection
         change { doc in
             for i in doc.objects.indices where ids.contains(doc.objects[i].id) && !doc.objects[i].isLocked {
@@ -266,6 +285,165 @@ final class EditorState {
         var n = 2
         while names.contains("\(base) \(n)") { n += 1 }
         return "\(base) \(n)"
+    }
+}
+
+// MARK: - Point editing
+
+/// Which line and node of an artwork object are selected while editing points.
+struct PathEdit: Equatable {
+    var objectID: UUID
+    /// Selected line (index into the artwork's curves).
+    var path: Int?
+    /// Selected node on the selected line.
+    var point: Int?
+}
+
+extension EditorState {
+    /// The object being point-edited, when it still exists and can be edited.
+    var pathEditObject: DesignObject? {
+        guard let edit = pathEdit, let object = design.object(edit.objectID),
+              object.isEditableArtwork, object.isVisible, !object.isLocked else { return nil }
+        return object
+    }
+
+    /// The selection clamped to what the object currently has (undo can remove lines and nodes).
+    var validPathEdit: PathEdit? {
+        guard var edit = pathEdit, let curves = pathEditObject?.artworkLocalCurves else { return nil }
+        if let p = edit.path, !curves.indices.contains(p) { edit.path = nil; edit.point = nil }
+        if let p = edit.path, let k = edit.point, !curves[p].nodes.indices.contains(k) { edit.point = nil }
+        if edit.path == nil { edit.point = nil }
+        return edit
+    }
+
+    /// The selected node, while editing points.
+    var selectedNode: BezierNode? {
+        guard let edit = validPathEdit, let p = edit.path, let k = edit.point else { return nil }
+        return pathEditObject?.artworkLocalCurves?[p].nodes[k]
+    }
+
+    var canEditPoints: Bool { singleSelection.map { $0.isEditableArtwork && !$0.isLocked } ?? false }
+
+    func beginPathEdit(_ id: UUID) {
+        guard let object = design.object(id), object.isEditableArtwork, !object.isLocked else { return }
+        tool = .select
+        selection = [id]
+        let count = object.artworkLocalCurves?.count ?? 0
+        pathEdit = PathEdit(objectID: id, path: count == 1 ? 0 : nil, point: nil)
+    }
+
+    func endPathEdit() { pathEdit = nil }
+
+    /// Delete key while editing: the selected node, else the selected line. Removing the last line
+    /// removes the object.
+    func deleteInPathEdit() {
+        guard let edit = validPathEdit, let object = pathEditObject else { endPathEdit(); return }
+        guard let p = edit.path else { return }
+        let result: DesignObject?
+        if let k = edit.point {
+            result = object.deletingArtworkPoint(path: p, point: k)
+        } else {
+            result = object.removingArtworkPaths([p])
+        }
+        if let result {
+            change { $0.update(object.id) { $0 = result } }
+            let curves = result.artworkLocalCurves ?? []
+            if let k = edit.point, curves.count == object.artworkLocalCurves?.count, curves.indices.contains(p) {
+                // Select the neighbouring node so ⌫ can be pressed repeatedly.
+                let n = curves[p].nodes.count
+                pathEdit = PathEdit(objectID: object.id, path: p, point: n > 0 ? min(k, n - 1) : nil)
+            } else {
+                pathEdit = PathEdit(objectID: object.id, path: curves.count == 1 ? 0 : nil, point: nil)
+            }
+        } else {
+            let id = object.id
+            pathEdit = nil
+            change { $0.objects.removeAll { $0.id == id } }
+            selection = []
+        }
+    }
+
+    /// Arrow keys while editing: move the selected node or line by (dx, dy) mm on the page.
+    func nudgeInPathEdit(_ dx: Double, _ dy: Double) {
+        guard let edit = validPathEdit, let object = pathEditObject, let p = edit.path,
+              let inv = object.localToDocument.inverted() else { return }
+        let d = inv.applyVector(Point(dx, dy))
+        change { doc in
+            doc.update(object.id) { o in
+                o.editArtworkCurves { curves in
+                    if let k = edit.point { curves[p].nodes[k] = curves[p].nodes[k].moved(by: d) }
+                    else { curves[p].nodes = curves[p].nodes.map { $0.moved(by: d) } }
+                }
+            }
+        }
+    }
+
+    /// Makes the selected node smooth or a corner.
+    func setSelectedPoint(smooth: Bool) {
+        guard let edit = validPathEdit, let object = pathEditObject, let p = edit.path, let k = edit.point else { return }
+        let result = object.settingArtworkPoint(path: p, point: k, smooth: smooth)
+        change { $0.update(object.id) { $0 = result } }
+    }
+
+    /// Keeps only the outer lines of the selected artwork (drops holes and lines inside others).
+    func keepOuterLines() {
+        guard let object = singleSelection, object.isEditableArtwork, !object.isLocked else { return }
+        let result = object.keepingOuterArtworkPaths()
+        change { $0.update(object.id) { $0 = result } }
+        if pathEdit != nil { beginPathEdit(object.id) }
+    }
+
+    /// Replaces the selected artwork with one object per line.
+    func splitIntoLines() {
+        guard let object = singleSelection, object.isEditableArtwork, !object.isLocked else { return }
+        let parts = object.splitArtwork()
+        guard parts.count > 1 else { return }
+        pathEdit = nil
+        change { doc in
+            guard let i = doc.objects.firstIndex(where: { $0.id == object.id }) else { return }
+            doc.objects.replaceSubrange(i...i, with: parts)
+        }
+        selection = Set(parts.map(\.id))
+    }
+
+    /// Grows (positive) or shrinks (negative) the selected line, or all lines of the selected artwork, by
+    /// `distanceMM`. With `keepOriginal` the result becomes a new object; otherwise it replaces the lines.
+    func offsetLines(distanceMM: Double, keepOriginal: Bool) async {
+        guard distanceMM != 0, let object = singleSelection, object.isEditableArtwork, !object.isLocked else { return }
+        let line = validPathEdit?.path
+        isOffsetting = true
+        offsetNote = nil
+        defer { isOffsetting = false }
+        let offset = await Task.detached(priority: .userInitiated) {
+            object.offsetArtworkCurves(distanceMM: distanceMM, only: line)
+        }.value
+        guard let current = design.object(object.id), current == object else { return }   // changed meanwhile
+        if offset.isEmpty {
+            offsetNote = String(localized: "Nothing is left after shrinking by this distance.")
+            return
+        }
+        if keepOriginal {
+            let mm = distanceMM.formatted(.number.precision(.fractionLength(0...2)))
+            guard let copy = object.offsetCopy(offset, name: String(localized: "\(object.name) – offset \(mm) mm")) else { return }
+            pathEdit = nil
+            change { doc in
+                let i = doc.objects.firstIndex { $0.id == object.id }.map { $0 + 1 } ?? doc.objects.count
+                doc.objects.insert(copy, at: i)
+            }
+            selection = [copy.id]
+        } else if let result = object.replacingWithOffset(offset, only: line) {
+            change { $0.update(object.id) { $0 = result } }
+            if pathEdit != nil { beginPathEdit(object.id) }
+        }
+    }
+
+    /// Turns the lines into smooth curves within `toleranceMM` (only the selected line while editing).
+    func smoothIntoCurves(toleranceMM: Double) {
+        guard let object = singleSelection, object.isEditableArtwork, !object.isLocked else { return }
+        let line = validPathEdit?.path
+        let result = object.smoothingArtwork(toleranceMM: toleranceMM, only: line)
+        change { $0.update(object.id) { $0 = result } }
+        if var edit = pathEdit { edit.point = nil; pathEdit = edit }
     }
 }
 

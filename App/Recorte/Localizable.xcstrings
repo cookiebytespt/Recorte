@@ -92,6 +92,34 @@
         }
       }
     },
+    "%@ – offset %@ mm" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ – offset %2$@ mm"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ – desplazamiento %2$@ mm"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ – décalage %2$@ mm"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ – deslocamento %2$@ mm"
+          }
+        }
+      }
+    },
     "%lld" : {},
     "%lld %%" : {},
     "%lld cut lines · %@" : {
@@ -304,6 +332,28 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "%lld points" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld puntos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld points"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld pontos"
           }
         }
       }
@@ -778,10 +828,10 @@
     },
     "Advance the vinyl after cutting" : {
       "localizations" : {
-        "pt" : {
+        "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avançar o vinil depois de cortar"
+            "value" : "Avanzar el vinilo después de cortar"
           }
         },
         "fr" : {
@@ -790,10 +840,10 @@
             "value" : "Avancer le vinyle après la découpe"
           }
         },
-        "es" : {
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avanzar el vinilo después de cortar"
+            "value" : "Avançar o vinil depois de cortar"
           }
         }
       }
@@ -816,6 +866,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cortar também as zonas transparentes dentro de uma imagem"
+          }
+        }
+      }
+    },
+    "Also cut white areas inside" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cortar también las zonas blancas interiores"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Découper aussi les zones blanches intérieures"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cortar também as áreas brancas interiores"
+          }
+        }
+      }
+    },
+    "Apply" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appliquer"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicar"
           }
         }
       }
@@ -1108,10 +1202,10 @@
     },
     "Called Advance After Plot in SignMaster. Off: the blade goes back to the origin." : {
       "localizations" : {
-        "pt" : {
+        "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No SignMaster chama-se Advance After Plot. Desligado: a lâmina volta à origem."
+            "value" : "En SignMaster se llama Advance After Plot. Desactivado: la cuchilla vuelve al origen."
           }
         },
         "fr" : {
@@ -1120,10 +1214,10 @@
             "value" : "Appelé Advance After Plot dans SignMaster. Désactivé : la lame revient à l’origine."
           }
         },
-        "es" : {
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En SignMaster se llama Advance After Plot. Desactivado: la cuchilla vuelve al origen."
+            "value" : "No SignMaster chama-se Advance After Plot. Desligado: a lâmina volta à origem."
           }
         }
       }
@@ -1370,6 +1464,28 @@
         }
       }
     },
+    "Click a line to select it · drag points, handles or lines · ⌥-click the line to add a point · ⌥-drag a point to pull out curve handles · double-click a point for smooth/corner · ⌫ deletes" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haz clic en una línea para seleccionarla · arrastra puntos, manejadores o líneas · ⌥-clic en la línea para añadir un punto · ⌥-arrastra un punto para sacar manejadores de curva · doble clic en un punto para suave/esquina · ⌫ borra"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cliquez sur une ligne pour la sélectionner · faites glisser des points, des poignées ou des lignes · ⌥-clic sur la ligne pour ajouter un point · ⌥-glisser un point pour tirer des poignées de courbe · double-clic sur un point pour lisse/angle · ⌫ supprime"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clique numa linha para a selecionar · arraste pontos, alças ou linhas · ⌥-clique na linha para adicionar um ponto · ⌥-arraste um ponto para puxar alças de curva · duplo clique num ponto para suave/canto · ⌫ apaga"
+          }
+        }
+      }
+    },
     "Close" : {
       "localizations" : {
         "es" : {
@@ -1542,6 +1658,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "As cópias são cortadas umas a seguir às outras ao longo do vinil"
+          }
+        }
+      }
+    },
+    "Corner" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esquina"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angle"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Canto"
           }
         }
       }
@@ -2228,6 +2366,28 @@
         }
       }
     },
+    "Delete Selected Line" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar línea seleccionada"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer la ligne sélectionnée"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apagar linha selecionada"
+          }
+        }
+      }
+    },
     "Design: %.0f × %.0f mm" : {
       "localizations" : {
         "en" : {
@@ -2322,6 +2482,28 @@
         }
       }
     },
+    "Done Editing Points" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminar edición de puntos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminer la modification des points"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminar edição de pontos"
+          }
+        }
+      }
+    },
     "Draw, write or import something to cut first." : {
       "localizations" : {
         "es" : {
@@ -2410,6 +2592,50 @@
         }
       }
     },
+    "Edit Points" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar puntos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier les points"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar pontos"
+          }
+        }
+      }
+    },
+    "Editing points" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editando puntos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modification des points"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A editar pontos"
+          }
+        }
+      }
+    },
     "Ellipse" : {
       "localizations" : {
         "es" : {
@@ -2456,10 +2682,10 @@
     },
     "Feeds the vinyl past the design so it is easy to cut off" : {
       "localizations" : {
-        "pt" : {
+        "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Faz avançar o vinil para lá do desenho, para ser fácil de cortar"
+            "value" : "Hace avanzar el vinilo más allá del diseño para cortarlo con facilidad"
           }
         },
         "fr" : {
@@ -2468,10 +2694,32 @@
             "value" : "Fait avancer le vinyle au-delà du motif pour le couper facilement"
           }
         },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faz avançar o vinil para lá do desenho, para ser fácil de cortar"
+          }
+        }
+      }
+    },
+    "Fewer points and smoother cuts; the points stay editable" : {
+      "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hace avanzar el vinilo más allá del diseño para cortarlo con facilidad"
+            "value" : "Menos puntos y cortes más suaves; los puntos siguen siendo editables"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moins de points et des découpes plus lisses ; les points restent modifiables"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menos pontos e cortes mais suaves; os pontos continuam editáveis"
           }
         }
       }
@@ -2608,6 +2856,28 @@
         }
       }
     },
+    "Fits curves with fewer points; the line moves at most this distance" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajusta curvas con menos puntos; la línea se desplaza como máximo esta distancia"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajuste des courbes avec moins de points ; la ligne se déplace au plus de cette distance"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajusta curvas com menos pontos; a linha desloca-se no máximo esta distância"
+          }
+        }
+      }
+    },
     "Fix it and try again, no reprint" : {
       "localizations" : {
         "es" : {
@@ -2736,6 +3006,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Para um RIP ou uma gráfica"
+          }
+        }
+      }
+    },
+    "For example white letters on a coloured background" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por ejemplo, letras blancas sobre un fondo de color"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Par exemple des lettres blanches sur un fond coloré"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por exemplo, letras brancas sobre um fundo de cor"
           }
         }
       }
@@ -3181,6 +3473,28 @@
         }
       }
     },
+    "Keep Outer Lines Only" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantener solo las líneas exteriores"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Garder uniquement les lignes extérieures"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manter só as linhas exteriores"
+          }
+        }
+      }
+    },
     "Keep the machine clear while it moves." : {
       "localizations" : {
         "es" : {
@@ -3199,6 +3513,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mantenha a máquina livre enquanto se move."
+          }
+        }
+      }
+    },
+    "Keep the original line" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantener la línea original"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Garder la ligne d’origine"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manter a linha original"
           }
         }
       }
@@ -3353,6 +3689,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Linha (L)"
+          }
+        }
+      }
+    },
+    "Lines" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Líneas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lignes"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Linhas"
           }
         }
       }
@@ -3541,10 +3899,10 @@
     },
     "Machine's own speed and pressure · %@" : {
       "localizations" : {
-        "pt" : {
+        "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Velocidade e pressão da própria máquina · %@"
+            "value" : "Velocidad y presión de la propia máquina · %@"
           }
         },
         "fr" : {
@@ -3553,10 +3911,10 @@
             "value" : "Vitesse et pression de la machine · %@"
           }
         },
-        "es" : {
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Velocidad y presión de la propia máquina · %@"
+            "value" : "Velocidade e pressão da própria máquina · %@"
           }
         }
       }
@@ -4101,6 +4459,28 @@
         }
       }
     },
+    "Nothing is left after shrinking by this distance." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No queda nada después de encoger esta distancia."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il ne reste rien après un rétrécissement de cette distance."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não sobra nada depois de encolher esta distância."
+          }
+        }
+      }
+    },
     "Nothing on the canvas yet" : {
       "localizations" : {
         "es" : {
@@ -4257,10 +4637,10 @@
     },
     "Off (default): the machine uses the speed and pressure set on its panel. On: each job sends the values chosen in Output, like SignMaster with Cutting Speed and Cutting Force ticked." : {
       "localizations" : {
-        "pt" : {
+        "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desligado (predefinição): a máquina usa a velocidade e a pressão definidas no painel. Ligado: cada trabalho envia os valores escolhidos em Saída, como o SignMaster com Cutting Speed e Cutting Force assinalados."
+            "value" : "Desactivado (predeterminado): la máquina usa la velocidad y la presión ajustadas en su panel. Activado: cada trabajo envía los valores elegidos en Salida, como SignMaster con Cutting Speed y Cutting Force marcados."
           }
         },
         "fr" : {
@@ -4269,20 +4649,42 @@
             "value" : "Désactivé (par défaut) : la machine utilise la vitesse et la pression réglées sur son panneau. Activé : chaque travail envoie les valeurs choisies dans Sortie, comme SignMaster avec Cutting Speed et Cutting Force cochés."
           }
         },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desligado (predefinição): a máquina usa a velocidade e a pressão definidas no painel. Ligado: cada trabalho envia os valores escolhidos em Saída, como o SignMaster com Cutting Speed e Cutting Force assinalados."
+          }
+        }
+      }
+    },
+    "Off: only white that touches the edge of the image is background" : {
+      "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desactivado (predeterminado): la máquina usa la velocidad y la presión ajustadas en su panel. Activado: cada trabajo envía los valores elegidos en Salida, como SignMaster con Cutting Speed y Cutting Force marcados."
+            "value" : "Desactivado: solo el blanco que toca el borde de la imagen es fondo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactivé : seul le blanc qui touche le bord de l’image est le fond"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desligado: só o branco que toca no limite da imagem é fundo"
           }
         }
       }
     },
     "Off: the machine uses the speed and pressure set on its panel. Called Cutting Speed / Cutting Force (ticked) in SignMaster." : {
       "localizations" : {
-        "pt" : {
+        "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desligado: a máquina usa a velocidade e a pressão definidas no painel. No SignMaster chama-se Cutting Speed / Cutting Force (assinalados)."
+            "value" : "Desactivado: la máquina usa la velocidad y la presión ajustadas en su panel. En SignMaster se llama Cutting Speed / Cutting Force (marcados)."
           }
         },
         "fr" : {
@@ -4291,10 +4693,98 @@
             "value" : "Désactivé : la machine utilise la vitesse et la pression réglées sur son panneau. Appelé Cutting Speed / Cutting Force (cochés) dans SignMaster."
           }
         },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desligado: a máquina usa a velocidade e a pressão definidas no painel. No SignMaster chama-se Cutting Speed / Cutting Force (assinalados)."
+          }
+        }
+      }
+    },
+    "Offset" : {
+      "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desactivado: la máquina usa la velocidad y la presión ajustadas en su panel. En SignMaster se llama Cutting Speed / Cutting Force (marcados)."
+            "value" : "Desplazamiento"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Décalage"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deslocamento"
+          }
+        }
+      }
+    },
+    "On: the offset becomes a new object. Off: it replaces the line." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activado: el desplazamiento se convierte en un objeto nuevo. Desactivado: sustituye la línea."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activé : le décalage devient un nouvel objet. Désactivé : il remplace la ligne."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligado: o deslocamento torna-se um novo objeto. Desligado: substitui a linha."
+          }
+        }
+      }
+    },
+    "Only closed lines can be offset" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo se pueden desplazar las líneas cerradas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seules les lignes fermées peuvent être décalées"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só as linhas fechadas podem ser deslocadas"
+          }
+        }
+      }
+    },
+    "Only on the selected line" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo en la línea seleccionada"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uniquement sur la ligne sélectionnée"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só na linha selecionada"
           }
         }
       }
@@ -4353,6 +4843,28 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "Or double-click the object on the canvas" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O haz doble clic en el objeto en el lienzo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ou double-cliquez sur l’objet dans le plan de travail"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ou faça duplo clique no objeto na tela"
           }
         }
       }
@@ -4776,6 +5288,28 @@
         }
       }
     },
+    "Positive grows outwards, negative shrinks; round corners" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Positivo crece hacia fuera, negativo encoge; esquinas redondeadas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Positif agrandit vers l’extérieur, négatif rétrécit ; angles arrondis"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Positivo aumenta para fora, negativo encolhe; cantos arredondados"
+          }
+        }
+      }
+    },
     "Press **Cut**." : {
       "localizations" : {
         "es" : {
@@ -4866,10 +5400,10 @@
     },
     "Pressure (g)" : {
       "localizations" : {
-        "pt" : {
+        "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pressão (g)"
+            "value" : "Presión (g)"
           }
         },
         "fr" : {
@@ -4878,10 +5412,10 @@
             "value" : "Pression (g)"
           }
         },
-        "es" : {
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Presión (g)"
+            "value" : "Pressão (g)"
           }
         }
       }
@@ -5322,6 +5856,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Marcas de registo"
+          }
+        }
+      }
+    },
+    "Removes the lines inside other lines, such as holes in a cut contour" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina las líneas que están dentro de otras, como los huecos de un contorno de corte"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprime les lignes situées dans d’autres lignes, comme les trous d’un contour de découpe"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove as linhas dentro de outras linhas, como os buracos de um contorno de corte"
           }
         }
       }
@@ -5806,6 +6362,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Selecionar todos os objetos"
+          }
+        }
+      }
+    },
+    "Selected point" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Punto seleccionado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Point sélectionné"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ponto selecionado"
           }
         }
       }
@@ -6410,6 +6988,94 @@
         }
       }
     },
+    "Smooth" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suave"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lisse"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suave"
+          }
+        }
+      }
+    },
+    "Smooth curves" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Curvas suaves"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Courbes lisses"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Curvas suaves"
+          }
+        }
+      }
+    },
+    "Smooth into curves" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suavizar en curvas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lisser en courbes"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suavizar em curvas"
+          }
+        }
+      }
+    },
+    "Smooth points have curve handles; corner points join straight or independent segments. Double-click a point to switch." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los puntos suaves tienen manejadores de curva; los puntos de esquina unen segmentos rectos o independientes. Haz doble clic en un punto para cambiar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les points lisses ont des poignées de courbe ; les points d’angle relient des segments droits ou indépendants. Double-cliquez sur un point pour basculer."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os pontos suaves têm alças de curva; os pontos de canto unem segmentos retos ou independentes. Faça duplo clique num ponto para alternar."
+          }
+        }
+      }
+    },
     "Software (XON/XOFF)" : {
       "localizations" : {
         "es" : {
@@ -6522,10 +7188,10 @@
     },
     "Speed (mm/s)" : {
       "localizations" : {
-        "pt" : {
+        "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Velocidade (mm/s)"
+            "value" : "Velocidad (mm/s)"
           }
         },
         "fr" : {
@@ -6534,10 +7200,10 @@
             "value" : "Vitesse (mm/s)"
           }
         },
-        "es" : {
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Velocidad (mm/s)"
+            "value" : "Velocidade (mm/s)"
           }
         }
       }
@@ -6560,6 +7226,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Velocidade, pressão e lâmina"
+          }
+        }
+      }
+    },
+    "Split into Separate Objects" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Separar en objetos individuales"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Séparer en objets distincts"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Separar em objetos individuais"
           }
         }
       }
@@ -7582,7 +8270,7 @@
     "Y" : {},
     "g" : {
       "localizations" : {
-        "pt" : {
+        "es" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "g"
@@ -7594,7 +8282,7 @@
             "value" : "g"
           }
         },
-        "es" : {
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "g"
@@ -7808,7 +8496,7 @@
     "mm" : {},
     "mm/s" : {
       "localizations" : {
-        "pt" : {
+        "es" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "mm/s"
@@ -7820,7 +8508,7 @@
             "value" : "mm/s"
           }
         },
-        "es" : {
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "mm/s"

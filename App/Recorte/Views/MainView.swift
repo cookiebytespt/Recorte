@@ -111,6 +111,17 @@ struct EditorCommands: Commands {
                 .keyboardShortcut("k", modifiers: [.command, .shift])
                 .disabled(editor?.hasPrintedImages != true)
             Divider()
+            Button(editor?.pathEdit != nil ? LocalizedStringKey("Done Editing Points") : "Edit Points") {
+                guard let editor else { return }
+                if editor.pathEdit != nil { editor.endPathEdit() }
+                else if let id = editor.singleSelection?.id { editor.beginPathEdit(id) }
+            }
+            .disabled(editor?.canEditPoints != true)
+            Button("Keep Outer Lines Only") { editor?.keepOuterLines() }
+                .disabled(editor?.canEditPoints != true)
+            Button("Split into Separate Objects") { editor?.splitIntoLines() }
+                .disabled(editor?.canEditPoints != true)
+            Divider()
             ForEach(Tool.allCases) { tool in
                 Button { editor?.tool = tool } label: { Label(tool.title, systemImage: tool.symbol) }
             }

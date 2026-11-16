@@ -8,6 +8,10 @@ struct CanvasView: View {
 
     @State private var drag: DragState?
     @State private var baseZoom: CGFloat = 1
+    /// Last click on an object, to recognise double-clicks (which start point editing).
+    @State private var lastClick: (id: UUID, time: Date)?
+    /// Last click on a node while editing points (double-click toggles smooth / corner).
+    @State private var lastNodeClick: (path: Int, point: Int, time: Date)?
     @FocusState private var focused: Bool
 
     private let margin: CGFloat = 60
@@ -31,7 +35,8 @@ struct CanvasView: View {
     }
 
     struct DragState {
-        enum Kind { case select, move, resize(Handle), create, freehand, pan, marquee }
+        enum Kind { case select, move, resize(Handle), create, freehand, pan, marquee, editPoint(path: Int, point: Int), editPath(Int),
+                  editHandle(path: Int, point: Int, out: Bool, keepSmooth: Bool), pullHandles(path: Int, point: Int) }
         var kind: Kind
         var startMM: Point
         var currentMM: Point
@@ -80,6 +85,7 @@ struct CanvasView: View {
                 }
             }
             .overlay(alignment: .bottomLeading) { zoomBar }
+            .overlay(alignment: .top) { if editor.pathEdit != nil { pathEditHint } }
             .onAppear { focused = true }
         }
     }
@@ -111,6 +117,21 @@ struct CanvasView: View {
         }
         .controlSize(.small)
         .padding(8)
+        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 8))
+        .padding(12)
+    }
+
+    private var pathEditHint: some View {
+        HStack(spacing: 10) {
+            Text("Editing points").fontWeight(.semibold)
+            Text("Click a line to select it · drag points, handles or lines · ⌥-click the line to add a point · ⌥-drag a point to pull out curve handles · double-click a point for smooth/corner · ⌫ deletes")
+                .foregroundStyle(.secondary)
+            Button("Done") { editor.endPathEdit() }
+        }
+        .font(.caption)
+        .controlSize(.small)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 6)
         .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 8))
         .padding(12)
     }
@@ -194,20 +215,25 @@ struct CanvasView: View {
         }
 
         // Selection boxes and handles.
-        for object in editor.selectedObjects {
+        let editing = editor.pathEditObject
+        for object in editor.selectedObjects where object.id != editing?.id {
             let corners = [Point(0, 0), Point(object.frame.width, 0), Point(object.frame.width, object.frame.height), Point(0, object.frame.height)]
                 .map { vp.toView(object.localToDocument.apply($0)) }
             var box = Path()
             box.move(to: corners[0]); for c in corners.dropFirst() { box.addLine(to: c) }; box.closeSubpath()
             ctx.stroke(box, with: .color(.accentColor), style: StrokeStyle(lineWidth: 1, dash: editor.selection.count > 1 ? [4, 3] : []))
         }
-        if let object = editor.singleSelection, !object.isLocked {
+        if let object = editor.singleSelection, !object.isLocked, object.id != editing?.id {
             for handle in Handle.allCases {
                 let c = handlePosition(handle, of: object, vp: vp)
                 let r = CGRect(x: c.x - handleSize / 2, y: c.y - handleSize / 2, width: handleSize, height: handleSize)
                 ctx.fill(Path(r), with: .color(.white))
                 ctx.stroke(Path(r), with: .color(.accentColor), lineWidth: 1)
             }
+        }
+
+        if let editing, let edit = editor.validPathEdit {
+            drawPathEdit(in: &ctx, object: editing, edit: edit, vp: vp)
         }
 
         // In-progress feedback.
@@ -227,6 +253,158 @@ struct CanvasView: View {
                 break
             }
         }
+    }
+
+    /// Nodes whose handles are shown: the selected node and its neighbours.
+    private func visibleHandleNodes(_ curve: BezierPath, selected k: Int?) -> [Int] {
+        guard let k, curve.nodes.indices.contains(k) else { return [] }
+        let n = curve.nodes.count
+        var out = [k]
+        if k > 0 || curve.isClosed { out.append((k - 1 + n) % n) }
+        if k < n - 1 || curve.isClosed { out.append((k + 1) % n) }
+        return Array(Set(out))
+    }
+
+    /// Handles of node `k` that shape a segment (open lines have no handle before the first node or after the last).
+    private func usedHandles(_ curve: BezierPath, _ k: Int) -> [(out: Bool, point: Point)] {
+        let node = curve.nodes[k]
+        var r: [(Bool, Point)] = []
+        if let h = node.handleIn, k > 0 || curve.isClosed { r.append((false, h)) }
+        if let h = node.handleOut, k < curve.nodes.count - 1 || curve.isClosed { r.append((true, h)) }
+        return r
+    }
+
+    /// Point editing: every line of the object, the selected one highlighted with its nodes and handles.
+    private func drawPathEdit(in ctx: inout GraphicsContext, object: DesignObject, edit: PathEdit, vp: Viewport) {
+        let lines = object.outlines(tolerance: max(0.03, 0.4 / Double(vp.scale)))
+        for (i, line) in lines.enumerated() {
+            guard let first = line.points.first else { continue }
+            var p = Path()
+            p.move(to: vp.toView(first))
+            for pt in line.points.dropFirst() { p.addLine(to: vp.toView(pt)) }
+            if line.isClosed { p.closeSubpath() }
+            let selected = i == edit.path
+            ctx.stroke(p, with: .color(selected ? .accentColor : .accentColor.opacity(0.55)), lineWidth: selected ? 2.5 : 1.5)
+        }
+        guard let p = edit.path, let curves = object.artworkLocalCurves, curves.indices.contains(p) else { return }
+        let t = object.localToDocument
+        let curve = curves[p]
+        // Handles first so the nodes sit on top.
+        for k in visibleHandleNodes(curve, selected: edit.point) {
+            let anchor = vp.toView(t.apply(curve.nodes[k].point))
+            for h in usedHandles(curve, k) {
+                let c = vp.toView(t.apply(h.point))
+                var line = Path()
+                line.move(to: anchor); line.addLine(to: c)
+                ctx.stroke(line, with: .color(.accentColor), lineWidth: 1)
+                let r = CGRect(x: c.x - 3.5, y: c.y - 3.5, width: 7, height: 7)
+                ctx.fill(Path(ellipseIn: r), with: .color(.accentColor))
+            }
+        }
+        let s: CGFloat = 6
+        for (k, node) in curve.nodes.enumerated() {
+            let c = vp.toView(t.apply(node.point))
+            let size = k == edit.point ? s + 2 : s
+            let r = CGRect(x: c.x - size / 2, y: c.y - size / 2, width: size, height: size)
+            let shape = node.isSmooth ? Path(ellipseIn: r) : Path(r)   // circle = smooth, square = corner
+            ctx.fill(shape, with: .color(k == edit.point ? .accentColor : .white))
+            ctx.stroke(shape, with: .color(.accentColor), lineWidth: 1)
+        }
+    }
+
+    /// Mouse-down while editing points. Returns `nil` when the click is outside the edited object.
+    private func beginPathEditDrag(at mm: Point, vp: Viewport) -> DragState.Kind? {
+        guard let edit = editor.validPathEdit, let object = editor.pathEditObject,
+              let curves = object.artworkLocalCurves, let inv = object.localToDocument.inverted() else { return nil }
+        let local = inv.apply(mm)
+        let tolerance = Double(handleSize) / Double(vp.scale)
+        let option = NSEvent.modifierFlags.contains(.option)
+        let id = object.id
+
+        if let p = edit.path {
+            let curve = curves[p]
+            // A handle of the selected node or its neighbours.
+            var bestHandle: (k: Int, out: Bool, d: Double)?
+            for k in visibleHandleNodes(curve, selected: edit.point) {
+                for h in usedHandles(curve, k) {
+                    let d = h.point.distance(to: local)
+                    if d <= tolerance, bestHandle == nil || d < bestHandle!.d { bestHandle = (k, h.out, d) }
+                }
+            }
+            if let h = bestHandle {
+                editor.pathEdit = PathEdit(objectID: id, path: p, point: h.k)
+                return .editHandle(path: p, point: h.k, out: h.out, keepSmooth: curve.nodes[h.k].isSmooth && !option)
+            }
+            // A node of the selected line.
+            var best: (index: Int, distance: Double)?
+            for (k, node) in curve.nodes.enumerated() {
+                let d = node.point.distance(to: local)
+                if d <= tolerance, best == nil || d < best!.distance { best = (k, d) }
+            }
+            if let k = best?.index {
+                editor.pathEdit = PathEdit(objectID: id, path: p, point: k)
+                let now = Date()
+                if let last = lastNodeClick, last.path == p, last.point == k,
+                   now.timeIntervalSince(last.time) < NSEvent.doubleClickInterval {
+                    lastNodeClick = nil
+                    editor.setSelectedPoint(smooth: !curve.nodes[k].hasHandles)
+                    return .select
+                }
+                lastNodeClick = (p, k, now)
+                return option ? .pullHandles(path: p, point: k) : .editPoint(path: p, point: k)
+            }
+        }
+
+        // A line: the selected one first, then the nearest.
+        var hit: (path: Int, segment: Int, t: Double)?
+        if let p = edit.path, let s = curves[p].nearestSegment(to: local), s.distance <= tolerance {
+            hit = (p, s.index, s.t)
+        } else {
+            var bestDistance = tolerance
+            for (i, curve) in curves.enumerated() {
+                if let s = curve.nearestSegment(to: local), s.distance <= bestDistance {
+                    bestDistance = s.distance
+                    hit = (i, s.index, s.t)
+                }
+            }
+        }
+        if let hit {
+            if option, hit.path == edit.path {
+                var updated = object
+                if let k = updated.insertArtworkPoint(path: hit.path, segment: hit.segment, at: hit.t) {
+                    editor.change { $0.update(id) { $0 = updated } }
+                    editor.pathEdit = PathEdit(objectID: id, path: hit.path, point: k)
+                    return .editPoint(path: hit.path, point: k)
+                }
+            }
+            editor.pathEdit = PathEdit(objectID: id, path: hit.path, point: nil)
+            return .editPath(hit.path)
+        }
+
+        // Inside the object but off its lines: keep editing, clear the line selection.
+        let box = Rect(minX: 0, minY: 0, maxX: object.frame.width, maxY: object.frame.height).insetBy(-tolerance)
+        if box.contains(local) {
+            editor.pathEdit = PathEdit(objectID: id, path: curves.count == 1 ? 0 : nil, point: nil)
+            return .select
+        }
+        return nil
+    }
+
+    /// Starts a point-editing drag of `kind` (from `beginPathEditDrag`).
+    private func startPathEditDrag(_ kind: DragState.Kind, state: inout DragState) {
+        state.kind = kind
+        if case .select = kind { return }
+        state.originalObject = editor.pathEditObject
+        editor.beginTransaction()
+    }
+
+    /// Live update of a point-editing drag: applies `body` to the original lines (frame-local mm).
+    private func dragEdit(_ d: DragState, delta: Point, _ body: (inout [BezierPath], Point) -> Void) {
+        guard d.moved, let original = d.originalObject, let inv = original.localToDocument.inverted() else { return }
+        let move = inv.applyVector(delta)
+        var updated = original
+        updated.editArtworkCurves { body(&$0, move) }
+        editor.changeLive { $0.update(original.id) { $0 = updated } }
     }
 
     private func handlePosition(_ handle: Handle, of object: DesignObject, vp: Viewport) -> CGPoint {
@@ -266,6 +444,13 @@ struct CanvasView: View {
         case .hand:
             state.kind = .pan
         case .select:
+            if editor.pathEdit != nil {
+                if let kind = beginPathEditDrag(at: mm, vp: vp) {
+                    startPathEditDrag(kind, state: &state)
+                    return state
+                }
+                editor.endPathEdit()
+            }
             if let object = editor.singleSelection, !object.isLocked {
                 for handle in Handle.allCases {
                     let c = handlePosition(handle, of: object, vp: vp)
@@ -279,6 +464,16 @@ struct CanvasView: View {
             }
             let tolerance = max(1.0, 4.0 / Double(vp.scale))
             if let hit = editor.design.objects.reversed().first(where: { $0.isVisible && $0.hitTest(mm, tolerance: tolerance) }) {
+                // Double-click on artwork or a cut contour: edit its lines and points.
+                let now = Date()
+                if !shift, hit.isEditableArtwork, !hit.isLocked, let last = lastClick, last.id == hit.id,
+                   now.timeIntervalSince(last.time) < NSEvent.doubleClickInterval {
+                    lastClick = nil
+                    editor.beginPathEdit(hit.id)
+                    startPathEditDrag(beginPathEditDrag(at: mm, vp: vp) ?? .select, state: &state)
+                    return state
+                }
+                lastClick = (hit.id, now)
                 if shift {
                     if editor.selection.contains(hit.id) { editor.selection.remove(hit.id) } else { editor.selection.insert(hit.id) }
                 } else if !editor.selection.contains(hit.id) {
@@ -371,6 +566,31 @@ struct CanvasView: View {
             if let last = d.freehandPoints.last, last.distance(to: d.currentMM) >= 0.3 / Double(vp.scale) * 2 {
                 d.freehandPoints.append(d.currentMM)
             }
+        case .editPoint(let p, let k):
+            dragEdit(d, delta: delta) { curves, move in
+                guard curves.indices.contains(p), curves[p].nodes.indices.contains(k) else { return }
+                curves[p].nodes[k] = curves[p].nodes[k].moved(by: move)
+            }
+        case .editPath(let p):
+            dragEdit(d, delta: delta) { curves, move in
+                guard curves.indices.contains(p) else { return }
+                curves[p].nodes = curves[p].nodes.map { $0.moved(by: move) }
+            }
+        case .editHandle(let p, let k, let out, let keepSmooth):
+            dragEdit(d, delta: delta) { curves, move in
+                guard curves.indices.contains(p), curves[p].nodes.indices.contains(k),
+                      let start = out ? curves[p].nodes[k].handleOut : curves[p].nodes[k].handleIn else { return }
+                curves[p].moveHandle(of: k, out: out, to: start + move, keepSmooth: keepSmooth)
+            }
+        case .pullHandles(let p, let k):
+            dragEdit(d, delta: delta) { curves, move in
+                guard curves.indices.contains(p), curves[p].nodes.indices.contains(k) else { return }
+                let curve = curves[p]
+                let anchor = curve.nodes[k].point
+                // Symmetric handles: dragging sets the outgoing one, the incoming one mirrors it.
+                curves[p].nodes[k].handleOut = (k < curve.nodes.count - 1 || curve.isClosed) ? anchor + move : nil
+                curves[p].nodes[k].handleIn = (k > 0 || curve.isClosed) ? anchor - move : nil
+            }
         case .select, .marquee:
             break
         }
@@ -378,7 +598,7 @@ struct CanvasView: View {
 
     private func finish(_ d: DragState, vp: Viewport) {
         switch d.kind {
-        case .move, .resize:
+        case .move, .resize, .editPoint, .editPath, .editHandle, .pullHandles:
             editor.endTransaction()
         case .create:
             guard let id = d.createdID else { return }
@@ -422,6 +642,14 @@ struct CanvasView: View {
     // MARK: Keyboard
 
     private func handleKey(_ press: KeyPress) -> KeyPress.Result {
+        if press.key == .escape, var edit = editor.pathEdit {
+            if edit.point != nil { edit.point = nil; editor.pathEdit = edit } else { editor.endPathEdit() }
+            return .handled
+        }
+        if press.key == .return, press.modifiers.isEmpty {
+            if editor.pathEdit != nil { editor.endPathEdit(); return .handled }
+            if editor.canEditPoints, let id = editor.singleSelection?.id { editor.beginPathEdit(id); return .handled }
+        }
         if press.key == .escape {
             if editor.tool != .select { editor.tool = .select } else { editor.selection = [] }
             return .handled

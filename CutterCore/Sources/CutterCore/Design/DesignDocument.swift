@@ -15,14 +15,42 @@ public struct TextSpec: Codable, Hashable, Sendable {
     }
 }
 
-/// Imported vector artwork, stored normalised to a 0…1 box so it scales with its frame.
+/// Vector artwork (imported files and cut contours), stored normalised to a 0…1 box so it scales with its frame.
+/// Lines are Bézier curves; straight-only lines are saved as plain point lists like older versions did.
 public struct ArtworkSpec: Codable, Hashable, Sendable {
     public var sourceName: String
-    public var paths: [Polyline]
+    public var curves: [BezierPath]
 
-    public init(sourceName: String, paths: [Polyline]) {
+    public init(sourceName: String, curves: [BezierPath]) {
         self.sourceName = sourceName
-        self.paths = paths
+        self.curves = curves
+    }
+
+    /// Straight-segment lines (imports and traced contours).
+    public init(sourceName: String, paths: [Polyline]) {
+        self.init(sourceName: sourceName, curves: paths.map(BezierPath.init))
+    }
+
+    private enum CodingKeys: String, CodingKey { case sourceName, paths, curves }
+
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        sourceName = try c.decode(String.self, forKey: .sourceName)
+        if let curves = try c.decodeIfPresent([BezierPath].self, forKey: .curves) {
+            self.curves = curves
+        } else {
+            curves = try c.decodeIfPresent([Polyline].self, forKey: .paths)?.map(BezierPath.init) ?? []
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode(sourceName, forKey: .sourceName)
+        if curves.contains(where: \.hasCurves) {
+            try c.encode(curves, forKey: .curves)
+        } else {
+            try c.encode(curves.map(\.anchorPolyline), forKey: .paths)
+        }
     }
 }
 
@@ -174,7 +202,7 @@ public struct DesignObject: Codable, Hashable, Sendable, Identifiable {
             return natural.transformed(t)
 
         case .artwork(let art):
-            return art.paths.transformed(.scaling(w, h))
+            return art.curves.map { $0.transformed(.scaling(w, h)).flattened(tolerance: tolerance) }
 
         case .image:
             return []
@@ -253,13 +281,15 @@ public struct DesignDocument: Codable, Hashable, Sendable {
 
     /// Wraps an imported file as a single artwork object on a canvas sized to fit it.
     public static func fromImport(_ cut: CutDocument, sourceName: String) -> DesignDocument {
-        let b = cut.bounds
+        // Keep the file's curves when the importer has them, so they stay editable as curves.
+        let lines = cut.curves ?? cut.paths.map(BezierPath.init)
+        let b = lines.bounds
         guard !b.isNull, b.width > 0, b.height > 0 else { return DesignDocument(name: cut.name) }
-        let normalized = cut.paths.transformed(
+        let normalized = lines.transformed(
             AffineTransform.scaling(1 / b.width, 1 / b.height).concatenating(.translation(-b.minX, -b.minY)))
         let object = DesignObject(
             name: sourceName,
-            kind: .artwork(ArtworkSpec(sourceName: sourceName, paths: normalized)),
+            kind: .artwork(ArtworkSpec(sourceName: sourceName, curves: normalized)),
             frame: Rect(origin: Point(10, 10), size: b.size)
         )
         let canvas = cut.pageSize.map { Size(max($0.width, b.width + 20), max($0.height, b.height + 20)) }

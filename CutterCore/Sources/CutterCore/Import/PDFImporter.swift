@@ -41,6 +41,7 @@ public struct PDFImporter: Sendable {
         return CutDocument(
             name: name,
             paths: collector.paths,
+            curves: collector.curves,
             pageSize: Size(pageSizePt.width * ptToMM, pageSizePt.height * ptToMM),
             warnings: warnings
         )
@@ -51,6 +52,7 @@ public struct PDFImporter: Sendable {
 /// no-op paths (`n`) are discarded, which drops Illustrator's artboard clip rectangles.
 final class PDFPathCollector {
     private(set) var paths: [Polyline] = []
+    private(set) var curves: [BezierPath] = []
     private(set) var textObjects = 0
     private(set) var imageObjects = 0
 
@@ -182,6 +184,7 @@ final class PDFPathCollector {
         pendingClip = false
         if discard || clip { return }
         paths.append(contentsOf: polylines)
+        curves.append(contentsOf: builder.lastCurves)
     }
 
     private func ops_Do(_ s: CGPDFScannerRef) {
