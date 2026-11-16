@@ -2,6 +2,23 @@ import CoreGraphics
 import Foundation
 import ImageIO
 
+/// One click of the colour pick (like Preview's Instant Alpha): the connected area around `point` whose colour is
+/// within `tolerance` of the clicked colour becomes background (or, with `keep`, artwork again).
+public struct ColorPick: Sendable, Hashable, Codable {
+    /// Where the image was clicked, normalised to the image frame (0…1), so it holds at any size and resolution.
+    public var point: Point
+    /// Largest colour difference (CIE ΔE, 0…100) still taken.
+    public var tolerance: Double
+    /// Puts the area back as artwork instead of removing it (⌥-click).
+    public var keep: Bool
+
+    public init(point: Point, tolerance: Double, keep: Bool = false) {
+        self.point = point
+        self.tolerance = tolerance
+        self.keep = keep
+    }
+}
+
 /// Settings for Create Cut Contour (SignMaster's Build Contours / Build Boxes).
 public struct ContourOptions: Sendable, Hashable, Codable {
     public enum Shape: String, Sendable, Hashable, Codable, CaseIterable {
@@ -36,10 +53,12 @@ public struct ContourOptions: Sendable, Hashable, Codable {
     public var pixelsPerMM: Double
     /// Fit smooth Bézier curves to the traced outline (fewer nodes, smoother cuts; follow mode only).
     public var smoothCurves: Bool
+    /// Colour picks applied in order on top of the transparency / white rules.
+    public var picks: [ColorPick]
 
     public init(shape: Shape = .follow, distanceMM: Double = 2, corners: Corners = .round, cutHoles: Bool = true,
                 whiteIsBackground: Bool = false, cutEnclosedWhite: Bool = false, minimumSpeckMM: Double = 1,
-                pixelsPerMM: Double = 10, smoothCurves: Bool = true) {
+                pixelsPerMM: Double = 10, smoothCurves: Bool = true, picks: [ColorPick] = []) {
         self.shape = shape
         self.distanceMM = distanceMM
         self.corners = corners
@@ -49,6 +68,7 @@ public struct ContourOptions: Sendable, Hashable, Codable {
         self.minimumSpeckMM = minimumSpeckMM
         self.pixelsPerMM = pixelsPerMM
         self.smoothCurves = smoothCurves
+        self.picks = picks
     }
 
     public static let `default` = ContourOptions()
@@ -121,7 +141,9 @@ public enum ContourTracer {
         let lines = contours(for: object, options: options)
         guard options.smoothCurves, options.shape == .follow else { return lines.map(BezierPath.init) }
         return lines.map { line in
-            let fitted = BezierPath.fitted(to: line, tolerance: smoothingToleranceMM)
+            // Sharp corners: also keep gentler corners (e.g. obtuse corners of letters) as corners.
+            let fitted = BezierPath.fitted(to: line, tolerance: smoothingToleranceMM,
+                                           cornerAngle: options.corners == .sharp ? 35 : 60)
             return fitted.isUsable ? fitted : BezierPath(line)
         }
     }
@@ -130,7 +152,7 @@ public enum ContourTracer {
     public static func artworkBox(_ spec: ImageSpec, size: Size, options: ContourOptions) -> Rect? {
         let ppm = effectiveResolution(size: size, options: options, pad: 0)
         guard var mask = rasterMask(spec, size: size, pixelsPerMM: ppm, pad: 0, whiteIsBackground: options.whiteIsBackground,
-                                        cutEnclosedWhite: options.cutEnclosedWhite) else { return nil }
+                                        cutEnclosedWhite: options.cutEnclosedWhite, picks: options.picks) else { return nil }
         removeSpecks(&mask, minimumPixels: options.minimumSpeckMM * ppm, fillHoles: false)
         guard let b = mask.occupiedBounds else { return nil }
         return Rect(minX: Double(b.minX) / ppm, minY: Double(b.minY) / ppm,
@@ -152,7 +174,7 @@ public enum ContourTracer {
         let ppm = effectiveResolution(size: size, options: options, pad: padMM)
         let pad = Int((padMM * ppm).rounded(.up))
         guard let mask = rasterMask(spec, size: size, pixelsPerMM: ppm, pad: pad, whiteIsBackground: options.whiteIsBackground,
-                                        cutEnclosedWhite: options.cutEnclosedWhite) else { return [] }
+                                        cutEnclosedWhite: options.cutEnclosedWhite, picks: options.picks) else { return [] }
         let loops = trace(mask: mask, pixelsPerMM: ppm, options: options)
         let offset = Point(Double(pad) / ppm, Double(pad) / ppm)
         return loops.transformed(.translation(-offset.x, -offset.y))
@@ -172,10 +194,12 @@ public enum ContourTracer {
             if distancePx >= 0.5 { mask = dilateEuclidean(mask, radius: distancePx) }
             loops = traceLoops(mask).map { simplify($0, tolerance: simplifyPx) }
         } else {
-            // Sharp: trace the artwork itself, keep its corners, then push every edge out (mitred joins).
-            loops = traceLoops(mask, midpoints: false)
-                .map { simplify($0, tolerance: max(0.75, ppm * 0.15)) }
-                .map { offsetMitred($0, distance: distancePx) }
+            // Sharp: grow the artwork by a strip along every edge of its (lightly simplified) outline plus a
+            // mitred wedge at every corner, painted onto the mask. The union is traced again, so noisy edges
+            // and inside corners can't produce spikes, crossings or loose pieces.
+            let outline = traceLoops(mask).map { simplify($0, tolerance: max(1.0, ppm * 0.15)) }
+            mask = mitredGrow(mask, outlines: outline, distance: distancePx)
+            loops = traceLoops(mask).map { simplify($0, tolerance: simplifyPx) }
         }
         let minSize = max(speckPx, 1.5)
         return loops
@@ -194,7 +218,33 @@ public enum ContourTracer {
     /// Draws the image into its frame (stretched like the canvas; PDFs keep their aspect ratio like the print)
     /// and returns the artwork mask with `pad` empty pixels around it.
     public static func rasterMask(_ spec: ImageSpec, size: Size, pixelsPerMM ppm: Double, pad: Int,
-                                  whiteIsBackground: Bool, cutEnclosedWhite: Bool = false) -> BitMask? {
+                                  whiteIsBackground: Bool, cutEnclosedWhite: Bool = false,
+                                  picks: [ColorPick] = []) -> BitMask? {
+        guard let r = rasterPixels(spec, size: size, pixelsPerMM: ppm, pad: pad) else { return nil }
+        let (pixels, width, height, w, h) = (r.pixels, r.width, r.height, r.w, r.h)
+        var opaque = BitMask(width: width, height: height)
+        var white = BitMask(width: width, height: height)
+        for i in 0..<(width * height) {
+            let a = Int(pixels[i * 4 + 3])
+            guard a >= 128 else { continue }
+            opaque.bits[i] = true
+            if whiteIsBackground {
+                // Un-premultiply and compare against near-white.
+                let r = Int(pixels[i * 4]) * 255 / a, g = Int(pixels[i * 4 + 1]) * 255 / a, b = Int(pixels[i * 4 + 2]) * 255 / a
+                if r >= 240 && g >= 240 && b >= 240 { white.bits[i] = true }
+            }
+        }
+        var mask = whiteIsBackground ? artworkMask(opaque: opaque, white: white, cutEnclosedWhite: cutEnclosedWhite) : opaque
+        if !picks.isEmpty {
+            let lab = labPixels(pixels, count: width * height)
+            applyPicks(picks, to: &mask, lab: lab, width: width, image: (x: pad, y: pad, width: w, height: h))
+        }
+        return mask
+    }
+
+    /// The image drawn into its frame at `pixelsPerMM` with `pad` empty pixels around it: premultiplied RGBA, row 0 on top.
+    static func rasterPixels(_ spec: ImageSpec, size: Size, pixelsPerMM ppm: Double, pad: Int)
+        -> (pixels: [UInt8], width: Int, height: Int, w: Int, h: Int)? {
         let w = max(1, Int((size.width * ppm).rounded()))
         let h = max(1, Int((size.height * ppm).rounded()))
         let width = w + pad * 2, height = h + pad * 2
@@ -221,20 +271,74 @@ public enum ContourTracer {
             return true
         }
         guard drawn else { return nil }
-        var opaque = BitMask(width: width, height: height)
-        var white = BitMask(width: width, height: height)
-        for i in 0..<(width * height) {
+        return (pixels, width, height, w, h)
+    }
+
+    /// CIE L*a*b* of every pixel (3 floats each); NaN lightness marks transparent pixels.
+    static func labPixels(_ pixels: [UInt8], count: Int) -> [Float] {
+        var lab = [Float](repeating: .nan, count: count * 3)
+        for i in 0..<count {
             let a = Int(pixels[i * 4 + 3])
             guard a >= 128 else { continue }
-            opaque.bits[i] = true
-            if whiteIsBackground {
-                // Un-premultiply and compare against near-white.
-                let r = Int(pixels[i * 4]) * 255 / a, g = Int(pixels[i * 4 + 1]) * 255 / a, b = Int(pixels[i * 4 + 2]) * 255 / a
-                if r >= 240 && g >= 240 && b >= 240 { white.bits[i] = true }
+            let r = min(Int(pixels[i * 4]) * 255 / a, 255), g = min(Int(pixels[i * 4 + 1]) * 255 / a, 255), b = min(Int(pixels[i * 4 + 2]) * 255 / a, 255)
+            let c = ColorLab.lab(r: r, g: g, b: b)
+            lab[i * 3] = Float(c.0); lab[i * 3 + 1] = Float(c.1); lab[i * 3 + 2] = Float(c.2)
+        }
+        return lab
+    }
+
+    /// The artwork mask of an image object at `pixelsPerMM` (no padding, no speck removal): what the
+    /// options count as artwork, pixel by pixel over the image frame. Used to show the picked areas.
+    public static func artworkMask(for object: DesignObject, options: ContourOptions, pixelsPerMM: Double) -> BitMask? {
+        guard case .image(let spec) = object.kind, object.frame.width > 0, object.frame.height > 0 else { return nil }
+        let ppm = effectiveResolution(size: object.frame.size, options: ContourOptions(pixelsPerMM: pixelsPerMM), pad: 0)
+        return rasterMask(spec, size: object.frame.size, pixelsPerMM: ppm, pad: 0, whiteIsBackground: options.whiteIsBackground,
+                          cutEnclosedWhite: options.cutEnclosedWhite, picks: options.picks)
+    }
+
+    /// Applies colour picks in order: each removes (or with `keep`, restores) the pixels `pickRegion` finds.
+    static func applyPicks(_ picks: [ColorPick], to mask: inout BitMask, lab: [Float], width: Int,
+                           image: (x: Int, y: Int, width: Int, height: Int)) {
+        var region = [Bool](repeating: false, count: mask.width * mask.height)
+        for pick in picks {
+            pickRegion(pick, lab: lab, width: width, height: mask.height, image: image, into: &region)
+            for i in region.indices where region[i] { mask.bits[i] = pick.keep }
+        }
+    }
+
+    /// The pixels one pick takes: a 4-connected flood fill from the clicked pixel over opaque pixels whose colour
+    /// is within the pick's tolerance (CIE ΔE76) of the clicked colour. `region` is overwritten.
+    static func pickRegion(_ pick: ColorPick, lab: [Float], width: Int, height: Int,
+                           image: (x: Int, y: Int, width: Int, height: Int), into region: inout [Bool]) {
+        for i in region.indices { region[i] = false }
+        let sx = image.x + min(max(Int(pick.point.x * Double(image.width)), 0), image.width - 1)
+        let sy = image.y + min(max(Int(pick.point.y * Double(image.height)), 0), image.height - 1)
+        let seed = sy * width + sx
+        guard !lab[seed * 3].isNaN else { return }
+        let tL = lab[seed * 3], tA = lab[seed * 3 + 1], tB = lab[seed * 3 + 2]
+        let tol2 = Float(pick.tolerance * pick.tolerance)
+        var stack = [seed]
+        region[seed] = true
+        let minX = image.x, minY = image.y, maxX = image.x + image.width - 1, maxY = image.y + image.height - 1
+        lab.withUnsafeBufferPointer { lab in
+            func visit(_ j: Int) {
+                guard !region[j] else { return }
+                let l = lab[j * 3]
+                guard !l.isNaN else { return }
+                let dl = l - tL, da = lab[j * 3 + 1] - tA, db = lab[j * 3 + 2] - tB
+                if dl * dl + da * da + db * db <= tol2 {
+                    region[j] = true
+                    stack.append(j)
+                }
+            }
+            while let i = stack.popLast() {
+                let x = i % width, y = i / width
+                if x > minX { visit(i - 1) }
+                if x < maxX { visit(i + 1) }
+                if y > minY { visit(i - width) }
+                if y < maxY { visit(i + width) }
             }
         }
-        guard whiteIsBackground else { return opaque }
-        return artworkMask(opaque: opaque, white: white, cutEnclosedWhite: cutEnclosedWhite)
     }
 
     /// Combines the opacity and white masks. Transparent pixels are always background. White pixels are
@@ -491,6 +595,57 @@ public enum ContourTracer {
         return pts.indices.filter { keep[$0] }.map { pts[$0] }
     }
 
+    /// The artwork grown by `distance` pixels with mitred (sharp) corners: the mask plus, for every outline edge,
+    /// the strip swept by moving it outwards, and for every vertex the wedge up to the mitre point (bevelled past
+    /// 2× the distance). Outline vertices are in pixel units (y down), oriented like `traceLoops`.
+    static func mitredGrow(_ mask: BitMask, outlines: [Polyline], distance d: Double) -> BitMask {
+        let w = mask.width, h = mask.height
+        var gray = [UInt8](repeating: 0, count: w * h)
+        for i in 0..<(w * h) where mask.bits[i] { gray[i] = 255 }
+        gray.withUnsafeMutableBytes { buffer in
+            guard let ctx = CGContext(data: buffer.baseAddress, width: w, height: h, bitsPerComponent: 8, bytesPerRow: w,
+                                      space: CGColorSpaceCreateDeviceGray(), bitmapInfo: CGImageAlphaInfo.none.rawValue) else { return }
+            ctx.setShouldAntialias(false)
+            ctx.setFillColor(gray: 1, alpha: 1)
+            func cg(_ p: Point) -> CGPoint { CGPoint(x: p.x, y: Double(h) - p.y) }
+            func fill(_ pts: [Point]) {
+                ctx.beginPath()
+                ctx.addLines(between: pts.map(cg))
+                ctx.closePath()
+                ctx.fillPath()
+            }
+            for loop in outlines {
+                let pts = loop.points
+                let n = pts.count
+                guard n >= 2 else { continue }
+                for i in 0..<n {
+                    let p = pts[(i + n - 1) % n], c = pts[i], q = pts[(i + 1) % n]
+                    let d2 = (q - c).normalized
+                    guard d2.length > 0.5 else { continue }
+                    let n2 = Point(-d2.y, d2.x)   // away from the artwork
+                    // Strip along the edge c → q.
+                    fill([c, q, q + n2 * d, c + n2 * d])
+                    // Wedge at c between the previous edge's offset and this one's.
+                    let d1 = (c - p).normalized
+                    guard d1.length > 0.5 else { continue }
+                    let n1 = Point(-d1.y, d1.x)
+                    let sum = n1 + n2
+                    if sum.length < 1e-9 { continue }
+                    let m = sum.normalized
+                    let cosHalf = max(m.dot(n1), 1e-6)
+                    if 1 / cosHalf > 2 {
+                        fill([c, c + n1 * d, c + m * d, c + n2 * d])   // bevel
+                    } else {
+                        fill([c, c + n1 * d, c + m * (d / cosHalf), c + n2 * d])
+                    }
+                }
+            }
+        }
+        var out = BitMask(width: w, height: h)
+        for i in 0..<(w * h) { out.bits[i] = gray[i] >= 128 }
+        return out
+    }
+
     /// Moves every edge `distance` away from the artwork, joining edges with mitres (bevelled past 2× distance).
     public static func offsetMitred(_ loop: Polyline, distance: Double) -> Polyline {
         let pts = loop.points
@@ -578,5 +733,61 @@ extension ContourTracer {
                 let fitted = BezierPath.fitted(to: line, tolerance: tolerance)
                 return fitted.isUsable ? fitted : BezierPath(line)
             }
+    }
+}
+
+/// sRGB (0…255) → CIE L*a*b* (D65), for colour differences that match what people see.
+enum ColorLab {
+    private static let linear: [Double] = (0..<256).map { v in
+        let c = Double(v) / 255
+        return c <= 0.04045 ? c / 12.92 : pow((c + 0.055) / 1.055, 2.4)
+    }
+
+    static func lab(r: Int, g: Int, b: Int) -> (Double, Double, Double) {
+        let rl = linear[r], gl = linear[g], bl = linear[b]
+        let x = (0.4124 * rl + 0.3576 * gl + 0.1805 * bl) / 0.95047
+        let y = 0.2126 * rl + 0.7152 * gl + 0.0722 * bl
+        let z = (0.0193 * rl + 0.1192 * gl + 0.9505 * bl) / 1.08883
+        func f(_ t: Double) -> Double { t > 0.008856 ? cbrt(t) : 7.787 * t + 16.0 / 116 }
+        let fx = f(x), fy = f(y), fz = f(z)
+        return (116 * fy - 16, 500 * (fx - fy), 200 * (fy - fz))
+    }
+}
+
+/// An image prepared for interactive colour picking: its colours are decoded once, so each drag
+/// step only runs the flood fill. Frame-sized, no padding; pixel (0, 0) is the top-left of the frame.
+public struct PickRaster: Sendable {
+    public let width: Int
+    public let height: Int
+    /// What counts as artwork before any pick (transparency rule).
+    public let base: BitMask
+    let lab: [Float]
+
+    public init?(object: DesignObject, pixelsPerMM: Double) {
+        guard case .image(let spec) = object.kind, object.frame.width > 0, object.frame.height > 0 else { return nil }
+        let ppm = ContourTracer.effectiveResolution(size: object.frame.size, options: ContourOptions(pixelsPerMM: pixelsPerMM), pad: 0)
+        guard let r = ContourTracer.rasterPixels(spec, size: object.frame.size, pixelsPerMM: ppm, pad: 0) else { return nil }
+        width = r.width
+        height = r.height
+        lab = ContourTracer.labPixels(r.pixels, count: width * height)
+        var mask = BitMask(width: width, height: height)
+        for i in 0..<(width * height) { mask.bits[i] = !lab[i * 3].isNaN }
+        base = mask
+    }
+
+    private var image: (x: Int, y: Int, width: Int, height: Int) { (0, 0, width, height) }
+
+    /// Artwork after applying `picks` (true = artwork).
+    public func mask(picks: [ColorPick]) -> BitMask {
+        var m = base
+        ContourTracer.applyPicks(picks, to: &m, lab: lab, width: width, image: image)
+        return m
+    }
+
+    /// The pixels a single pick takes (true = taken), to highlight the pick being dragged.
+    public func region(_ pick: ColorPick) -> BitMask {
+        var region = [Bool](repeating: false, count: width * height)
+        ContourTracer.pickRegion(pick, lab: lab, width: width, height: height, image: image, into: &region)
+        return BitMask(width: width, height: height, bits: region)
     }
 }

@@ -336,6 +336,28 @@
         }
       }
     },
+    "%lld picks" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld selecciones"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld sélections"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld seleções"
+          }
+        }
+      }
+    },
     "%lld points" : {
       "localizations" : {
         "es" : {
@@ -1464,6 +1486,28 @@
         }
       }
     },
+    "Clear" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limpar"
+          }
+        }
+      }
+    },
     "Click a line to select it · drag points, handles or lines · ⌥-click the line to add a point · ⌥-drag a point to pull out curve handles · double-click a point for smooth/corner · ⌫ deletes" : {
       "localizations" : {
         "es" : {
@@ -1482,6 +1526,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Clique numa linha para a selecionar · arraste pontos, alças ou linhas · ⌥-clique na linha para adicionar um ponto · ⌥-arraste um ponto para puxar alças de curva · duplo clique num ponto para suave/canto · ⌫ apaga"
+          }
+        }
+      }
+    },
+    "Click the background and drag to take more similar colours" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haz clic en el fondo y arrastra para tomar más colores parecidos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cliquez sur le fond et faites glisser pour prendre plus de couleurs proches"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clique no fundo e arraste para incluir mais cores semelhantes"
+          }
+        }
+      }
+    },
+    "Click the background in the preview and drag to take more similar colours. Click again to remove more; ⌥-click puts an area back." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haz clic en el fondo en la vista previa y arrastra para tomar más colores parecidos. Haz clic de nuevo para quitar más; ⌥-clic devuelve una zona."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cliquez sur le fond dans l’aperçu et faites glisser pour prendre plus de couleurs proches. Cliquez à nouveau pour en retirer davantage ; ⌥-clic remet une zone."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clique no fundo na pré-visualização e arraste para incluir mais cores semelhantes. Clique de novo para remover mais; ⌥-clique repõe uma área."
           }
         }
       }
@@ -2927,13 +3015,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seguir la ilustración"
+            "value" : "Seguir el dibujo"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Suivre l’illustration"
+            "value" : "Suivre le dessin"
           }
         },
         "pt" : {
@@ -2967,6 +3055,7 @@
       }
     },
     "For JPEG and other images without transparency" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -5108,6 +5197,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Escolha uma ferramenta na barra e arraste na tela. Confirme aqui os tamanhos antes de cortar."
+          }
+        }
+      }
+    },
+    "Pick colour" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elegir color"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisir une couleur"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolher cor"
+          }
+        }
+      }
+    },
+    "Pick colour works like Instant Alpha in Preview" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elegir color funciona como el Alfa instantáneo de Vista Previa"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisir une couleur fonctionne comme l’alpha instantané d’Aperçu"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolher cor funciona como o Alfa instantâneo da Pré-visualização"
           }
         }
       }
@@ -7759,6 +7892,28 @@
         }
       }
     },
+    "Tolerance %lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tolerancia %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tolérance %lld"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tolerância %lld"
+          }
+        }
+      }
+    },
     "Too wide for the machine" : {
       "localizations" : {
         "es" : {
@@ -7913,7 +8068,30 @@
         }
       }
     },
+    "Transparent pixels are the background. For JPEG and other images without transparency, use White background or Pick colour." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los píxeles transparentes son el fondo. Para JPEG y otras imágenes sin transparencia, usa Fondo blanco o Elegir color."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les pixels transparents sont le fond. Pour les JPEG et autres images sans transparence, utilisez Fond blanc ou Choisir une couleur."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os píxeis transparentes são o fundo. Para JPEG e outras imagens sem transparência, use Fundo branco ou Escolher cor."
+          }
+        }
+      }
+    },
     "Treat white as background" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -8019,6 +8197,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "USB / porta série"
+          }
+        }
+      }
+    },
+    "Undo Last Pick" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deshacer última selección"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler la dernière sélection"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desfazer última seleção"
           }
         }
       }
@@ -8196,6 +8396,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Padrão web (96 por polegada)"
+          }
+        }
+      }
+    },
+    "White background" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fondo blanco"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fond blanc"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fundo branco"
           }
         }
       }

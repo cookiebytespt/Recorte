@@ -283,3 +283,47 @@ import Testing
         #expect(copy.id != o.id && copy.rotation == 30 && copy.frame.center.distance(to: o.frame.center) < 0.1)
     }
 }
+
+@Suite struct ColorPickTests {
+    /// Opaque 200 × 200 px PNG at 20 × 20 mm: white background, a 12 mm blue square with a 6 × 8 mm red bar inside.
+    private func image() -> DesignObject {
+        let w = 200
+        let space = CGColorSpace(name: CGColorSpace.sRGB)!
+        let ctx = CGContext(data: nil, width: w, height: w, bitsPerComponent: 8, bytesPerRow: 0, space: space,
+                            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
+        ctx.setFillColor(CGColor(red: 1, green: 1, blue: 1, alpha: 1)); ctx.fill(CGRect(x: 0, y: 0, width: w, height: w))
+        ctx.setFillColor(CGColor(red: 0.6, green: 0.8, blue: 0.9, alpha: 1)); ctx.fill(CGRect(x: 40, y: 40, width: 120, height: 120))
+        ctx.setFillColor(CGColor(red: 0.85, green: 0.35, blue: 0.4, alpha: 1)); ctx.fill(CGRect(x: 70, y: 60, width: 60, height: 80))
+        let data = NSMutableData()
+        let dest = CGImageDestinationCreateWithData(data as CFMutableData, "public.png" as CFString, 1, nil)!
+        CGImageDestinationAddImage(dest, ctx.makeImage()!, nil)
+        _ = CGImageDestinationFinalize(dest)
+        return DesignObject(name: "img", kind: .image(ImageSpec(sourceName: "p.png", data: data as Data, format: "png")),
+                            frame: Rect(minX: 0, minY: 0, maxX: 20, maxY: 20))
+    }
+
+    @Test func clickingTheBackgroundRemovesIt() {
+        let lines = ContourTracer.contours(for: image(), options: ContourOptions(distanceMM: 1, picks: [ColorPick(point: Point(0.02, 0.02), tolerance: 10)]))
+        #expect(lines.count == 1)
+        #expect(abs(lines[0].bounds.width - 14) < 0.4)   // the 12 mm square + 1 mm each side
+    }
+
+    @Test func picksStackAndCanPutAreasBack() {
+        let corner = ColorPick(point: Point(0.02, 0.02), tolerance: 10)
+        let blue = ColorPick(point: Point(0.25, 0.25), tolerance: 10)   // inside the blue square, outside the bar
+        let removed = ContourTracer.contours(for: image(), options: ContourOptions(distanceMM: 0, picks: [corner, blue]))
+        #expect(removed.count == 1 && abs(removed[0].bounds.width - 6) < 0.4)   // only the red bar is left
+        var back = blue
+        back.keep = true
+        let restored = ContourTracer.contours(for: image(), options: ContourOptions(distanceMM: 0, picks: [corner, blue, back]))
+        #expect(restored.count == 1 && abs(restored[0].bounds.width - 12) < 0.4)
+    }
+
+    @Test func toleranceDecidesWhatIsTaken() {
+        // The blue is far from white: a small tolerance stops at it, a huge one takes everything connected.
+        let small = ContourTracer.artworkMask(for: image(), options: ContourOptions(picks: [ColorPick(point: Point(0.02, 0.02), tolerance: 10)]), pixelsPerMM: 10)!
+        let huge = ContourTracer.artworkMask(for: image(), options: ContourOptions(picks: [ColorPick(point: Point(0.02, 0.02), tolerance: 100)]), pixelsPerMM: 10)!
+        #expect(small[100, 100] && !small[5, 5])
+        #expect(!huge[100, 100])
+    }
+}
