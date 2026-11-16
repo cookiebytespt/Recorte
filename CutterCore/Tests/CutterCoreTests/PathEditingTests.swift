@@ -128,11 +128,13 @@ import Testing
         let smooth = o.smoothingArtwork(toleranceMM: 0.1)
         let curve = smooth.artworkLocalCurves![0]
         #expect(curve.nodes.count <= 12)
-        #expect(curve.nodes.allSatisfy(\.isSmooth))
+        let allSmooth = curve.nodes.allSatisfy { $0.isSmooth }
+        #expect(allSmooth)
         // Every point of the result stays near the circle.
         let flat = smooth.outlines(tolerance: 0.01)[0]
         let c = smooth.frame.center
-        #expect(flat.points.allSatisfy { abs($0.distance(to: c) - 40) < 0.15 })
+        let nearCircle = flat.points.allSatisfy { abs($0.distance(to: c) - 40) < 0.15 }
+        #expect(nearCircle)
         #expect(abs(smooth.frame.width - 80) < 0.2)
     }
 
@@ -227,7 +229,8 @@ import Testing
         let doc = try DocumentLoader.load(data: Data(svg.utf8), filename: "c.svg")
         let curves = try #require(doc.curves)
         #expect(curves.count == doc.paths.count && curves.count == 3)
-        #expect(curves[0].nodes.count == 4 && curves[0].isClosed && curves[0].nodes.allSatisfy(\.isSmooth))
+        let circleSmooth = curves[0].nodes.allSatisfy { $0.isSmooth }
+        #expect(curves[0].nodes.count == 4 && curves[0].isClosed && circleSmooth)
         #expect(curves[1].nodes.count == 3 && curves[1].hasCurves)
         #expect(curves[2].nodes.count <= 6 && abs(curves[2].bounds.width - 80) < 0.05)
         let design = DesignDocument.fromImport(doc, sourceName: "c.svg")
@@ -268,7 +271,8 @@ import Testing
     @Test func holesShrinkAndClose() {
         let ring = ContourTracer.offset([square, hole], distanceMM: 1)
         #expect(ring.count == 2)
-        #expect(ring.contains { abs($0.bounds.width - 8) < 0.15 })
+        let hasShrunkHole = ring.contains { abs($0.bounds.width - 8) < 0.15 }
+        #expect(hasShrunkHole)
         #expect(ContourTracer.offset([square, hole], distanceMM: 6).count == 1)
     }
 
