@@ -1,6 +1,7 @@
 import AppKit
 import CutterCore
 import SwiftUI
+import UniformTypeIdentifiers
 
 /// The drawing canvas: shows the project, handles tools, selection, handles and panning.
 struct CanvasView: View {
@@ -13,6 +14,7 @@ struct CanvasView: View {
     /// Last click on a node while editing points (double-click toggles smooth / corner).
     @State private var lastNodeClick: (path: Int, point: Int, time: Date)?
     @FocusState private var focused: Bool
+    @State private var isDropTargeted = false
 
     private let margin: CGFloat = 60
     private let handleSize: CGFloat = 8
@@ -88,8 +90,47 @@ struct CanvasView: View {
             .overlay(alignment: .top) {
                 if editor.pathEdit != nil { pathEditHint } else if editor.design.objects.isEmpty { emptyCanvasHint }
             }
+            .onDrop(of: [.fileURL, .image], isTargeted: $isDropTargeted) { providers, location in
+                handleDrop(providers, at: vp.toMM(location))
+            }
+            .overlay {
+                if isDropTargeted {
+                    Rectangle()
+                        .strokeBorder(Color.accentColor, lineWidth: 3)
+                        .allowsHitTesting(false)
+                }
+            }
             .onAppear { focused = true }
         }
+    }
+
+    // MARK: Drag and drop
+
+    /// Images are placed where they're dropped (several at once are fanned out 5 mm apart); projects and
+    /// SVG/PDF/AI/DXF files open in a new window.
+    private func handleDrop(_ providers: [NSItemProvider], at point: Point) -> Bool {
+        let editor = editor
+        var accepted = false
+        for (index, provider) in providers.enumerated() {
+            let step = Double(index) * 5
+            let target = Point(point.x + step, point.y + step)
+            if provider.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier) {
+                accepted = true
+                _ = provider.loadObject(ofClass: URL.self) { url, _ in
+                    guard let url else { return }
+                    Task { @MainActor in editor.handleDroppedFile(url, at: target) }
+                }
+            } else if let type = provider.registeredTypeIdentifiers.lazy.compactMap({ UTType($0) }).first(where: { $0.conforms(to: .image) }) {
+                // Image data without a file, e.g. dragged out of a browser or Photos.
+                accepted = true
+                let name = (provider.suggestedName ?? String(localized: "Image")) + "." + (type.preferredFilenameExtension ?? "png")
+                _ = provider.loadDataRepresentation(forTypeIdentifier: type.identifier) { data, _ in
+                    guard let data else { return }
+                    Task { @MainActor in editor.placeImage(data: data, sourceName: name, centeredAt: target) }
+                }
+            }
+        }
+        return accepted
     }
 
     // MARK: Viewport

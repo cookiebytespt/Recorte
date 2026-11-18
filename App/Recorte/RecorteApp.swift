@@ -6,6 +6,7 @@ struct RecorteApp: App {
     @State private var cutter = CutterController()
 
     init() {
+        DocumentSavingPolicy.install()
         // Start with an empty canvas instead of the Open panel.
         UserDefaults.standard.register(defaults: ["NSShowAppCentricOpenPanelInsteadOfUntitledFile": false])
         Preferences.registerDefaults()

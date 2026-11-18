@@ -68,6 +68,7 @@ struct MainView: View {
         } message: {
             Text(editor.importError ?? "")
         }
+        .background(WindowReader { DocumentSavingPolicy.documentWindowAppeared($0) })
         .focusedSceneValue(\.editor, editor)
         .onAppear {
             editor.document = $document

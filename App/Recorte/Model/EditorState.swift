@@ -4,6 +4,7 @@ import Foundation
 import Observation
 import SwiftUI
 import TipKit
+import UniformTypeIdentifiers
 
 enum Tool: String, CaseIterable, Identifiable {
     case select, hand, rectangle, ellipse, line, polygon, star, freehand, text
@@ -238,33 +239,78 @@ final class EditorState {
         }
     }
 
-    /// Adds a PDF/AI/PNG/JPEG as printed artwork for Print & Cut.
-    func placeImage(_ url: URL) {
+    /// A file dropped on the canvas: projects, SVG, PDF, AI and DXF open in their own window; images are
+    /// placed as printed artwork where they were dropped.
+    func handleDroppedFile(_ url: URL, at point: Point) {
+        if DocumentFiles.opensAsDocument(url) {
+            NSDocumentController.shared.openDocument(withContentsOf: url, display: true) { _, _, error in
+                if let error { NSApp.presentError(error) }
+            }
+        } else if let type = UTType(filenameExtension: url.pathExtension), type.conforms(to: .image) {
+            placeImage(url, centeredAt: point)
+        } else {
+            importError = String(localized: "Recorte can’t use this kind of file. Drop an image to place it on the canvas, or a project, SVG, PDF, AI or DXF file to open it.")
+        }
+    }
+
+    /// Adds a PDF/AI or bitmap image as printed artwork for Print & Cut.
+    /// - Parameter center: where to put the artwork's centre (canvas mm), e.g. the drop point. Defaults to the
+    ///   top-left of the printable area.
+    func placeImage(_ url: URL, centeredAt center: Point? = nil) {
         let accessing = url.startAccessingSecurityScopedResource()
         defer { if accessing { url.stopAccessingSecurityScopedResource() } }
         do {
             let data = try Data(contentsOf: url)
-            let ext = url.pathExtension.lowercased()
-            let format = (ext == "ai" || ext == "pdf") ? "pdf" : (ext == "jpg" || ext == "jpeg") ? "jpeg" : "png"
-            guard let image = NSImage(data: data), image.size.width > 0 else {
-                importError = String(localized: "The file could not be opened as an image.")
-                return
-            }
-            // Natural size: PDF points → mm; bitmaps at 300 dpi.
-            let scale = format == "pdf" ? 25.4 / 72 : 25.4 / 300
-            var size = Size(image.size.width * scale, image.size.height * scale)
-            let area = printableArea
-            let fit = min(1, area.width / size.width, area.height / size.height)
-            size = Size(size.width * fit, size.height * fit)
-            let object = DesignObject(
-                name: uniqueName((url.lastPathComponent as NSString).deletingPathExtension),
-                kind: .image(ImageSpec(sourceName: url.lastPathComponent, data: data, format: format)),
-                frame: Rect(origin: area.origin, size: size))
-            change { $0.objects.insert(object, at: 0) }   // behind the cut lines
-            selection = [object.id]
+            placeImage(data: data, sourceName: url.lastPathComponent, centeredAt: center)
         } catch {
             importError = error.localizedDescription
         }
+    }
+
+    /// Adds image data (a file's contents or an image dragged from another app) as printed artwork.
+    func placeImage(data: Data, sourceName: String, centeredAt center: Point? = nil) {
+        guard let (stored, format, natural) = Self.printableImage(data: data, sourceName: sourceName) else {
+            importError = String(localized: "The file could not be opened as an image.")
+            return
+        }
+        let area = printableArea
+        let fit = min(1, area.width / natural.width, area.height / natural.height)
+        let size = Size(natural.width * fit, natural.height * fit)
+        var origin = area.origin
+        if let center {
+            // Centre on the drop point, but keep the artwork inside the printable area when it fits.
+            let x = min(max(center.x - size.width / 2, area.minX), area.maxX - size.width)
+            let y = min(max(center.y - size.height / 2, area.minY), area.maxY - size.height)
+            origin = Point(x, y)
+        }
+        let object = DesignObject(
+            name: uniqueName((sourceName as NSString).deletingPathExtension),
+            kind: .image(ImageSpec(sourceName: sourceName, data: stored, format: format)),
+            frame: Rect(origin: origin, size: size))
+        change { $0.objects.insert(object, at: 0) }   // behind the cut lines
+        selection = [object.id]
+    }
+
+    /// The data to store, its format ("pdf", "png" or "jpeg") and its natural size in mm.
+    /// PDF/AI keep their vector data (points → mm). Bitmaps are sized at 300 dpi from their pixel size;
+    /// formats other than PNG/JPEG (TIFF, HEIC, GIF, WebP…) are converted to PNG.
+    static func printableImage(data: Data, sourceName: String) -> (Data, String, Size)? {
+        let ext = (sourceName as NSString).pathExtension.lowercased()
+        let isPDF = ext == "pdf" || ext == "ai" || data.starts(with: Array("%PDF".utf8))
+        if isPDF {
+            guard let image = NSImage(data: data), image.size.width > 0, image.size.height > 0 else { return nil }
+            let mm = 25.4 / 72
+            return (data, "pdf", Size(image.size.width * mm, image.size.height * mm))
+        }
+        guard let rep = NSBitmapImageRep(data: data), rep.pixelsWide > 0, rep.pixelsHigh > 0 else { return nil }
+        let mm = 25.4 / 300
+        let size = Size(Double(rep.pixelsWide) * mm, Double(rep.pixelsHigh) * mm)
+        let isJPEG = data.starts(with: [0xFF, 0xD8, 0xFF])
+        let isPNG = data.starts(with: [0x89, 0x50, 0x4E, 0x47])
+        if isJPEG { return (data, "jpeg", size) }
+        if isPNG { return (data, "png", size) }
+        guard let png = rep.representation(using: .png, properties: [:]) else { return nil }
+        return (png, "png", size)
     }
 
     /// Where printed artwork can go: inside the page-edge marks, or (marks around the artwork) far enough
