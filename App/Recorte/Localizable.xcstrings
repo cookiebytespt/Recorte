@@ -4859,6 +4859,28 @@
         }
       }
     },
+    "Image" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imagen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imagem"
+          }
+        }
+      }
+    },
     "Images were skipped. Only vector lines can be cut." : {
       "localizations" : {
         "es" : {
@@ -8144,6 +8166,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajuda do Recorte"
+          }
+        }
+      }
+    },
+    "Recorte can’t use this kind of file. Drop an image to place it on the canvas, or a project, SVG, PDF, AI or DXF file to open it." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recorte no puede usar este tipo de archivo. Suelta una imagen para colocarla en el lienzo, o un proyecto, SVG, PDF, AI o DXF para abrirlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recorte ne peut pas utiliser ce type de fichier. Déposez une image pour la placer sur le plan de travail, ou un projet, un fichier SVG, PDF, AI ou DXF pour l’ouvrir."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Recorte não consegue usar este tipo de ficheiro. Largue uma imagem para a colocar na tela, ou um projeto, SVG, PDF, AI ou DXF para o abrir."
           }
         }
       }
