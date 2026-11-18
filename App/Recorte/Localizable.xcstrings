@@ -914,6 +914,28 @@
         }
       }
     },
+    "Adds tools that test the connection to the machine. Only needed if the machine doesn't respond, or when support asks for a log." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añade herramientas que prueban la conexión con la máquina. Solo hace falta si la máquina no responde o si el soporte pide un registro."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoute des outils qui testent la connexion à la machine. Utile seulement si la machine ne répond pas, ou si l’assistance demande un journal."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acrescenta ferramentas que testam a ligação à máquina. Só é preciso se a máquina não responder, ou quando o suporte pedir um registo."
+          }
+        }
+      }
+    },
     "Advance the vinyl after cutting" : {
       "localizations" : {
         "es" : {
@@ -2344,50 +2366,6 @@
         }
       }
     },
-    "Creates a printer queue that sends the jobs to the machine unchanged. Only needed once; macOS may ask for your password." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Crea una cola de impresión que envía los trabajos a la máquina sin cambios. Solo hace falta una vez; macOS puede pedir su contraseña."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Crée une file d’impression qui envoie les travaux à la machine sans les modifier. Une seule fois suffit ; macOS peut demander votre mot de passe."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cria uma fila de impressão que envia os trabalhos para a máquina sem alterações. Só é preciso uma vez; o macOS pode pedir a sua palavra-passe."
-          }
-        }
-      }
-    },
-    "Creates a raw print queue for the cutter. No driver is needed." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Crea una cola de impresión en bruto para la máquina. No hace falta ningún driver."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Crée une file d’impression brute pour la machine. Aucun pilote n’est nécessaire."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cria uma fila de impressão em bruto para a máquina. Não é preciso nenhum driver."
-          }
-        }
-      }
-    },
     "Curve smoothness" : {
       "localizations" : {
         "es" : {
@@ -2824,6 +2802,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Máquina"
+          }
+        }
+      }
+    },
+    "Cutter Troubleshooting" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagnóstico de la máquina"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagnostic de la machine"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagnóstico da máquina"
+          }
+        }
+      }
+    },
+    "Cutter Troubleshooting…" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagnóstico de la máquina…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagnostic de la machine…"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagnóstico da máquina…"
           }
         }
       }
@@ -4176,28 +4198,6 @@
         }
       }
     },
-    "Found on USB" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Detectada por USB"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Détectée en USB"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Encontrada no USB"
-          }
-        }
-      }
-    },
     "Freehand" : {
       "localizations" : {
         "es" : {
@@ -4547,6 +4547,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Altura (mm)"
+          }
+        }
+      }
+    },
+    "Help ▸ Cutter Troubleshooting checks how the Mac sees the machine and can send small test jobs. It keeps a log you can send to support." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayuda ▸ Diagnóstico de la máquina comprueba cómo ve el Mac la máquina y puede enviar pequeños trabajos de prueba. Guarda un registro que puede enviar al soporte."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aide ▸ Diagnostic de la machine vérifie comment le Mac voit la machine et peut envoyer de petits travaux de test. Il garde un journal que vous pouvez envoyer à l’assistance."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajuda ▸ Diagnóstico da máquina verifica como o Mac vê a máquina e pode enviar pequenos trabalhos de teste. Guarda um registo que pode enviar ao suporte."
           }
         }
       }
@@ -5547,24 +5569,24 @@
         }
       }
     },
-    "Looks again for connected machines, ports and queues." : {
+    "Looks again for connected machines and ports." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vuelve a buscar máquinas, puertos y colas conectados."
+            "value" : "Vuelve a buscar máquinas y puertos conectados."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recherche à nouveau les machines, ports et files connectés."
+            "value" : "Recherche à nouveau les machines et ports connectés."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Volta a procurar máquinas, portas e filas ligadas."
+            "value" : "Volta a procurar máquinas e portas ligadas."
           }
         }
       }
@@ -6307,28 +6329,6 @@
         }
       }
     },
-    "Needs setting up" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sin configurar"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "À configurer"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Por configurar"
-          }
-        }
-      }
-    },
     "New layer “Cut contour”" : {
       "localizations" : {
         "es" : {
@@ -6501,6 +6501,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Não ligada"
+          }
+        }
+      }
+    },
+    "Not found. Plug in the USB cable and switch the machine on." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No encontrada. Conecte el cable USB y encienda la máquina."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Introuvable. Branchez le câble USB et allumez la machine."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não encontrada. Ligue o cabo USB e ligue a máquina."
           }
         }
       }
@@ -7906,28 +7928,6 @@
         }
       }
     },
-    "Printer queue" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cola de impresión"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "File d’impression"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fila de impressão"
-          }
-        }
-      }
-    },
     "Printing" : {
       "localizations" : {
         "es" : {
@@ -8082,28 +8082,6 @@
         }
       }
     },
-    "Queue" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cola"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "File"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fila"
-          }
-        }
-      }
-    },
     "Reading the marks and cutting" : {
       "localizations" : {
         "es" : {
@@ -8170,24 +8148,24 @@
         }
       }
     },
-    "Recorte needs to set it up once before it can cut." : {
+    "Recorte finds the machine on its own when it's plugged in and switched on." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recorte tiene que configurarla una vez antes de poder cortar."
+            "value" : "Recorte encuentra la máquina por sí solo cuando está conectada y encendida."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recorte doit la configurer une fois avant de pouvoir découper."
+            "value" : "Recorte trouve la machine tout seul lorsqu’elle est branchée et allumée."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Recorte tem de a configurar uma vez antes de poder cortar."
+            "value" : "O Recorte encontra a máquina sozinho quando está ligada ao cabo e à corrente."
           }
         }
       }
@@ -9512,46 +9490,24 @@
         }
       }
     },
-    "Set up the cutter" : {
+    "Serial port" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configurar la máquina"
+            "value" : "Puerto serie"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configurer la machine"
+            "value" : "Port série"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configurar a máquina"
-          }
-        }
-      }
-    },
-    "Set up the machine" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Configurar la máquina"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Configurer la machine"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Configurar a máquina"
+            "value" : "Porta série"
           }
         }
       }
@@ -9778,6 +9734,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar"
+          }
+        }
+      }
+    },
+    "Show Cutter Troubleshooting in the Help menu" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar Diagnóstico de la máquina en el menú Ayuda"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher Diagnostic de la machine dans le menu Aide"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar Diagnóstico da máquina no menu Ajuda"
           }
         }
       }
@@ -10861,24 +10839,24 @@
         }
       }
     },
-    "The Liyu connects as a printer queue. USB / serial port is for other machines that show up as a serial device." : {
+    "The Liyu connects over USB and needs no driver. Serial port is for other machines that show up as a serial device." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La Liyu se conecta como cola de impresión. Puerto USB / serie es para otras máquinas que aparecen como dispositivo serie."
+            "value" : "La Liyu se conecta por USB y no necesita controlador. Puerto serie es para otras máquinas que aparecen como dispositivo serie."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La Liyu se connecte comme une file d’impression. Port USB / série sert aux autres machines vues comme un périphérique série."
+            "value" : "La Liyu se connecte en USB et ne nécessite aucun pilote. Port série est destiné aux autres machines qui apparaissent comme un périphérique série."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A Liyu liga-se como fila de impressão. Porta USB / série é para outras máquinas que aparecem como dispositivo série."
+            "value" : "A Liyu liga-se por USB e não precisa de driver. Porta série é para outras máquinas que aparecem como dispositivo série."
           }
         }
       }
@@ -11011,50 +10989,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "A máquina está ligada e pronta para cortar."
-          }
-        }
-      }
-    },
-    "The machine is connected but Recorte needs to set it up once. Use Set up the machine above." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La máquina está conectada, pero Recorte debe configurarla una vez. Use Configurar la máquina, arriba."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La machine est connectée mais Recorte doit la configurer une fois. Utilisez Configurer la machine, plus haut."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A máquina está ligada, mas o Recorte tem de a configurar uma vez. Use Configurar a máquina, em cima."
-          }
-        }
-      }
-    },
-    "The machine is connected but not set up yet" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La máquina está conectada pero aún no está configurada"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La machine est connectée mais pas encore configurée"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A máquina está ligada mas ainda não está configurada"
           }
         }
       }
@@ -11209,28 +11143,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "O nome que aparece na lista de camadas."
-          }
-        }
-      }
-    },
-    "The printer queue that sends jobs to the machine. Recorte names it Recorte_Liyu when it sets the machine up." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La cola de impresión que envía los trabajos a la máquina. Recorte la llama Recorte_Liyu cuando configura la máquina."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La file d’impression qui envoie les travaux à la machine. Recorte la nomme Recorte_Liyu quand il configure la machine."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A fila de impressão que envia os trabalhos para a máquina. O Recorte chama-lhe Recorte_Liyu quando configura a máquina."
           }
         }
       }
@@ -11675,6 +11587,28 @@
         }
       }
     },
+    "Troubleshooting" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solución de problemas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dépannage"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resolução de problemas"
+          }
+        }
+      }
+    },
     "Try Print & Cut" : {
       "localizations" : {
         "es" : {
@@ -11873,24 +11807,24 @@
         }
       }
     },
-    "USB / serial port" : {
+    "USB" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "USB / puerto serie"
+            "value" : "USB"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "USB / port série"
+            "value" : "USB"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "USB / porta série"
+            "value" : "USB"
           }
         }
       }

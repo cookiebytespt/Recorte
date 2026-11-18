@@ -35,8 +35,10 @@ usb#vid_0483&pid_5750#stm3210#{…}
   why Device Monitoring Studio's database labelled the port *"LED badge — mini LED display —
   11x44"* (still visible in the original capture filename). It isn't one; it's the cutter.
 - On the Mac the same device enumerates as a USB **printer-class** device named
-  "LIYU CUTTING PLOTTER". That's why Recorte needs no driver: it creates a raw CUPS queue and
-  writes bytes straight to it.
+  "LIYU CUTTING PLOTTER" (vendor string "AHLY CUTTINGPLOTER", serial "STM3210"). No kernel
+  driver claims the interface, so Recorte opens it with IOUSBHost and writes the job to the
+  bulk OUT endpoint — no driver, no print queue. (Recorte first used a raw CUPS queue; macOS
+  refuses those now: `lpadmin: Raw queues are no longer supported on macOS.`)
 
 ## Step 2 — Capture a job
 
@@ -122,3 +124,41 @@ The numbers were checked against the printed PDF (255.4 mm wide):
 
 Captures from other jobs (plain cuts, different mark sizes, speed/force changes) would fill
 these gaps. Contributions are welcome.
+
+## The Mac connection (2026-11-18)
+
+Interface 0, class 07/01/02 (printer, bidirectional), 39-byte configuration descriptor:
+
+| Endpoint | Type | Max packet |
+|---|---|---|
+| `0x03` OUT | bulk | 64 |
+| `0x81` IN | bulk | 64 |
+| `0x82` IN | interrupt | 8 |
+
+- Jobs go to `0x03`. A 20 KB Print & Cut job was accepted in 10 × 2 KB transfers in 0.09 s:
+  the cutter buffers the whole job.
+- It stalls the printer-class requests GET_DEVICE_ID and GET_PORT_STATUS (`0xE0005000`), and
+  nothing ever comes back on `0x81` — same as the Windows capture: one-way.
+- Tested on the machine: knife-up moves and SignMaster's plain rectangle cut correctly.
+  A Print & Cut job sent without the printed sheet makes the head hunt for marks past its end
+  stop (loud grinding); only send those with the sheet loaded and the origin on the first mark.
+
+## Cutter Troubleshooting window
+
+Always in Debug builds (**Help ▸ Cutter Troubleshooting…**, ⌥⇧⌘D). In release builds it
+appears after **Settings ▸ Cutter ▸ Troubleshooting** is switched on. Everything is logged to the
+window, to the unified log (subsystem `pt.cookiebytes.recorte`, category `CutterDebug`) and to a
+file: `debug-logs/cutter-<date>.log` in the repo when run from Xcode (git-ignored), otherwise
+`~/Library/Logs/Recorte/`.
+
+| Button | What it does |
+|---|---|
+| Full check (safe) | USB devices and interfaces from the IOKit registry (and who owns each one), serial ports, third-party drivers, then Probe USB. Sends nothing. |
+| Probe USB | Opens the cutter's interface: endpoints, configuration descriptor, printer-class status requests, reads bulk IN |
+| Soft reset | Printer-class SOFT_RESET |
+| Send | Sends a payload over USB |
+
+Payloads: *Move head* (knife up, nothing cut — use this first), Recorte's test square,
+SignMaster's 104×86 mm rectangle byte-for-byte, or any PLT file (asks first if it's a Print &
+Cut job). USB options: chunk size per bulk transfer, *Seize* (take the interface from another
+app), soft reset first, read-back time.

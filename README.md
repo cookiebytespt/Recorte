@@ -16,8 +16,8 @@ Built by [CookieBytes](https://cookiebytes.pt) — software development & home a
 
 - Swift 6, SwiftUI, macOS 14+
 - English, Portuguese, French and Spanish (follows the system language)
-- No drivers: the cutter is a USB printer-class device, so Recorte sends HPGL through a raw
-  CUPS queue (a serial-port transport is also included for other HPGL cutters)
+- No drivers and no printer setup: Recorte finds the cutter on USB and sends the job straight
+  to it (a serial-port transport is also included for other HPGL cutters)
 - Projects are saved as `.recorte` files (older `.cookiecut` projects still open)
 
 > **Status:** early development. The jobs Recorte sends match SignMaster's byte for byte,
@@ -52,17 +52,14 @@ The **Getting Started** window opens on the first launch with the four steps bel
 
 ### Connect the machine
 
-The GF-1261 shows up as a **USB printer** ("LIYU CUTTING PLOTTER"), not a serial port. No
-driver is needed.
+The GF-1261 connects over USB ("LIYU CUTTING PLOTTER"). No driver and no printer setup are
+needed.
 
 1. Plug the cutter in with the USB cable and switch it on.
-2. Press **⌘P** (or open **Settings ▸ Cutter**). When Recorte finds the machine, it offers
-   **Set up the machine**. This creates a raw print queue called `Recorte_Liyu`; it's needed
-   only once, and macOS may ask for your password.
-3. The machine status in the Output sheet turns green: **Ready**.
+2. Press **⌘P**. Recorte finds the machine by itself and the status in the Output sheet turns
+   green: **Ready**. **Settings ▸ Cutter** shows the machine it found.
 
-Recorte only picks a queue whose name identifies the cutter, so it never sends a job to
-another printer by mistake.
+Recorte only sends to the Liyu's own USB ID, so a job never goes to a printer by mistake.
 
 ### Make a test cut
 
@@ -235,7 +232,7 @@ time and make a test cut after each change.
 | Problem | What to do |
 |---|---|
 | **The machine is not connected** | Check the USB cable and that the machine is on, then **Check again**. |
-| **Connected but not set up yet** | Press **Set up the machine** (once). |
+| **The machine is connected but doesn't respond** | Switch it off and on. If it still doesn't respond, turn on **Settings ▸ Cutter ▸ Troubleshooting**, open **Help ▸ Cutter Troubleshooting…**, press **Full check (safe)** and send the log (**Show log file**) to support. |
 | **The machine didn't find the marks** | Nothing was cut. Check that the sheet is straight, printed side up, with the arrow mark at the front right; that the blade was on the arrow mark when you pressed Origin; that the marks are solid black and not under a pinch roller or tape; and that the sheet was printed at 100 % with the same mark size as the machine. Then **Try again** with the same sheet. Reprint only if the marks are damaged. |
 | **The marks don't fit on the page** | Move the artwork away from the edges, use a bigger page or a smaller distance from the artwork. |
 | **Cut lines must stay inside the marks** | Move the shapes that cross the marks, or place the marks around the artwork. |
@@ -351,7 +348,8 @@ CutterCore/              Swift package with all the logic, testable without the 
   Import/                SVG, PDF/AI (CoreGraphics), DXF importers
   Processing/            Cut ordering, blade-offset compensation, job planner, contour tracing
   Output/                HPGL and Print & Cut generators, print sheet renderer
-  Transport/             CUPS raw-queue and serial port (termios) transports
+  Transport/             USB (IOUSBHost, straight to the cutter) and serial port (termios) transports
+  Diagnostics/           Connection checks behind Help ▸ Cutter Troubleshooting
   Machine/               Machine profile (GF-1261) and material presets
 docs/brand/              Icon and banner sources
 docs/debugging/          USB captures, SignMaster PLT files, extraction script and protocol write-up
@@ -362,7 +360,6 @@ docs/tools/              Developer helper scripts
 ## Roadmap
 
 - Blades and cutting presets (named blades, saved presets, passes), like SignMaster's Vinyl Spooler.
-- Direct IOUSBHost bulk transport (skip CUPS) and reading the cutter's status replies.
 - Multiple artboards / pages picker.
 - Weeding lines and tiling for jobs longer than the media.
 - Notarised Developer ID build for distribution.

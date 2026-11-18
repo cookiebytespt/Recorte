@@ -7,10 +7,10 @@ public enum FlowControl: String, Codable, Sendable, CaseIterable, Hashable {
 }
 
 public enum ConnectionKind: String, Codable, Sendable, CaseIterable, Hashable {
-    /// USB-serial adapter (shows up as /dev/cu.usbserial-… or similar).
+    /// The cutter's own USB interface, found by vendor/product ID (the Liyu).
+    case usb
+    /// USB-serial adapter (shows up as /dev/cu.usbserial-… or similar), for other HPGL cutters.
     case serial
-    /// USB printer-class device, driven through a raw CUPS queue.
-    case printerQueue
 }
 
 public struct MachineProfile: Codable, Sendable, Hashable, Identifiable {
@@ -58,7 +58,7 @@ public struct MachineProfile: Codable, Sendable, Hashable, Identifiable {
         self.registrationMarkSize = registrationMarkSize
     }
 
-    /// Liyu GF-1261: 1260 mm media, roughly 1200 mm cutting width. Connects as a USB printer.
+    /// Liyu GF-1261: 1260 mm media, roughly 1200 mm cutting width. Connects over USB (printer class, no driver).
     public static let liyuGF1261 = MachineProfile(
         id: "liyu-gf-1261",
         name: "Liyu GF-1261",

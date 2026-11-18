@@ -6,7 +6,6 @@ enum Preferences {
     static let connectionKind = "connectionKind"
     static let hasSeenGettingStarted = "hasSeenGettingStarted"
     static let serialPortPath = "serialPortPath"
-    static let printerQueue = "printerQueue"
     static let baudRate = "baudRate"
     static let flowControl = "flowControl"
     static let stepsPerMM = "stepsPerMM"
@@ -21,7 +20,7 @@ enum Preferences {
     static func registerDefaults() {
         let m = MachineProfile.liyuGF1261
         UserDefaults.standard.register(defaults: [
-            connectionKind: ConnectionKind.printerQueue.rawValue,
+            connectionKind: ConnectionKind.usb.rawValue,
             baudRate: m.baudRate,
             flowControl: m.flowControl.rawValue,
             stepsPerMM: m.stepsPerMM,
@@ -33,6 +32,17 @@ enum Preferences {
             unitlessDPI: 72.0,
             curveTolerance: 0.1,
         ])
+    }
+
+    /// Shows Help ▸ Cutter Troubleshooting in release builds (always shown in Debug builds).
+    static let showTroubleshooting = "showTroubleshooting"
+
+    /// Before 0.1.x the Liyu was driven through a raw CUPS queue, which macOS no longer allows.
+    /// Move anyone still on that setting to USB and forget the queue name.
+    static func migrateLegacyConnection() {
+        let d = UserDefaults.standard
+        if d.string(forKey: connectionKind) == "printerQueue" { d.set(ConnectionKind.usb.rawValue, forKey: connectionKind) }
+        d.removeObject(forKey: "printerQueue")
     }
 
     static func importOptions() -> ImportOptions {
