@@ -4,7 +4,6 @@ public enum TransportError: Error, LocalizedError, Sendable {
     case cannotOpen(path: String, code: Int32)
     case configurationFailed(code: Int32)
     case writeFailed(code: Int32)
-    case printerQueueFailed(String)
     case noDevice
 
     public var errorDescription: String? {
@@ -15,8 +14,6 @@ public enum TransportError: Error, LocalizedError, Sendable {
             return String(localized: "The connection to the cutter could not be configured.", bundle: .module)
         case .writeFailed(let code):
             return String(localized: "Sending to the cutter failed (\(String(cString: strerror(code)))).", bundle: .module)
-        case .printerQueueFailed(let detail):
-            return String(localized: "The printer queue rejected the job: \(detail)", bundle: .module)
         case .noDevice:
             return String(localized: "No cutter selected. Choose one in Settings.", bundle: .module)
         }

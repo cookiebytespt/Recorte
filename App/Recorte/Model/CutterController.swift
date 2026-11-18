@@ -15,16 +15,15 @@ final class CutterController {
 
     private(set) var status: Status = .idle
     private(set) var availablePorts: [SerialPortInfo] = []
-    private(set) var availableQueues: [String] = []
-    /// USB printer-class devices seen by CUPS (the Liyu shows up here) that may still need a queue.
-    private(set) var attachedUSBPrinters: [USBPrinterDevice] = []
-    private(set) var setupError: String?
+    /// The USB cutter (machine profile's VID/PID) currently plugged in, if any.
+    private(set) var usbCutter: USBRegistryDevice?
     private var sendTask: Task<Void, Never>?
+    private var watchTask: Task<Void, Never>?
 
     var machine: MachineProfile { Preferences.machineProfile() }
 
     var connectionKind: ConnectionKind {
-        get { ConnectionKind(rawValue: UserDefaults.standard.string(forKey: Preferences.connectionKind) ?? "") ?? .printerQueue }
+        get { ConnectionKind(rawValue: UserDefaults.standard.string(forKey: Preferences.connectionKind) ?? "") ?? .usb }
         set { UserDefaults.standard.set(newValue.rawValue, forKey: Preferences.connectionKind) }
     }
 
@@ -33,37 +32,41 @@ final class CutterController {
         set { UserDefaults.standard.set(newValue, forKey: Preferences.serialPortPath) }
     }
 
-    var printerQueue: String {
-        get { UserDefaults.standard.string(forKey: Preferences.printerQueue) ?? "" }
-        set { UserDefaults.standard.set(newValue, forKey: Preferences.printerQueue) }
-    }
-
     var isSending: Bool {
         if case .sending = status { return true }
         return false
     }
 
-    /// `true` when a device has been chosen for the current connection kind.
+    /// `true` when the machine for the current connection kind is there to send to.
     var hasDevice: Bool {
         switch connectionKind {
+        case .usb: return usbCutter != nil
         case .serial: return !serialPortPath.isEmpty
-        case .printerQueue: return !printerQueue.isEmpty
         }
     }
 
     var deviceDescription: String {
         switch connectionKind {
+        case .usb: return usbCutter?.productName ?? ""
         case .serial: return SerialPortInfo(path: serialPortPath).displayName
-        case .printerQueue: return printerQueue
         }
     }
 
     init() {
         Preferences.registerDefaults()
+        Preferences.migrateLegacyConnection()
         refreshDevices()
+        // Notice the cutter being plugged in or switched on/off. The registry query is cheap.
+        watchTask = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(2))
+                self?.refreshUSB()
+            }
+        }
     }
 
     func refreshDevices() {
+        refreshUSB()
         let ports = SerialPortScanner.availablePorts()
         availablePorts = ports
         // Auto-pick the only plausible port if nothing is selected yet.
@@ -71,52 +74,24 @@ final class CutterController {
             let candidates = ports.filter(\.isLikelyCutter)
             if candidates.count == 1 { serialPortPath = candidates[0].path }
         }
-        Task {
-            let queues = await PrinterQueueTransport.availableQueues()
-            let printers = await PrinterQueueTransport.attachedUSBPrinters()
-            availableQueues = queues
-            attachedUSBPrinters = printers
-            // Pick the cutter's queue automatically when there is an obvious one.
-            if connectionKind == .printerQueue, printerQueue.isEmpty || !queues.contains(printerQueue) {
-                // Never guess: a wrong queue would send HPGL to a real printer.
-                if let match = queues.first(where: { let n = $0.lowercased(); return n.contains("liyu") || n.contains("recorte") || n.contains("cookiecut") || n.contains("cutter") || n.contains("plotter") }) {
-                    printerQueue = match
-                } else {
-                    printerQueue = ""
-                }
-            }
-        }
     }
 
-    /// The attached cutter that has no queue yet, if any.
-    var cutterNeedingQueue: USBPrinterDevice? {
-        guard connectionKind == .printerQueue else { return nil }
-        return attachedUSBPrinters.first(where: \.isLikelyCutter)
-    }
-
-    /// Creates a raw CUPS queue for the attached cutter and selects it.
-    func createQueue(for device: USBPrinterDevice) {
-        Task {
-            do {
-                try await PrinterQueueTransport.createRawQueue(named: "Recorte_Liyu", for: device)
-                printerQueue = "Recorte_Liyu"
-                setupError = nil
-            } catch {
-                setupError = error.localizedDescription
-            }
-            refreshDevices()
-        }
+    private func refreshUSB() {
+        let m = machine
+        guard let vid = m.usbVendorID, let pid = m.usbProductID else { usbCutter = nil; return }
+        let found = USBRegistry.devices().first { $0.vendorID == vid && $0.productID == pid }
+        if found?.registryID != usbCutter?.registryID { usbCutter = found }
     }
 
     private func makeTransport() throws -> any CutterTransport {
         let m = machine
         switch connectionKind {
+        case .usb:
+            guard let vid = m.usbVendorID, let pid = m.usbProductID else { throw TransportError.noDevice }
+            return USBDirectTransport(vendorID: vid, productID: pid)
         case .serial:
             guard !serialPortPath.isEmpty else { throw TransportError.noDevice }
             return SerialPortTransport(path: serialPortPath, baudRate: m.baudRate, flowControl: m.flowControl)
-        case .printerQueue:
-            guard !printerQueue.isEmpty else { throw TransportError.noDevice }
-            return PrinterQueueTransport(queueName: printerQueue)
         }
     }
 

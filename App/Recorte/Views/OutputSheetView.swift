@@ -447,18 +447,16 @@ struct OutputSettingsForm: View {
 
     private var machineState: LocalizedStringKey {
         if cutter.hasDevice { return "Ready" }
-        if cutter.cutterNeedingQueue != nil { return "Needs setting up" }
         return "Not connected"
     }
 
     private var machineHelp: LocalizedStringKey {
         if cutter.hasDevice { return "The machine is connected and ready to cut." }
-        if cutter.cutterNeedingQueue != nil { return "The machine is connected but Recorte needs to set it up once. Use Set up the machine above." }
         return "Connect the machine with the USB cable and switch it on."
     }
 
     private var machineColor: Color {
-        cutter.hasDevice ? .green : (cutter.cutterNeedingQueue != nil ? .orange : .secondary)
+        cutter.hasDevice ? .green : .secondary
     }
 
     private var cutSection: some View {
@@ -500,12 +498,7 @@ struct OutputIssues: View {
     @Environment(\.openSettings) private var openSettings
 
     var body: some View {
-        if let device = cutter.cutterNeedingQueue, !cutter.hasDevice {
-            issue("The machine is connected but not set up yet", "Recorte needs to set it up once before it can cut.", "wrench.and.screwdriver", .orange) {
-                Button("Set up the machine") { cutter.createQueue(for: device) }
-                    .help(HelpText.setUpMachine)
-            }
-        } else if !cutter.hasDevice {
+        if !cutter.hasDevice {
             issue("The machine is not connected", "Connect it with the USB cable and switch it on, then check again.", "cable.connector.slash", .orange) {
                 Button("Check again") { cutter.refreshDevices() }
                     .help("Looks for the machine again.")

@@ -31,6 +31,5 @@ enum HelpText {
     static let overcut: LocalizedStringKey = "The knife carries on this far past the start of a closed shape, so the ends meet cleanly."
     static let material: LocalizedStringKey = "Sets a starting speed and pressure for the material. Fine-tune them with a test cut."
     static let testCut: LocalizedStringKey = "Cuts a small square and circle, to check the blade depth and pressure before the real job."
-    static let setUpMachine: LocalizedStringKey = "Creates a printer queue that sends the jobs to the machine unchanged. Only needed once; macOS may ask for your password."
     static let machineMarkSize: LocalizedStringKey = "The mark size set on the machine. New Print & Cut projects start with it."
 }

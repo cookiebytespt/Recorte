@@ -16,9 +16,9 @@ struct SettingsView: View {
 
 struct CutterSettingsView: View {
     @Environment(CutterController.self) private var cutter
-    @AppStorage(Preferences.connectionKind) private var connectionKind = ConnectionKind.serial.rawValue
+    @AppStorage(Preferences.connectionKind) private var connectionKind = ConnectionKind.usb.rawValue
     @AppStorage(Preferences.serialPortPath) private var serialPortPath = ""
-    @AppStorage(Preferences.printerQueue) private var printerQueue = ""
+    @AppStorage(Preferences.showTroubleshooting) private var showTroubleshooting = false
     @AppStorage(Preferences.baudRate) private var baudRate = MachineProfile.liyuGF1261.baudRate
     @AppStorage(Preferences.flowControl) private var flowControl = MachineProfile.liyuGF1261.flowControl.rawValue
     @AppStorage(Preferences.stepsPerMM) private var stepsPerMM = MachineProfile.liyuGF1261.stepsPerMM
@@ -32,10 +32,10 @@ struct CutterSettingsView: View {
         Form {
             Section("Connection") {
                 Picker("Connected as", selection: $connectionKind) {
-                    Text("USB / serial port").tag(ConnectionKind.serial.rawValue)
-                    Text("Printer queue").tag(ConnectionKind.printerQueue.rawValue)
+                    Text("USB").tag(ConnectionKind.usb.rawValue)
+                    Text("Serial port").tag(ConnectionKind.serial.rawValue)
                 }
-                .help("The Liyu connects as a printer queue. USB / serial port is for other machines that show up as a serial device.")
+                .help("The Liyu connects over USB and needs no driver. Serial port is for other machines that show up as a serial device.")
                 if connectionKind == ConnectionKind.serial.rawValue {
                     Picker("Port", selection: $serialPortPath) {
                         Text("None").tag("")
@@ -55,25 +55,17 @@ struct CutterSettingsView: View {
                     }
                     .help("How the machine tells the Mac to wait while it cuts. Must match the machine's setting.")
                 } else {
-                    Picker("Queue", selection: $printerQueue) {
-                        Text("None").tag("")
-                        ForEach(cutter.availableQueues, id: \.self) { Text($0).tag($0) }
+                    LabeledContent("Machine") {
+                        if let device = cutter.usbCutter {
+                            Label(device.productName, systemImage: "checkmark.circle.fill").foregroundStyle(.green)
+                        } else {
+                            Text("Not found. Plug in the USB cable and switch the machine on.").foregroundStyle(.secondary)
+                        }
                     }
-                    .help("The printer queue that sends jobs to the machine. Recorte names it Recorte_Liyu when it sets the machine up.")
-                    if let device = cutter.cutterNeedingQueue, cutter.availableQueues.isEmpty || printerQueue.isEmpty {
-                        LabeledContent("Found on USB", value: device.description)
-                        Button("Set up the cutter") { cutter.createQueue(for: device) }
-                            .help(HelpText.setUpMachine)
-                        Text("Creates a raw print queue for the cutter. No driver is needed.")
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
-                    }
-                    if let error = cutter.setupError {
-                        Text(error).font(.footnote).foregroundStyle(.red)
-                    }
+                    .help("Recorte finds the machine on its own when it's plugged in and switched on.")
                 }
                 Button("Refresh") { cutter.refreshDevices() }
-                    .help("Looks again for connected machines, ports and queues.")
+                    .help("Looks again for connected machines and ports.")
             }
             Section("Machine") {
                 LabeledContent("Model", value: MachineProfile.liyuGF1261.name)
@@ -95,6 +87,13 @@ struct CutterSettingsView: View {
                 Toggle("Send speed and pressure to the cutter", isOn: $sendSpeedAndForce)
                     .help("The starting value for new Output sessions. You can still change it for each job.")
                 Text("Off (default): the machine uses the speed and pressure set on its panel. On: each job sends the values chosen in Output, like SignMaster with Cutting Speed and Cutting Force ticked.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+            Section("Troubleshooting") {
+                Toggle("Show Cutter Troubleshooting in the Help menu", isOn: $showTroubleshooting)
+                    .help("Adds tools that test the connection to the machine. Only needed if the machine doesn't respond, or when support asks for a log.")
+                Text("Help ▸ Cutter Troubleshooting checks how the Mac sees the machine and can send small test jobs. It keeps a log you can send to support.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }

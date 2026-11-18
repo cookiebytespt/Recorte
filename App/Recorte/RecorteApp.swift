@@ -21,6 +21,7 @@ struct RecorteApp: App {
         .commands {
             EditorCommands()
             HelpCommands()
+            CutterTroubleshootingCommands()
         }
 
         Window("Getting Started", id: HelpWindowID.gettingStarted) {
@@ -33,6 +34,11 @@ struct RecorteApp: App {
             ShortcutsView()
         }
         .windowResizability(.contentSize)
+
+        Window("Cutter Troubleshooting", id: DebugWindowID.cutter) {
+            CutterDebugView()
+                .environment(cutter)
+        }
 
         Settings {
             SettingsView()
