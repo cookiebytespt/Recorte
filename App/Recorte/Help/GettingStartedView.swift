@@ -1,8 +1,8 @@
 import SwiftUI
 
 enum HelpLinks {
-    /// The README is the help page until there is one on cookiebytes.pt.
-    static let readme = URL(string: "https://github.com/cookiebytespt/Recorte#readme")!
+    /// The online help, opened by Help ▸ Recorte Help and the Getting Started window.
+    static let help = URL(string: "https://recorte.cookiebytes.pt/help/")!
     static let newIssue = URL(string: "https://github.com/cookiebytespt/Recorte/issues/new")!
 }
 
@@ -65,7 +65,7 @@ struct GettingStartedView: View {
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
             HStack {
-                Button("Recorte Help") { openURL(HelpLinks.readme) }
+                Button("Recorte Help") { openURL(HelpLinks.help) }
                     .help("Opens the Recorte guide in your browser.")
                 Spacer()
                 Button("Start") { dismiss() }
@@ -130,7 +130,7 @@ struct HelpCommands: Commands {
 
     var body: some Commands {
         CommandGroup(replacing: .help) {
-            Button("Recorte Help") { openURL(HelpLinks.readme) }
+            Button("Recorte Help") { openURL(HelpLinks.help) }
                 .keyboardShortcut("?", modifiers: [.command])
             Button("Getting Started") { openWindow(id: HelpWindowID.gettingStarted) }
             Button("Keyboard Shortcuts") { openWindow(id: HelpWindowID.shortcuts) }
