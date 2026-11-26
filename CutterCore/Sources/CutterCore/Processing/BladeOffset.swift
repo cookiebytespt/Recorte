@@ -6,10 +6,12 @@ import Foundation
 public struct BladeOffsetCompensator: Sendable {
     public var offset: Double
     public var overcut: Double
-    /// Corners sharper than this (radians) get an arc; gentler corners are joined directly.
+    /// Corners sharper than this (radians) get an arc; gentler ones are points along a curve and get a single
+    /// point. Curves are flattened to within 0.1 mm, which turns tight curves (radius under about 3 mm) into
+    /// steps of up to 30°; treating those as corners quadrupled the points of a traced contour.
     public var arcThreshold: Double
 
-    public init(offset: Double, overcut: Double = 1.0, arcThreshold: Double = 10 * .pi / 180) {
+    public init(offset: Double, overcut: Double = 1.0, arcThreshold: Double = 30 * .pi / 180) {
         self.offset = max(0, offset)
         self.overcut = max(0, overcut)
         self.arcThreshold = arcThreshold
@@ -53,20 +55,26 @@ public struct BladeOffsetCompensator: Sendable {
 
         for i in 0..<(pts.count - 1) {
             let d = dirs[i]
-            out.append(pts[i + 1] + d * offset)
-            if i + 1 < dirs.count {
-                let next = dirs[i + 1]
-                let angle = atan2(d.cross(next), d.dot(next))
-                if abs(angle) >= arcThreshold {
-                    let steps = max(1, Int((abs(angle) / (15 * .pi / 180)).rounded(.up)))
-                    let startAngle = d.angle
-                    for s in 1...steps {
-                        let a = startAngle + angle * Double(s) / Double(steps)
-                        out.append(pts[i + 1] + Point(cos(a), sin(a)) * offset)
-                    }
-                } else if abs(angle) > 1e-6 {
-                    out.append(pts[i + 1] + next * offset)
+            guard i + 1 < dirs.count else {
+                out.append(pts[i + 1] + d * offset)
+                continue
+            }
+            let next = dirs[i + 1]
+            let angle = atan2(d.cross(next), d.dot(next))
+            if abs(angle) >= arcThreshold {
+                // A real corner: run past it, then swing the blade round on an arc.
+                out.append(pts[i + 1] + d * offset)
+                let steps = max(1, Int((abs(angle) / (15 * .pi / 180)).rounded(.up)))
+                let startAngle = d.angle
+                for s in 1...steps {
+                    let a = startAngle + angle * Double(s) / Double(steps)
+                    out.append(pts[i + 1] + Point(cos(a), sin(a)) * offset)
                 }
+            } else {
+                // A point along a curve: one point, led by the curve's direction there. (Two points a few
+                // hundredths of a millimetre apart doubled the size of traced contours for no gain.)
+                let a = d.angle + angle / 2
+                out.append(pts[i + 1] + Point(cos(a), sin(a)) * offset)
             }
         }
         return Polyline(points: out, isClosed: false)

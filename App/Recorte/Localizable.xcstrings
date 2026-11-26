@@ -1,9 +1,15 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {},
-    " " : {},
-    "%" : {},
+    "" : {
+
+    },
+    " " : {
+
+    },
+    "%" : {
+
+    },
     "%.0f mm cutting width" : {
       "localizations" : {
         "es" : {
@@ -120,8 +126,12 @@
         }
       }
     },
-    "%lld" : {},
-    "%lld %%" : {},
+    "%lld" : {
+
+    },
+    "%lld %%" : {
+
+    },
     "%lld cut lines · %@" : {
       "localizations" : {
         "en" : {
@@ -1112,24 +1122,24 @@
         }
       }
     },
-    "Around the artwork: the marks sit beside the artwork (20.5 mm by default, like SignMaster), which uses less paper and vinyl. At the page edges: the marks stay in the corners of the page, wherever the artwork is." : {
+    "Around the artwork: the marks sit beside the artwork, level with its top and bottom (20.5 mm away by default, the same as SignMaster). At the page edges: the marks stay in the corners of the page, wherever the artwork is." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alrededor de la ilustración: las marcas quedan al lado de la ilustración (20,5 mm por defecto, como en SignMaster), lo que gasta menos papel y vinilo. En los bordes de la página: las marcas quedan en las esquinas de la página, esté donde esté la ilustración."
+            "value" : "Alrededor de la ilustración: las marcas quedan al lado de la ilustración, a la altura de su parte superior e inferior (a 20,5 mm por defecto, igual que SignMaster). En los bordes de la página: las marcas quedan en las esquinas de la página, esté donde esté la ilustración."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Autour de l’illustration : les repères sont placés à côté de l’illustration (20,5 mm par défaut, comme SignMaster), ce qui utilise moins de papier et de vinyle. Aux bords de la page : les repères restent dans les coins de la page, où que soit l’illustration."
+            "value" : "Autour de l’illustration : les repères sont placés à côté de l’illustration, à la hauteur de son haut et de son bas (à 20,5 mm par défaut, comme SignMaster). Aux bords de la page : les repères restent dans les coins de la page, où que soit l’illustration."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "À volta da arte: as marcas ficam ao lado da arte (20,5 mm por omissão, como no SignMaster), o que gasta menos papel e vinil. Nas margens da página: as marcas ficam nos cantos da página, esteja a arte onde estiver."
+            "value" : "À volta da arte: as marcas ficam ao lado da arte, alinhadas com o topo e a base (a 20,5 mm por omissão, como no SignMaster). Nas margens da página: as marcas ficam nos cantos da página, esteja a arte onde estiver."
           }
         }
       }
@@ -4418,24 +4428,24 @@
         }
       }
     },
-    "Gap between the artwork and the marks to its left and right. In SignMaster: Mark Position (20.5 mm)." : {
+    "Gap between the artwork and the marks to its left and right. 20.5 mm is SignMaster's Mark Position. A smaller gap fits more artwork, but the machine reads the marks best with nothing printed near them." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Separación entre la ilustración y las marcas a su izquierda y derecha. En SignMaster: Mark Position (20,5 mm)."
+            "value" : "Separación entre la ilustración y las marcas a su izquierda y derecha. 20,5 mm es el Mark Position de SignMaster. Con menos separación cabe más ilustración, pero la máquina lee mejor las marcas si no hay nada impreso cerca."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Écart entre l’illustration et les repères à sa gauche et à sa droite. Dans SignMaster : Mark Position (20,5 mm)."
+            "value" : "Écart entre l’illustration et les repères à sa gauche et à sa droite. 20,5 mm correspond au Mark Position de SignMaster. Un écart plus petit laisse plus de place à l’illustration, mais la machine lit mieux les repères quand rien n’est imprimé à proximité."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Espaço entre a arte e as marcas à esquerda e à direita. No SignMaster: Mark Position (20,5 mm)."
+            "value" : "Espaço entre a arte e as marcas à esquerda e à direita. 20,5 mm é o Mark Position do SignMaster. Com menos espaço cabe mais arte, mas a máquina lê melhor as marcas sem nada impresso por perto."
           }
         }
       }
@@ -4484,7 +4494,9 @@
         }
       }
     },
-    "H" : {},
+    "H" : {
+
+    },
     "Hardware (RTS/CTS)" : {
       "localizations" : {
         "es" : {
@@ -6169,28 +6181,6 @@
         }
       }
     },
-    "Move the artwork away from the edges, use a bigger page or a smaller distance." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aleje la ilustración de los bordes, use una página más grande o una distancia menor."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Éloignez l’illustration des bords, utilisez une page plus grande ou une distance plus petite."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Afaste a arte das margens, use uma página maior ou uma distância menor."
-          }
-        }
-      }
-    },
     "Move the blade to **the front right corner of the vinyl**, where the cut starts." : {
       "localizations" : {
         "es" : {
@@ -7245,7 +7235,9 @@
         }
       }
     },
-    "PNG" : {},
+    "PNG" : {
+
+    },
     "PNG for most uses. TIFF for print shops and RIP software that ask for it." : {
       "localizations" : {
         "es" : {
@@ -7330,6 +7322,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mover vista (H)"
+          }
+        }
+      }
+    },
+    "Part of a mark falls off the page, so it may not print in full and the machine may not find it. You can still print. To fix it, move the artwork away from the edges, use a bigger page or a smaller distance." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parte de una marca queda fuera de la página, así que puede no imprimirse entera y la máquina puede no encontrarla. Puede imprimir igualmente. Para solucionarlo, aleje la ilustración de los bordes, use una página más grande o una distancia menor."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une partie d’un repère sort de la page : il risque de ne pas s’imprimer en entier et la machine de ne pas le trouver. Vous pouvez quand même imprimer. Pour corriger, éloignez l’illustration des bords, utilisez une page plus grande ou une distance plus petite."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parte de uma marca fica fora da página, por isso pode não ser impressa por inteiro e a máquina pode não a encontrar. Pode imprimir na mesma. Para resolver, afaste a arte das margens, use uma página maior ou uma distância menor."
           }
         }
       }
@@ -10156,24 +10170,24 @@
         }
       }
     },
-    "Size of the printed circles the machine's camera looks for. Must match the mark size set on the machine: 25 prints Ø 5 mm circles." : {
+    "Size of the printed circles the machine's camera looks for. Must match the mark size set on the machine: 25 prints Ø 5 mm circles. 25 is the smallest the machine can find." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tamaño de los círculos impresos que busca la cámara de la máquina. Debe coincidir con el tamaño de marca configurado en la máquina: 25 imprime círculos de Ø 5 mm."
+            "value" : "Tamaño de los círculos impresos que busca la cámara de la máquina. Debe coincidir con el tamaño de marca configurado en la máquina: 25 imprime círculos de Ø 5 mm. 25 es el mínimo que la máquina puede encontrar."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Taille des cercles imprimés que cherche la caméra de la machine. Doit correspondre à la taille de repère réglée sur la machine : 25 imprime des cercles de Ø 5 mm."
+            "value" : "Taille des cercles imprimés que cherche la caméra de la machine. Doit correspondre à la taille de repère réglée sur la machine : 25 imprime des cercles de Ø 5 mm. 25 est le minimum que la machine sait trouver."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tamanho dos círculos impressos que a câmara da máquina procura. Tem de coincidir com o tamanho de marca definido na máquina: 25 imprime círculos de Ø 5 mm."
+            "value" : "Tamanho dos círculos impressos que a câmara da máquina procura. Tem de coincidir com o tamanho de marca definido na máquina: 25 imprime círculos de Ø 5 mm. 25 é o mínimo que a máquina consegue encontrar."
           }
         }
       }
@@ -10772,7 +10786,9 @@
         }
       }
     },
-    "TIFF" : {},
+    "TIFF" : {
+
+    },
     "Test cut" : {
       "localizations" : {
         "es" : {
@@ -12027,7 +12043,9 @@
         }
       }
     },
-    "W" : {},
+    "W" : {
+
+    },
     "Watch the head: it visits the four marks, then cuts. If it stops or beeps before cutting, it didn't find the marks." : {
       "localizations" : {
         "es" : {
@@ -12248,6 +12266,9 @@
         }
       }
     },
+    "Width and height in mm. A printed image keeps its proportions: type one and the other follows." : {
+
+    },
     "With a new material or blade, cut a small test to check the pressure before the real job." : {
       "localizations" : {
         "es" : {
@@ -12292,8 +12313,12 @@
         }
       }
     },
-    "X" : {},
-    "Y" : {},
+    "X" : {
+
+    },
+    "Y" : {
+
+    },
     "Zoom in. You can also pinch on the trackpad." : {
       "localizations" : {
         "es" : {
@@ -12563,7 +12588,9 @@
         }
       }
     },
-    "mm" : {},
+    "mm" : {
+
+    },
     "mm/s" : {
       "localizations" : {
         "es" : {
@@ -12586,7 +12613,9 @@
         }
       }
     },
-    "×" : {},
+    "×" : {
+
+    },
     "◌ Safe area" : {
       "localizations" : {
         "es" : {

@@ -8,7 +8,7 @@ import Testing
     @Test func aroundArtworkMatchesSignMasterJob() {
         // SignMaster: artwork 209.291 × 174.150 mm, Mark Position 20.5 mm → TB25,10012,6966.
         let artwork = Rect(origin: Point(20, 40), size: Size(209.291, 174.150))
-        let sheet = PrintSheet(page: Size(297, 420), layout: RegistrationMarkLayout(), artwork: artwork, title: "Job")
+        let sheet = PrintSheet(page: Size(297, 420), layout: RegistrationMarkLayout(artworkDistanceMM: 20.5), artwork: artwork, title: "Job")
         #expect(abs(sheet.markSpacing.width - 250.291) < 1e-9)
         #expect(abs(sheet.markSpacing.height - 174.150) < 1e-9)
         #expect(abs(sheet.originMark.x - (20 - 20.5)) < 1e-9)   // marks can't go off the page…
@@ -17,10 +17,45 @@ import Testing
         #expect(hpgl.hasPrefix("TB25,10012,6966;CT1;"))
     }
 
+    @Test func matchesSignMasterOnA330mmSheet() {
+        // SignMaster job 100010 ("biscoitos"): artwork 286.28 × 423.33 mm, Mark Position 20.5 → TB25,13091,16933.
+        let artwork = Rect(origin: Point(21.86, 25), size: Size(286.28, 423.33))
+        let sheet = PrintSheet(page: Size(330, 480), layout: RegistrationMarkLayout(), artwork: artwork, title: "biscoitos")
+        #expect(PrintAndCutHPGL.generate(paths: [], sheet: sheet).hasPrefix("TB25,13091,16933;CT1;"))
+        #expect(!sheet.marksFitPage)   // the circles hang 1.15 mm off a 330 mm sheet: a warning, like SignMaster's 332 mm page
+        // The job name ends 41 mm before the top-right mark and sits just above the artwork.
+        let end = sheet.jobNameTrailing(width: 12)
+        #expect(abs(sheet.markFrame.maxX - end.x - 41) < 1e-9)
+        #expect(end.y < artwork.minY && end.y > artwork.minY - 4)
+        // The feed arrow is 18 mm from the origin mark (20 mm would touch the artwork at a 20.5 mm gap).
+        #expect(abs(sheet.layout.arrowOffsetMM(frameWidth: sheet.markFrame.width) - 18) < 1e-9)
+    }
+
+    @Test func gentleCurvesGetOnePointPerVertex() {
+        // A 20 mm circle flattened into 120 segments: 3° per vertex, well under the corner threshold.
+        let circle = Polyline(points: (0..<120).map { i in
+            let a = Double(i) / 120 * 2 * .pi
+            return Point(10 + 10 * cos(a), 10 + 10 * sin(a))
+        }, isClosed: true)
+        let out = BladeOffsetCompensator(offset: 0.25, overcut: 0).apply(circle)
+        #expect(out.points.count <= 122)
+        // The carriage leads the blade by the offset along the tangent: it stays about √(r² + offset²) from the centre.
+        for p in out.points.dropFirst().dropLast() {
+            #expect(abs(p.distance(to: Point(10, 10)) - (100 + 0.0625).squareRoot()) < 0.01)
+        }
+    }
+
+    @Test func hpglSendsEachPositionOnce() {
+        let line = Polyline(points: [Point(0, 0), Point(0.005, 0), Point(0.01, 0), Point(10, 0)], isClosed: false)
+        let hpgl = HPGLGenerator().generate([line], options: HPGLOptions(stepsPerMM: 40))
+        #expect(hpgl.contains("PU0,0;PD0,400;"))
+    }
+
     @Test func designDocumentPlacesMarksAroundItsObjects() {
         let square = DesignObject(name: "s", kind: .rectangle(cornerRadius: 0), frame: Rect(minX: 50, minY: 60, maxX: 90, maxY: 100))
         var design = DesignDocument(name: "d", canvasSize: Size(210, 297), objects: [square])
         design.printAndCut.isEnabled = true
+        design.printAndCut.layout.artworkDistanceMM = 20.5
         let sheet = design.printSheet
         #expect(sheet.markFrame == Rect(minX: 29.5, minY: 60, maxX: 110.5, maxY: 100))
         #expect(sheet.marksFitPage)
@@ -39,6 +74,29 @@ import Testing
         #expect(layout.placement == .pageEdges)
         #expect(layout.printsMarks && layout.printsJobName)
         #expect(RegistrationMarkLayout().placement == .aroundArtwork)
+    }
+
+    @Test func marksNeverSmallerThanTheSensorCanFind() throws {
+        #expect(RegistrationMarkLayout(markSizeParameter: 15).markSizeParameter == 25)
+        let json = #"{"markSizeParameter":20}"#
+        let layout = try JSONDecoder().decode(RegistrationMarkLayout.self, from: Data(json.utf8))
+        #expect(layout.markSizeParameter == 25)
+        #expect(RegistrationMarkLayout(markSizeParameter: 30).markSizeParameter == 30)
+    }
+
+    @Test func artworkAreaLeavesJustEnoughRoomForTheMarks() {
+        let a4 = Size(210, 297)
+        // Default (SignMaster's 20.5 mm gap) + mark radius + 3 mm printer margin at the sides.
+        let area = RegistrationMarkLayout().artworkArea(for: a4)
+        #expect(abs(area.minX - 26) < 1e-9 && abs(area.maxX - 184) < 1e-9)
+        #expect(abs(area.minY - 7) < 1e-9)       // job name 1 mm above the artwork, 3 mm tall, plus 3 mm margin
+        #expect(abs(area.maxY - (297 - 5.5)) < 1e-9)
+        // A narrow gap puts the feed arrow above the origin mark: 5 + 3.5, plus 3 mm margin.
+        let tight = RegistrationMarkLayout(artworkDistanceMM: 10).artworkArea(for: a4)
+        #expect(abs(tight.minX - 15.5) < 1e-9 && abs(tight.minY - 11.5) < 1e-9)
+        // Without the job name and with a wide gap (arrow beside the mark) only the mark itself is above.
+        let bare = RegistrationMarkLayout(artworkDistanceMM: 20.5, printsJobName: false).artworkArea(for: a4)
+        #expect(abs(bare.minY - 5.5) < 1e-9)
     }
 
     @Test func sheetExportsAsImage() throws {

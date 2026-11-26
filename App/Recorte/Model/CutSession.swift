@@ -175,11 +175,13 @@ final class CutSession {
         if materialID != MaterialPreset.custom.id { materialID = MaterialPreset.custom.id }
     }
 
-    // MARK: Problems that block the job
+    // MARK: Problems with the job
 
+    /// A warning only: the sheet can still be printed and cut.
     var marksOffPage: Bool { isPrintAndCut && !(sheet?.marksFitPage ?? true) }
     var outsideMarks: Bool { isPrintAndCut && !job.fitsMachine && !marksOffPage }
     var tooWide: Bool { !isPrintAndCut && !job.fitsMachine }
-    /// Problems with the job itself (machine problems are checked by the view).
-    var hasBlockingIssue: Bool { isEmpty || marksOffPage || outsideMarks || tooWide }
+    /// Problems with the job itself that stop printing and cutting (machine problems are checked by the view).
+    /// Marks off the page are only a warning.
+    var hasBlockingIssue: Bool { isEmpty || outsideMarks || tooWide }
 }

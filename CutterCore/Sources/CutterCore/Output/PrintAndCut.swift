@@ -11,8 +11,19 @@ public enum MarkPlacement: String, Sendable, Hashable, Codable, CaseIterable {
 }
 
 /// Where the four registration marks sit on the printed sheet.
-/// Defaults reproduce the SignMaster/VinylMaster layout the Liyu's camera is set up for.
+/// Mark size, artwork gap, arrow and job-name positions follow SignMaster/VinylMaster.
 public struct RegistrationMarkLayout: Sendable, Hashable, Codable {
+    /// Smallest mark the Liyu's sensor reliably finds: 25 → Ø5 mm. Smaller marks are not detected.
+    public static let minimumMarkSizeParameter = 25
+    /// Default gap (mark centre to artwork) for new sheets: SignMaster's *Mark Position*.
+    public static let defaultArtworkDistanceMM = 20.5
+    /// SignMaster prints the feed arrow 20 mm from the origin mark's centre, on the mark line.
+    public static let arrowDistanceMM = 20.0
+    /// SignMaster ends the job number about 41 mm before the top-right mark's centre, keeping the mark's surroundings blank.
+    public static let jobNameDistanceMM = 41.0
+    /// Clearance kept between the marks and the page edge, for printers that can't print right to the edge.
+    public static let printerMarginMM = 3.0
+
     /// First parameter of the cutter's `TB` command (the "mark size" setting in SignMaster).
     /// The printed circle diameter is `markSizeParameter × 0.2 mm`, so 25 → Ø5 mm.
     public var markSizeParameter: Int
@@ -31,9 +42,9 @@ public struct RegistrationMarkLayout: Sendable, Hashable, Codable {
     public var printsJobName: Bool
 
     public init(markSizeParameter: Int = 25, sideInsetMM: Double = 2.5, topInsetMM: Double = 15, bottomInsetMM: Double = 15,
-                placement: MarkPlacement = .aroundArtwork, artworkDistanceMM: Double = 20.5,
+                placement: MarkPlacement = .aroundArtwork, artworkDistanceMM: Double = RegistrationMarkLayout.defaultArtworkDistanceMM,
                 printsMarks: Bool = true, printsJobName: Bool = true) {
-        self.markSizeParameter = markSizeParameter
+        self.markSizeParameter = max(markSizeParameter, Self.minimumMarkSizeParameter)
         self.sideInsetMM = sideInsetMM
         self.topInsetMM = topInsetMM
         self.bottomInsetMM = bottomInsetMM
@@ -49,7 +60,7 @@ public struct RegistrationMarkLayout: Sendable, Hashable, Codable {
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
-        markSizeParameter = try c.decodeIfPresent(Int.self, forKey: .markSizeParameter) ?? 25
+        markSizeParameter = max(try c.decodeIfPresent(Int.self, forKey: .markSizeParameter) ?? 25, Self.minimumMarkSizeParameter)
         sideInsetMM = try c.decodeIfPresent(Double.self, forKey: .sideInsetMM) ?? 2.5
         topInsetMM = try c.decodeIfPresent(Double.self, forKey: .topInsetMM) ?? 15
         bottomInsetMM = try c.decodeIfPresent(Double.self, forKey: .bottomInsetMM) ?? 15
@@ -61,6 +72,52 @@ public struct RegistrationMarkLayout: Sendable, Hashable, Codable {
     }
 
     public var markDiameterMM: Double { Double(markSizeParameter) * 0.2 }
+
+    /// Smallest allowed mark-to-artwork distance: the mark circle stays clear of the artwork.
+    public var minimumArtworkDistanceMM: Double { markDiameterMM }
+
+    /// The feed arrow goes beside the origin mark when the gap allows it, otherwise above it.
+    var arrowBesideOriginMark: Bool { artworkDistanceMM >= markDiameterMM + 9 }
+
+    /// Height of the printed job name (8 pt Helvetica), in mm.
+    public static let jobNameHeightMM = 3.0
+
+    /// How far the marks, arrow and job name reach above the top mark centres, in mm.
+    var extentAboveMarksMM: Double {
+        let r = markDiameterMM / 2
+        var top = r
+        if printsMarks && placement == .aroundArtwork && !arrowBesideOriginMark { top = max(top, markDiameterMM + 3.5) }
+        if printsJobName && placement == .aroundArtwork { top = max(top, Self.jobNameGapMM + Self.jobNameHeightMM) }
+        return top
+    }
+
+    /// Around the artwork the job name sits this far above the artwork's top edge.
+    static let jobNameGapMM = 1.0
+
+    /// Distance from the origin mark's centre to the feed arrow when the arrow is beside the mark.
+    func arrowOffsetMM(frameWidth: Double) -> Double {
+        let d = markDiameterMM
+        switch placement {
+        case .aroundArtwork: return min(Self.arrowDistanceMM, max(artworkDistanceMM - 2.5, d + 6))
+        case .pageEdges: return min(Self.arrowDistanceMM, max(d + 6, frameWidth / 2))
+        }
+    }
+
+    /// Where artwork can go on a page so that the marks (and arrow and job name) still fit on it,
+    /// `printerMarginMM` clear of the page edges.
+    public func artworkArea(for page: Size, printerMarginMM: Double = RegistrationMarkLayout.printerMarginMM) -> Rect {
+        let full = Rect(origin: .zero, size: page)
+        switch placement {
+        case .pageEdges:
+            return safeArea(for: page)
+        case .aroundArtwork:
+            let r = markDiameterMM / 2
+            let side = artworkDistanceMM + r + printerMarginMM
+            let r2 = Rect(minX: side, minY: extentAboveMarksMM + printerMarginMM,
+                          maxX: page.width - side, maxY: page.height - r - printerMarginMM)
+            return r2.width > 0 && r2.height > 0 ? r2 : full
+        }
+    }
 
     /// Rectangle through the four mark centres, in page coordinates (mm, origin top-left).
     /// `artwork` is the bounding box of everything printed or cut; it is only used for `.aroundArtwork`.
@@ -132,6 +189,15 @@ public struct PrintSheet: Sendable, Hashable {
 
     /// Distances between mark centres (across × along the feed), in mm — the values the `TB` command carries.
     public var markSpacing: Size { markFrame.size }
+
+    /// Where the job name goes: its right end and vertical centre, for a label `width` × `height` mm.
+    /// Like SignMaster it stays well clear of the top-right mark (41 mm when the sheet is wide enough).
+    public func jobNameTrailing(width: Double, height: Double = RegistrationMarkLayout.jobNameHeightMM) -> Point {
+        let f = markFrame, d = markDiameterMM
+        let offset = min(RegistrationMarkLayout.jobNameDistanceMM, max(d + 4, (f.width - width) / 2))
+        let y = layout.placement == .aroundArtwork ? f.minY - RegistrationMarkLayout.jobNameGapMM - height / 2 : f.minY
+        return Point(f.maxX - offset, y)
+    }
 }
 
 /// Builds the contour-cut job the Liyu expects after a sheet with registration marks is loaded.
@@ -251,11 +317,11 @@ public enum PrintSheetRenderer {
             for c in sheet.markCenters {
                 ctx.fillEllipse(in: CGRect(x: c.x - d / 2, y: c.y - d / 2, width: d, height: d))
             }
-            // Feed arrow next to the origin mark (points towards the top edge, like the SignMaster sheet).
-            // Around the artwork it goes in the gap beside the mark, or above it when the gap is narrow.
-            let besideRoom = around ? layout.artworkDistanceMM : frame.width
-            let (ax, ay): (Double, Double) = besideRoom >= d + 9
-                ? (frame.minX + d + 6, frame.minY)
+            // Feed arrow on the mark line, 20 mm from the origin mark like the SignMaster sheet (it points
+            // towards the top edge). Around the artwork it goes above the mark when the gap is too narrow.
+            let beside = around ? layout.arrowBesideOriginMark : frame.width >= d + 9
+            let (ax, ay): (Double, Double) = beside
+                ? (frame.minX + layout.arrowOffsetMM(frameWidth: frame.width), frame.minY)
                 : (frame.minX, frame.minY - d - 2)
             ctx.move(to: CGPoint(x: ax - 1.5, y: ay + 1.5))
             ctx.addLine(to: CGPoint(x: ax, y: ay - 1.5))
@@ -269,9 +335,10 @@ public enum PrintSheetRenderer {
             let label = TextOutliner.outlines(TextSpec(text: sheet.title, fontName: "Helvetica", fontSize: 8), tolerance: 0.05)
             let lb = label.bounds
             if !lb.isNull {
-                // Page edges: on the mark line between the top marks. Around the artwork: just above the top marks.
-                let y = around ? frame.minY - d / 2 - 2 - lb.height / 2 : frame.minY
-                let t = AffineTransform.translation(frame.maxX - d - 4 - lb.width - lb.minX, y - lb.height / 2 - lb.minY)
+                // Page edges: on the mark line between the top marks. Around the artwork: just above the artwork.
+                // Either way it ends well before the top-right mark, so the sensor sees a blank area around it.
+                let end = sheet.jobNameTrailing(width: lb.width, height: lb.height)
+                let t = AffineTransform.translation(end.x - lb.width - lb.minX, end.y - lb.height / 2 - lb.minY)
                 for poly in label.transformed(t) {
                     guard let f = poly.points.first else { continue }
                     ctx.move(to: CGPoint(x: f.x, y: f.y))

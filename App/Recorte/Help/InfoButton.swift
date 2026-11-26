@@ -21,7 +21,7 @@ enum InfoTopic: String, CaseIterable, Identifiable {
         case .registrationMarks:
             "Recorte prints four black circles around the artwork. The machine's camera finds them, so the knife knows exactly where the print is. Load the sheet with the arrow mark under the blade: the cut starts there. The mark size must match the setting on the machine."
         case .markPlacement:
-            "Around the artwork: the marks sit beside the artwork (20.5 mm by default, like SignMaster), which uses less paper and vinyl. At the page edges: the marks stay in the corners of the page, wherever the artwork is."
+            "Around the artwork: the marks sit beside the artwork, level with its top and bottom (20.5 mm away by default, the same as SignMaster). At the page edges: the marks stay in the corners of the page, wherever the artwork is."
         case .bladeOffset:
             "The tip of a drag knife trails a little behind the centre of the holder, which would round off the corners. Recorte adds a small loop at each corner to turn the blade. Overcut carries the cut a little past the start, so closed shapes come out cleanly. Find the right values with a test cut."
         case .cutStart:

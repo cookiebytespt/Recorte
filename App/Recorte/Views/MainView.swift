@@ -197,7 +197,7 @@ private func printAndCutSample() -> DesignFileDocument {
         return true
     }
     let png = NSBitmapImageRep(data: image.tiffRepresentation!)!.representation(using: .png, properties: [:])!
-    // Centred so the marks (20.5 mm left and right of the artwork) stay on the A4 page.
+    // Centred so the marks beside the artwork stay on the A4 page.
     let art = Rect(minX: 40, minY: 70, maxX: 170, maxY: 160)
     design.objects = [
         DesignObject(name: "Print file", kind: .image(ImageSpec(sourceName: "stickers.png", data: png, format: "png")), frame: art),

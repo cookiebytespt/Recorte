@@ -316,18 +316,8 @@ final class EditorState {
     /// Where printed artwork can go: inside the page-edge marks, or (marks around the artwork) far enough
     /// from the page edges that the marks still fit beside it.
     var printableArea: Rect {
-        let page = Rect(origin: .zero, size: design.canvasSize)
-        guard design.printAndCut.isEnabled else { return page }
-        let layout = design.printAndCut.layout
-        switch layout.placement {
-        case .pageEdges:
-            return layout.safeArea(for: design.canvasSize)
-        case .aroundArtwork:
-            let side = layout.artworkDistanceMM + layout.markDiameterMM
-            let topBottom = layout.markDiameterMM + 10   // room for the marks plus the job name above them
-            let r = Rect(minX: side, minY: topBottom, maxX: page.maxX - side, maxY: page.maxY - topBottom)
-            return r.width > 0 && r.height > 0 ? r : page
-        }
+        guard design.printAndCut.isEnabled else { return Rect(origin: .zero, size: design.canvasSize) }
+        return design.printAndCut.layout.artworkArea(for: design.canvasSize)
     }
 
     /// Selected printed images, or all of them, for Create Cut Contour.

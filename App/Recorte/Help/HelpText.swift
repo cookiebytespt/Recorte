@@ -15,9 +15,9 @@ enum HelpText {
 
     static let printAndCut: LocalizedStringKey = "Turns the canvas into the printed sheet. Recorte adds registration marks that the machine's camera finds, so the cut lines up with the print."
     static let createCutContour: LocalizedStringKey = "Makes a cut line around the printed images, a small distance away from them (⇧⌘K)."
-    static let markSize: LocalizedStringKey = "Size of the printed circles the machine's camera looks for. Must match the mark size set on the machine: 25 prints Ø 5 mm circles."
+    static let markSize: LocalizedStringKey = "Size of the printed circles the machine's camera looks for. Must match the mark size set on the machine: 25 prints Ø 5 mm circles. 25 is the smallest the machine can find."
     static let placeMarks: LocalizedStringKey = "Around the artwork uses less paper and vinyl. At the page edges keeps the marks in the same place on every sheet."
-    static let markDistance: LocalizedStringKey = "Gap between the artwork and the marks to its left and right. In SignMaster: Mark Position (20.5 mm)."
+    static let markDistance: LocalizedStringKey = "Gap between the artwork and the marks to its left and right. 20.5 mm is SignMaster's Mark Position. A smaller gap fits more artwork, but the machine reads the marks best with nothing printed near them."
     static let markInset: LocalizedStringKey = "Distance from the edge of the page to the centre of the marks. Keep the marks inside the area your printer can print."
     static let printsMarks: LocalizedStringKey = "Turn off only if the sheet already has the marks printed on it."
     static let jobName: LocalizedStringKey = "Prints the project name above the marks, to tell the sheets apart. In SignMaster: Job Name."

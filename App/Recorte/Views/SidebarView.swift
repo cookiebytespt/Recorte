@@ -120,7 +120,7 @@ private struct CanvasSection: View {
                     if v { PrintAndCutTip().invalidate(reason: .actionPerformed) }
                     editor.change {
                     $0.printAndCut.isEnabled = v
-                    if v { $0.printAndCut.layout.markSizeParameter = Preferences.machineProfile().registrationMarkSize }
+                    if v { $0.printAndCut.layout.markSizeParameter = max(Preferences.machineProfile().registrationMarkSize, RegistrationMarkLayout.minimumMarkSizeParameter) }
                 } }))
                 .help(HelpText.printAndCut)
             if editor.design.printAndCut.isEnabled {
@@ -128,7 +128,7 @@ private struct CanvasSection: View {
                 let sheet = editor.design.printSheet
                 Stepper(value: Binding(
                     get: { layout.markSizeParameter },
-                    set: { v in editor.change { $0.printAndCut.layout.markSizeParameter = v } }), in: 5...100, step: 5) {
+                    set: { v in editor.change { $0.printAndCut.layout.markSizeParameter = v } }), in: RegistrationMarkLayout.minimumMarkSizeParameter...100, step: 5) {
                     LabeledContent("Mark size", value: String(format: "%d · Ø %.0f mm", layout.markSizeParameter, layout.markDiameterMM))
                 }
                 .help(HelpText.markSize)
@@ -142,7 +142,7 @@ private struct CanvasSection: View {
                 if layout.placement == .aroundArtwork {
                     TextField("Distance from the artwork (mm)", value: Binding(
                         get: { layout.artworkDistanceMM },
-                        set: { v in editor.change { $0.printAndCut.layout.artworkDistanceMM = max(v, layout.markDiameterMM) } }), format: mm)
+                        set: { v in editor.change { $0.printAndCut.layout.artworkDistanceMM = max(v, layout.minimumArtworkDistanceMM) } }), format: mm)
                         .help(HelpText.markDistance)
                 } else {
                     TextField("Side inset (mm)", value: Binding(
@@ -160,8 +160,8 @@ private struct CanvasSection: View {
                 }
                 if !sheet.marksFitPage {
                     Label("The marks don't fit on the page", systemImage: "exclamationmark.triangle.fill")
-                        .foregroundStyle(.red)
-                        .help("Move the artwork away from the edges, use a bigger page or a smaller distance.")
+                        .foregroundStyle(.orange)
+                        .help("Part of a mark falls off the page, so it may not print in full and the machine may not find it. You can still print. To fix it, move the artwork away from the edges, use a bigger page or a smaller distance.")
                 }
                 if !editor.hasPrintedImages && editor.design.cutObjects.isEmpty {
                     Label("Next: place the artwork to print, then make a cut line around it.", systemImage: "lightbulb")
@@ -213,10 +213,20 @@ private struct ObjectSection: View {
             }
             .help("Position of the object's top-left corner, in mm from the top-left of the canvas.")
             HStack {
-                TextField("W", value: frameBinding({ $0.width }, { r, v in r = Rect(origin: r.origin, size: Size(max(v, 0.1), r.height)) }), format: mm)
-                TextField("H", value: frameBinding({ $0.height }, { r, v in r = Rect(origin: r.origin, size: Size(r.width, max(v, 0.1))) }), format: mm)
+                // Printed images keep their proportions: typing one side sets the other. (Drag a handle to stretch.)
+                let locked = object.kind.isImage
+                TextField("W", value: frameBinding({ $0.width }, { r, v in
+                    let w = max(v, 0.1)
+                    let h = locked && r.width > 0 ? r.height * w / r.width : r.height
+                    r = Rect(origin: r.origin, size: Size(w, h))
+                }), format: mm)
+                TextField("H", value: frameBinding({ $0.height }, { r, v in
+                    let h = max(v, 0.1)
+                    let w = locked && r.height > 0 ? r.width * h / r.height : r.width
+                    r = Rect(origin: r.origin, size: Size(w, h))
+                }), format: mm)
             }
-            .help("Width and height in mm.")
+            .help(object.kind.isImage ? "Width and height in mm. A printed image keeps its proportions: type one and the other follows." : "Width and height in mm.")
             TextField("Rotation (°)", value: Binding(get: { object.rotation }, set: { v in editor.update(object.id) { $0.rotation = v } }), format: .number.precision(.fractionLength(0...1)))
                 .help("Turns the object around its centre, in degrees.")
             Toggle("Visible", isOn: Binding(get: { object.isVisible }, set: { v in editor.update(object.id) { $0.isVisible = v } }))

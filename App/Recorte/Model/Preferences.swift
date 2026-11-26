@@ -63,7 +63,7 @@ enum Preferences {
         m.bladeOffsetMM = d.double(forKey: bladeOffsetMM)
         m.overcutMM = d.double(forKey: overcutMM)
         m.sendsSpeedAndForce = d.bool(forKey: sendSpeedAndForce)
-        m.registrationMarkSize = max(1, d.integer(forKey: markSize))
+        m.registrationMarkSize = max(RegistrationMarkLayout.minimumMarkSizeParameter, d.integer(forKey: markSize))
         return m
     }
 }

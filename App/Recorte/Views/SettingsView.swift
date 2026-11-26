@@ -80,7 +80,7 @@ struct CutterSettingsView: View {
                 Text("Check the blade offset and pressure with a test cut (in the Output sheet) when you change the blade or the material.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
-                Stepper(value: $markSize, in: 5...100, step: 5) {
+                Stepper(value: $markSize, in: RegistrationMarkLayout.minimumMarkSizeParameter...100, step: 5) {
                     LabeledContent("Mark size (cutter setting)", value: "\(markSize) = Ø \(String(format: "%.1f", Double(markSize) * 0.2)) mm")
                 }
                 .help(HelpText.machineMarkSize)

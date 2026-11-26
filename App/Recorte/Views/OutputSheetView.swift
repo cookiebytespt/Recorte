@@ -228,7 +228,7 @@ struct OutputSettingsForm: View {
             Toggle("Print the marks", isOn: Binding(get: { layout.printsMarks }, set: { v in session.updateLayout { $0.printsMarks = v } }))
                 .help(HelpText.printsMarks)
             Picker("Mark size", selection: Binding(get: { layout.markSizeParameter }, set: { v in session.updateLayout { $0.markSizeParameter = v } })) {
-                ForEach(Array(Set([15, 20, 25, 30, 35, 40, layout.markSizeParameter])).sorted(), id: \.self) { size in
+                ForEach(Array(Set([25, 30, 35, 40, layout.markSizeParameter])).sorted(), id: \.self) { size in
                     Text(String(format: "%d · Ø %.0f mm", size, Double(size) * 0.2)).tag(size)
                 }
             }
@@ -243,7 +243,7 @@ struct OutputSettingsForm: View {
             if layout.placement == .aroundArtwork {
                 LabeledContent {
                     TextField("Distance from the artwork", value: Binding(get: { layout.artworkDistanceMM },
-                                                                          set: { v in session.updateLayout { $0.artworkDistanceMM = max(v, layout.markDiameterMM) } }),
+                                                                          set: { v in session.updateLayout { $0.artworkDistanceMM = max(v, layout.minimumArtworkDistanceMM) } }),
                               format: mm)
                         .labelsHidden()
                         .multilineTextAlignment(.trailing)
@@ -516,7 +516,7 @@ struct OutputIssues: View {
                 issue("Nothing to cut", "Draw, write or import something to cut first.", "scissors", .secondary) { EmptyView() }
             }
             if session.marksOffPage {
-                issue("The marks don't fit on the page", "Move the artwork away from the edges, use a bigger page or a smaller distance.", "exclamationmark.triangle.fill", .red) { EmptyView() }
+                issue("The marks don't fit on the page", "Part of a mark falls off the page, so it may not print in full and the machine may not find it. You can still print. To fix it, move the artwork away from the edges, use a bigger page or a smaller distance.", "exclamationmark.triangle.fill", .orange) { EmptyView() }
             }
             if session.outsideMarks {
                 issue("Cut lines must stay inside the marks", "Move the shapes that cross the marks, or place the marks around the artwork.", "exclamationmark.triangle.fill", .red) { EmptyView() }
@@ -683,10 +683,9 @@ struct OutputPreview: View {
             ctx.stroke(Path(ellipseIn: CGRect(x: o.x - d * 1.1, y: o.y - d * 1.1, width: d * 2.2, height: d * 2.2)),
                        with: .color(.accentColor), lineWidth: 1.5)
             if sheet.layout.printsJobName {
-                let f = sheet.markFrame
-                let y = sheet.layout.placement == .aroundArtwork ? f.minY - sheet.markDiameterMM - 2 : f.minY
+                // Same place as on the printed sheet (PrintSheetRenderer), assuming a label about 20 mm wide.
                 ctx.draw(Text(design.name).font(.system(size: max(7, 3 * scale))).foregroundStyle(.black),
-                         at: pt(Point(f.maxX - sheet.markDiameterMM - 4, y)), anchor: .trailing)
+                         at: pt(sheet.jobNameTrailing(width: 20)), anchor: .trailing)
             }
         }
 

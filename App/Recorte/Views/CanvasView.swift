@@ -253,7 +253,7 @@ struct CanvasView: View {
                 let c = vp.toView(m)
                 let r = CGRect(x: c.x - d / 2, y: c.y - d / 2, width: d, height: d)
                 if sheet.layout.printsMarks {
-                    ctx.fill(Path(ellipseIn: r), with: .color(sheet.marksFitPage ? .black : .red))
+                    ctx.fill(Path(ellipseIn: r), with: .color(sheet.marksFitPage ? .black : .orange))
                 } else {
                     ctx.stroke(Path(ellipseIn: r), with: .color(.gray), style: StrokeStyle(lineWidth: 1, dash: [2, 2]))
                 }

@@ -100,7 +100,10 @@ public struct HPGLGenerator: Sendable {
         for path in paths where !path.isEmpty {
             var pts = path.points
             if path.isClosed, let first = pts.first { pts.append(first) }
-            let coords = pts.map(map)
+            // Points closer than one machine step map to the same coordinate; send each position once.
+            var coords: [(x: Int, y: Int)] = []
+            coords.reserveCapacity(pts.count)
+            for c in pts.map(map) where coords.last.map({ $0.x != c.x || $0.y != c.y }) ?? true { coords.append(c) }
             out += "PU\(coords[0].x),\(coords[0].y);" + options.lineTerminator
             var i = 1
             while i < coords.count {
