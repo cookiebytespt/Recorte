@@ -24,7 +24,7 @@ Built by [CookieBytes](https://cookiebytes.pt) — software development & home a
 > but not every feature has been tried on the machine yet. Other Liyu GF-series models may
 > work but haven't been tried.
 
-**This README is also the app's help page** (Help ▸ Recorte Help). Inside the app, hover over
+**Help:** [recorte.cookiebytes.pt/help](https://recorte.cookiebytes.pt/help/) (Help ▸ Recorte Help in the app). Inside the app, hover over
 any setting to see what it does, click **ⓘ** for a short explanation with a drawing, and open
 **Help ▸ Getting Started** or **Help ▸ Keyboard Shortcuts** at any time.
 
@@ -279,7 +279,7 @@ in the app also give the SignMaster name.
 | ⇧⌘I · ⌥⌘I | Import Artwork… · Place Artwork… |
 | ⇧⌘K | Create Cut Contour… |
 | ⌘P | Cut… / Print & Cut… |
-| ⌘? | Recorte Help (this page) |
+| ⌘? | Recorte Help ([recorte.cookiebytes.pt/help](https://recorte.cookiebytes.pt/help/)) |
 
 ## For developers
 
